@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SysRestaurante.BL.DTOs\SysRestaurante.BL.DTOs.csproj" />
+    <ProjectReference Include="..\SysRestaurante.BL.Interfaces\SysRestaurante.BL.Interfaces.csproj" />
+    <ProjectReference Include="..\SysRestaurante.EN\SysRestaurante.EN.csproj" />
+  </ItemGroup>
+
 </Project>
