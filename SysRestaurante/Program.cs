@@ -1,15 +1,35 @@
+using Microsoft.EntityFrameworkCore;
+using SysRestaurante.DAL;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuración para la conexion a la bd 
+var conString = builder.Configuration.GetConnectionString("Conn");
+builder.Services.AddDbContext<SysRestauranteDbContext>(
+    options => options.UseMySql(conString, ServerVersion.AutoDetect(conString))
+);
+
+// Configuración de la autenticación de cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Usuario/Login";           // Ruta para el login
+        options.AccessDeniedPath = "/Usuario/Login";     // Ruta en caso de acceso denegado
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);  
+        options.SlidingExpiration = true;                
+        options.Cookie.HttpOnly = true;                
+    });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -18,6 +38,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Configuración del middleware de autenticación y autorización
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
