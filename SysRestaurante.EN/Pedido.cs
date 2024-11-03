@@ -19,8 +19,9 @@ namespace SysRestaurante.EN
 
         public virtual Cliente Cliente { get; set; }
         public virtual Mesa Mesa { get; set; } 
-        public virtual ICollection<DetalleFactura> Facturas { get; set; } 
-        public virtual ICollection<PedidoPlatillo> PedidoPlatillos { get; set; } 
+        public virtual ICollection<DetalleFactura> DetalleFacturas { get; set; } 
+        public virtual ICollection<PedidoPlatillo> PedidoPlatillos { get; set; }
+        public virtual ICollection<Factura> Facturas { get; set; }
     }
 
     public enum Estado_Pedido

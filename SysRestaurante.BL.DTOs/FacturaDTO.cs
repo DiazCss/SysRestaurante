@@ -36,10 +36,10 @@ namespace SysRestaurante.BL.DTOs
 
 
         // En caso de querer incluir la relación con Pedido o Cliente:
-        // public PedidoDTO Pedido { get; set; }
-        // public ClienteDTO Cliente { get; set; }
+         public PedidoDTO Pedido { get; set; }
+        public ClienteDTO Cliente { get; set; }
 
         // Si deseas incluir los detalles de la factura en el DTO
-        // public ICollection<DetalleFacturaDTO> DetalleFacturas { get; set; }
+         public ICollection<DetalleFacturaDTO> DetalleFacturas { get; set; }
     }
 }
