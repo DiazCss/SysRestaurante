@@ -9,34 +9,35 @@ namespace SysRestaurante.BL.DTOs
 {
     public class FacturaDTO
     {
-        [Required]
+
+        [Required(ErrorMessage = "El Id es obligatorio.")]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El PedidoId es obligatorio.")]
         public int PedidoId { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "La fecha de emisión es obligatoria.")]
+        [DataType(DataType.Date, ErrorMessage = "La fecha debe ser válida.")]
         public DateTime FechaEmision { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El ClienteId es obligatorio.")]
         public int ClienteId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El total es obligatorio.")]
         [Range(0, double.MaxValue, ErrorMessage = "El total debe ser un valor positivo.")]
         public decimal Total { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "El método de pago es obligatorio.")]
+        [MaxLength(50, ErrorMessage = "El método de pago no puede exceder los 50 caracteres.")]
         public string MetodoDePago { get; set; }
 
-        [Required]
-        [MaxLength(20)]
+        [Required(ErrorMessage = "El número de factura es obligatorio.")]
+        [MaxLength(20, ErrorMessage = "El número de factura no puede exceder los 20 caracteres.")]
         public string NumeroFactura { get; set; }
 
 
         // En caso de querer incluir la relación con Pedido o Cliente:
-         public PedidoDTO Pedido { get; set; }
+        public PedidoDTO Pedido { get; set; }
         public ClienteDTO Cliente { get; set; }
 
         // Si deseas incluir los detalles de la factura en el DTO

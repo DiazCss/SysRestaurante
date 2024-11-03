@@ -12,21 +12,21 @@ namespace SysRestaurante.BL.DTOs
         [Required]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(50)] 
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
+        [MaxLength(50, ErrorMessage = "El nombre no puede exceder los 50 caracteres.")]
         public string Nombre { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "El apellido es obligatorio.")]
+        [MaxLength(50, ErrorMessage = "El apellido no puede exceder los 50 caracteres.")]
         public string Apellido { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [MaxLength(50)] 
+        [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
+        [EmailAddress(ErrorMessage = "El correo electrónico no es válido.")]
+        [MaxLength(50, ErrorMessage = "El correo electrónico no puede exceder los 50 caracteres.")]
         public string Email { get; set; }
 
-        [Phone] 
-        [MaxLength(50)] 
+        [Phone(ErrorMessage = "El número de teléfono no es válido.")]
+        [MaxLength(50, ErrorMessage = "El número de teléfono no puede exceder los 50 caracteres.")]
         public string Telefono { get; set; }
 
         // No es necesario incluir colecciones de facturas y pedidos en el DTO
