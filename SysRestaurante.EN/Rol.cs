@@ -13,5 +13,5 @@ namespace SysRestaurante.EN
 
         public virtual ICollection<Usuario> Usuarios { get; set; }
 
-
+    }
 }

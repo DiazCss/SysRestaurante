@@ -16,7 +16,13 @@ namespace SysRestaurante.EN
         public DateTime FechaContratacion { get; set; }
         public string Puesto { get; set; }
         public decimal Salario { get; set; }
-        public bool Estado { get; set; }
+        public byte Estado { get; set; }
+    }
+
+    public enum Estado_Empleado
+    {
+        Activo = 0,
+        Inactivo = 1,
     }
 
 }

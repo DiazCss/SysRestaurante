@@ -11,7 +11,7 @@ namespace SysRestaurante.EN
         public int Id { get; set; }
         public int? ClienteId { get; set; }
         public DateTime? FechaHoraPedido { get; set; }
-        public int? Estado { get; set; }
+        public byte Estado { get; set; }
         public string Comentarios { get; set; }
         public int? MesaId { get; set; }
         public decimal? Total { get; set; }
@@ -23,5 +23,11 @@ namespace SysRestaurante.EN
         public virtual ICollection<PedidoPlatillo> PedidoPlatillos { get; set; } 
     }
 
+    public enum Estado_Pedido
+    {
+        EnPreparacion = 0,
+        entregado = 1,
+        Anulado = 2,
+    }
 
 }
