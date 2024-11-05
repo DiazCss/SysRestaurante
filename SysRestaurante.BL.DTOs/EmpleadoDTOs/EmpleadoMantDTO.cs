@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SysRestaurante.BL.DTOs
+namespace SysRestaurante.BL.DTOs.EmpleadoDTOs
 {
-    public class EmpleadoDTO
+    public class EmpleadoMantDTO
     {
         [Required]
         public int Id { get; set; }
