@@ -34,8 +34,8 @@ namespace SysRestaurante.DAL
 
         public async Task<int> CreateAsync(EmpleadoMantDTO pEmpleadoMantDTO)
         {
-            bool clienteExistente = await dbContext.empleado.AnyAsync(c => c.Email == pEmpleadoMantDTO.Email);
-            if (clienteExistente)
+            bool empleadoExistente = await dbContext.empleado.AnyAsync(c => c.Email == pEmpleadoMantDTO.Email);
+            if (empleadoExistente)
             {
                 return 0;
             }
@@ -43,7 +43,14 @@ namespace SysRestaurante.DAL
             {
                 Nombre = pEmpleadoMantDTO.Nombre,
                 Apellido = pEmpleadoMantDTO.Apellido,
-                //Agregar atributos faltantes
+                Email= pEmpleadoMantDTO.Email,
+                Telefono = pEmpleadoMantDTO.Telefono,
+                Puesto = pEmpleadoMantDTO.Puesto,
+                Estado = pEmpleadoMantDTO.Estado,
+                Salario = pEmpleadoMantDTO.Salario,
+                FechaContratacion = pEmpleadoMantDTO.FechaContratacion,
+
+                
             };
 
             dbContext.Add(empleado);

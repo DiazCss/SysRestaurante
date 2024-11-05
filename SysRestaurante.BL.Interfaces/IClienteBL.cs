@@ -1,4 +1,5 @@
 ﻿using SysRestaurante.BL.DTOs;
+using SysRestaurante.BL.DTOs.ClienteDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace SysRestaurante.BL.Interfaces
 {
     public interface IClienteBL
     {
-        public Task<int> CreateAsync(ClienteDTO pClienteDTO);
-        public Task<int> ModificarAsync(ClienteDTO pClienteDTO);
-        public Task<int> EliminarAsync(ClienteDTO pClienteDTO);
-        public Task<ClienteDTO> ObtenerPorIdAsync(ClienteDTO pClienteDTO);
-        public Task<PaginacionOutputDTO<List<ClienteDTO>>> BuscarAsync(ClienteDTO pClienteDTO);
-        public Task<List<ClienteDTO>> ObtenerTodosAsync();
+        public Task<int> CreateAsync(ClienteMantDTO pClienteDTO);
+        public Task<int> ModificarAsync(ClienteMantDTO pClienteDTO);
+        public Task<int> EliminarAsync(ClienteMantDTO pClienteDTO);
+        public Task<ClienteMantDTO> ObtenerPorIdAsync(ClienteMantDTO pClienteDTO);
+        public Task<PaginacionOutputDTO<List<ClienteMantDTO>>> BuscarAsync(ClienteMantDTO pClienteDTO);
+        public Task<List<ClienteMantDTO>> ObtenerTodosAsync();
     }
 }

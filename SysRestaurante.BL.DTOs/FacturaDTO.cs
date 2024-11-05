@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SysRestaurante.BL.DTOs.ClienteDTOs;
 
 namespace SysRestaurante.BL.DTOs
 {
@@ -38,7 +39,7 @@ namespace SysRestaurante.BL.DTOs
 
         // En caso de querer incluir la relación con Pedido o Cliente:
         public PedidoDTO Pedido { get; set; }
-        public ClienteDTO Cliente { get; set; }
+        public ClienteMantDTO Cliente { get; set; }
 
         // Si deseas incluir los detalles de la factura en el DTO
          public ICollection<DetalleFacturaDTO> DetalleFacturas { get; set; }

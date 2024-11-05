@@ -14,8 +14,8 @@ namespace SysRestaurante.EN
         public string Email { get; set; }
         public string Telefono { get; set; }
 
-        public virtual ICollection<Factura> Facturas { get; set; } 
-        public virtual ICollection<Pedido> Pedidos { get; set; } 
+        //public virtual ICollection<Factura> Facturas { get; set; } 
+        //public virtual ICollection<Pedido> Pedidos { get; set; } 
     }
 
 
