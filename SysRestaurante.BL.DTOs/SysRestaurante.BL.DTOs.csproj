@@ -17,4 +17,8 @@
     <ProjectReference Include="..\SysRestaurante.EN\SysRestaurante.EN.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ClienteDTOs\" />
+  </ItemGroup>
+
 </Project>
