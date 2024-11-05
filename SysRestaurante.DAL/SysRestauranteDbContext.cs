@@ -39,6 +39,10 @@ namespace SysRestaurante.DAL
                 .HasOne(f => f.Pedido)
                 .WithMany(p => p.Facturas)
                 .HasForeignKey(f => f.PedidoId);
+            modelBuilder.Entity<Empleado>()
+               .HasOne(f => f.DatosPersonal)
+               .WithMany(p => p.Empleados)
+               .HasForeignKey(f => f.Id);
 
             modelBuilder.Entity<DetalleFactura>()
                 .HasOne(df => df.Factura)
