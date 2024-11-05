@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SysRestaurante.BL.DTOs.ClienteDTOs;
 using SysRestaurante.BL.DTOs.EmpleadoDTOs;
 using SysRestaurante.BL.Interfaces;
 using SysRestaurante.EN;
