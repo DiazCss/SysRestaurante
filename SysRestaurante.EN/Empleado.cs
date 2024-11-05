@@ -17,6 +17,7 @@ namespace SysRestaurante.EN
         public string Puesto { get; set; }
         public decimal Salario { get; set; }
         public byte Estado { get; set; }
+        public DatosPersonales DatosPersonal { get; set; }
     }
 
     public enum Estado_Empleado

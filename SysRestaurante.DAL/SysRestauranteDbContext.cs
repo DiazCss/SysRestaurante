@@ -12,6 +12,8 @@ namespace SysRestaurante.DAL
     {
         public SysRestauranteDbContext(DbContextOptions<SysRestauranteDbContext> options) : base(options){}
 
+        public DbSet<DatosPersonales> datosPersonales { get; set; }
+
         public DbSet<Cliente> cliente { get; set; }
         public DbSet<Platillo> platillo { get; set; }
         public DbSet<Empleado> empleado { get; set; }

@@ -39,31 +39,37 @@ namespace SysRestaurante.DAL
             {
                 return 0;
             }
-            Empleado empleado = new Empleado()
+            var datosPersonales = new DatosPersonales
             {
                 Nombre = pEmpleadoMantDTO.Nombre,
                 Apellido = pEmpleadoMantDTO.Apellido,
-                Email= pEmpleadoMantDTO.Email,
-                Telefono = pEmpleadoMantDTO.Telefono,
+                Email = pEmpleadoMantDTO.Email,
+                Telefono = pEmpleadoMantDTO.Telefono
+            };
+            dbContext.datosPersonales.Add(datosPersonales);
+            await dbContext.SaveChangesAsync();
+
+            var empleado = new Empleado
+            {
+                Id = datosPersonales.Id, 
                 Puesto = pEmpleadoMantDTO.Puesto,
                 Estado = pEmpleadoMantDTO.Estado,
                 Salario = pEmpleadoMantDTO.Salario,
-                FechaContratacion = pEmpleadoMantDTO.FechaContratacion,
-
-                
+                FechaContratacion = pEmpleadoMantDTO.FechaContratacion
             };
-
-            dbContext.Add(empleado);
-            return await dbContext.SaveChangesAsync();
+            dbContext.empleado.Add(empleado);
+            return await dbContext.SaveChangesAsync(); 
         }
 
         public async Task<int> EliminarAsync(EmpleadoMantDTO pEmpleadoMantDTO)
         {
-            
-            var empleado = await dbContext.empleado.Where(s => s.Id == pEmpleadoMantDTO.Id)
-                            .FirstOrDefaultAsync();
+
+            var empleado = await dbContext.empleado
+             .Include(e => e.DatosPersonal)
+             .FirstOrDefaultAsync(e => e.Id == pEmpleadoMantDTO.Id);
             if (empleado != null && empleado.Id != 0)
             {
+                dbContext.datosPersonales.Remove(empleado.DatosPersonal);
                 dbContext.empleado.Remove(empleado);
                 return await dbContext.SaveChangesAsync();
             }
@@ -73,35 +79,51 @@ namespace SysRestaurante.DAL
 
         public async Task<int> ModificarAsync(EmpleadoMantDTO pEmpleadoMantDTO)
         {
-            var empleado = await dbContext.empleado.Where(s => s.Id == pEmpleadoMantDTO.Id)
-                        .FirstOrDefaultAsync();
-            if (empleado != null && empleado.Id != 0)
+            var empleado = await dbContext.empleado
+                .Include(e => e.DatosPersonal) 
+                .FirstOrDefaultAsync(s => s.Id == pEmpleadoMantDTO.Id);
+
+            if (empleado != null)
             {
-
-                empleado.Nombre = pEmpleadoMantDTO.Nombre;
-               //Agregar atributos faltantes
-
-
+                empleado.Puesto = pEmpleadoMantDTO.Puesto;
+                empleado.Salario = pEmpleadoMantDTO.Salario;
+                empleado.FechaContratacion = pEmpleadoMantDTO.FechaContratacion;
+                empleado.Estado = pEmpleadoMantDTO.Estado;
+                SetDatosPersonales(empleado.DatosPersonal, pEmpleadoMantDTO);
                 dbContext.Update(empleado);
+
                 return await dbContext.SaveChangesAsync();
             }
             else
-                return 0;
+            {
+                return 0; 
+            }
         }
-
+        private void SetDatosPersonales(DatosPersonales datosPersonales, EmpleadoMantDTO pEmpleadoMantDTO)
+        {
+            if (datosPersonales != null)
+            {
+                datosPersonales.Nombre = pEmpleadoMantDTO.Nombre;
+                datosPersonales.Apellido = pEmpleadoMantDTO.Apellido;
+                datosPersonales.Email = pEmpleadoMantDTO.Email;
+                datosPersonales.Telefono = pEmpleadoMantDTO.Telefono;
+            }
+        }
         public async Task<EmpleadoMantDTO> ObtenerPorIdAsync(EmpleadoMantDTO pEmpleadoMantDTO)
         {
-            var empleado = await dbContext.empleado.Where(s => s.Id == pEmpleadoMantDTO.Id)
-                 .FirstOrDefaultAsync();
-            if (empleado != null && empleado.Id != 0)
+            var empleado = await dbContext.empleado
+         .Include(e => e.DatosPersonal) 
+         .FirstOrDefaultAsync(s => s.Id == pEmpleadoMantDTO.Id);
+
+            if (empleado != null)
             {
                 return new EmpleadoMantDTO
                 {
                     Id = empleado.Id,
-                    Nombre = empleado.Nombre,
-                    Apellido = empleado.Apellido,
-                    Telefono = empleado.Telefono,
-                    Email = empleado.Email,
+                    Nombre = empleado.DatosPersonal.Nombre, 
+                    Apellido = empleado.DatosPersonal.Apellido,
+                    Telefono = empleado.DatosPersonal.Telefono,
+                    Email = empleado.DatosPersonal.Email,
                     Salario = empleado.Salario,
                     Estado = empleado.Estado,
                     FechaContratacion = empleado.FechaContratacion,
@@ -135,30 +157,32 @@ namespace SysRestaurante.DAL
         {
             var result = new PaginacionOutputDTO<List<EmpleadoMantDTO>>();
             result.Data = new List<EmpleadoMantDTO>();
-            var select = dbContext.empleado.AsQueryable();
+            var select = dbContext.empleado
+                .Include(e => e.DatosPersonal).AsQueryable();
 
             select = QuerySelect(select, pEmpleadoBuscarDTO);
          
-            var clientes = await select.ToListAsync();
-            if (clientes.Count > 0)
+            var empleados = await select.ToListAsync();
+            if (empleados.Count > 0)
             {
                 if (pEmpleadoBuscarDTO.IsCount)
                 {
                     pEmpleadoBuscarDTO.Take = 0;
-                    var selectCount = dbContext.empleado.AsQueryable();
+                    var selectCount = dbContext.empleado.Include(e => e.DatosPersonal).AsQueryable();
                     result.Count = await QuerySelect(selectCount, pEmpleadoBuscarDTO).CountAsync();
                 }
 
-                clientes.ForEach(s => result.Data.Add(new EmpleadoMantDTO
+                empleados.ForEach(e => result.Data.Add(new EmpleadoMantDTO
                 {
-                    Id = s.Id,
-                    Nombre = s.Nombre,
-                    Apellido = s.Apellido,
-                    Email = s.Email,
-                    Puesto = s.Puesto,
-                    Salario = s.Salario,
-                    FechaContratacion = s.FechaContratacion,
-                    Estado = s.Estado
+                    Id = e.Id,
+                    Nombre = e.DatosPersonal.Nombre, 
+                    Apellido = e.DatosPersonal.Apellido,
+                    Email = e.DatosPersonal.Email,
+                    Telefono = e.DatosPersonal.Telefono,
+                    Puesto = e.Puesto,
+                    Salario = e.Salario,
+                    FechaContratacion = e.FechaContratacion,
+                    Estado = e.Estado
                 }));
             }
             return result;
