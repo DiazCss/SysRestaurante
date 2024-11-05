@@ -28,10 +28,10 @@ namespace SysRestaurante.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Pedido>()
-                .HasOne(p => p.Cliente)
-                .WithMany(c => c.Pedidos)
-                .HasForeignKey(p => p.ClienteId);
+            //modelBuilder.Entity<Pedido>()
+            //    .HasOne(p => p.Cliente)
+            //    .WithMany(c => c.Pedidos)
+            //    .HasForeignKey(p => p.ClienteId);
 
             modelBuilder.Entity<Factura>()
                 .HasOne(f => f.Pedido)

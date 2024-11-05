@@ -18,6 +18,8 @@ namespace SysRestaurante.DAL
         {
             services.AddDbContext<SysRestauranteDbContext>(options =>
             options.UseMySql(configuration.GetConnectionString("Conn"), ServerVersion.AutoDetect(configuration.GetConnectionString("Conn"))));
+            services.AddScoped<IEmpleadoBL, EmpleadoDAL>();
+
             return services;
         }
     }

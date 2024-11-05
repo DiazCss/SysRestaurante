@@ -1,9 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using SysRestaurante.DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SysRestaurante.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddIoCDependecies(builder.Configuration);
 // Configuración para la conexion a la bd 
 var conString = builder.Configuration.GetConnectionString("Conn");
 builder.Services.AddDbContext<SysRestauranteDbContext>(

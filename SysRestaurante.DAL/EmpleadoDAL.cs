@@ -99,7 +99,13 @@ namespace SysRestaurante.DAL
                 {
                     Id = empleado.Id,
                     Nombre = empleado.Nombre,
-                    //Agregar atributos faltantes
+                    Apellido = empleado.Apellido,
+                    Telefono = empleado.Telefono,
+                    Email = empleado.Email,
+                    Salario = empleado.Salario,
+                    Estado = empleado.Estado,
+                    FechaContratacion = empleado.FechaContratacion,
+                    Puesto = empleado.Puesto
                 };
             }
             else
