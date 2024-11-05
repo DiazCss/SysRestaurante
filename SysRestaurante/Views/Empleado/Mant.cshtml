@@ -1,0 +1,115 @@
+﻿@model EmpleadoMantDTO
+@{
+    ViewData["Title"] = "Form Empleado";
+    ActionsUI action = ViewBag.ActionsUI as ActionsUI;
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Empleado")</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="@action.ObtenerAccion()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="row">
+               
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Apellido" class="control-label"></label>
+                        <input asp-for="Apellido" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+                </div>
+               
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Puesto" class="control-label"></label>
+                        <input asp-for="Puesto" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Puesto" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Salario" class="control-label"></label>
+                        <input asp-for="Salario" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Salario" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="FechaContratacion" class="control-label"></label>
+                        <input asp-for="FechaContratacion" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="FechaContratacion" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Telefono" class="control-label"></label>
+                        <input asp-for="Telefono" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Estado" class="control-label"></label>
+                        <select id="slEstado" class="form-control" asp-for="Estado" data-disabledui_eliminar data-disabledui_ver>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                        <span asp-validation-for="Estado" class="text-danger"></span>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="row">
+                
+                
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                    </div>
+                    <span class="text-danger">@ViewBag.Error</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+       
+        ActionsUI.init('@action.ObtenerAccionJs()');
+        $("#slEstado").val('@Model.Estado');
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @if (action.SiTraerDatos())
+    {
+        <script>
+            $(function () {
+                $("form input[name]").trigger("blur");
+            });
+        </script>
+    }
+}
