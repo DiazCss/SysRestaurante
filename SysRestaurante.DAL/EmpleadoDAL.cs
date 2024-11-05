@@ -16,10 +16,10 @@ namespace SysRestaurante.DAL
         internal IQueryable<Empleado> QuerySelect(IQueryable<Empleado> pQuery, EmpleadoBuscarDTO pEmpleado)
         {
             if (!string.IsNullOrWhiteSpace(pEmpleado.Nombre_Empleado_Like))
-                pQuery = pQuery.Where(s => s.Nombre.Contains(pEmpleado.Nombre_Empleado_Like));
+               pQuery = pQuery.Where(s => s.DatosPersonal.Nombre.Contains(pEmpleado.Nombre_Empleado_Like));
 
             if (!string.IsNullOrWhiteSpace(pEmpleado.Apellido_Empleado_Like))
-                pQuery = pQuery.Where(s => s.Apellido.Contains(pEmpleado.Apellido_Empleado_Like));
+                pQuery = pQuery.Where(s => s.DatosPersonal.Apellido.Contains(pEmpleado.Apellido_Empleado_Like));
 
             if (!string.IsNullOrWhiteSpace(pEmpleado.Estado_Equal))
                 pQuery = pQuery.Where(s => s.Estado.Equals(pEmpleado.Estado_Equal));
@@ -34,11 +34,11 @@ namespace SysRestaurante.DAL
 
         public async Task<int> CreateAsync(EmpleadoMantDTO pEmpleadoMantDTO)
         {
-            bool empleadoExistente = await dbContext.empleado.AnyAsync(c => c.Email == pEmpleadoMantDTO.Email);
-            if (empleadoExistente)
-            {
-                return 0;
-            }
+            //bool empleadoExistente = await dbContext.empleado.AnyAsync(c => c.Email == pEmpleadoMantDTO.Email);
+            //if (empleadoExistente)
+            //{
+            //    return 0;
+            //}
             var datosPersonales = new DatosPersonales
             {
                 Nombre = pEmpleadoMantDTO.Nombre,
@@ -143,8 +143,8 @@ namespace SysRestaurante.DAL
                 empleados.ForEach(s => list.Add(new EmpleadoMantDTO
                 {
                     Id = s.Id,
-                    Nombre = s.Nombre,
-                    Apellido = s.Apellido,
+                    Nombre = s.DatosPersonal.Nombre,
+                    Apellido = s.DatosPersonal.Apellido,
                     //Agregar atributos necesarios
                 }));
                 return list;
