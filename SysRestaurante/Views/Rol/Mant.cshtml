@@ -1,0 +1,58 @@
+﻿@model RolMantDTO
+@{
+    ViewData["Title"] = "Form Roles";
+    ActionsUI action = ViewBag.ActionsUI as ActionsUI;
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Roles")</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="@action.ObtenerAccion()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="row">
+               
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+               
+               
+               
+            </div>
+           
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                    </div>
+                    <span class="text-danger">@ViewBag.Error</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@* @section Scripts {
+    <script>
+       
+        ActionsUI.init('@action.ObtenerAccionJs()');
+        $("#slEstado").val('@Model.Estado');
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @if (action.SiTraerDatos())
+    {
+        <script>
+            $(function () {
+                $("form input[name]").trigger("blur");
+            });
+        </script>
+    }
+} *@

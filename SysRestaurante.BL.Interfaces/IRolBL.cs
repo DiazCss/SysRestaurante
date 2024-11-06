@@ -11,8 +11,8 @@ namespace SysRestaurante.BL.Interfaces
         public Task<int> CreateAsync(RolMantDTO pRolDTO);
         public Task<int> ModificarAsync(RolMantDTO pRolDTO);
         public Task<int> EliminarAsync(RolMantDTO pRolDTO);
-        public Task<RolMantDTO> ObtenerPorIdAsync(int id);
-        public Task<PaginacionOutputDTO<List<RolMantDTO>>> BuscarAsync(RolMantDTO pRolDTO);
+        public Task<RolMantDTO> ObtenerPorIdAsync(RolMantDTO pRolDTO);
+        public Task<PaginacionOutputDTO<List<RolMantDTO>>> BuscarAsync(RolBuscarDTO pRolDTO);
         public Task<List<RolMantDTO>> ObtenerTodosAsync();
     }
 }
