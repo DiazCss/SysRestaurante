@@ -12,10 +12,12 @@ namespace SysRestaurante.BL.DTOs.MesaDTOs
         [Required]
         public int Id { get; set; }
         [Required]
+        public string NumeroMesa  { get; set; }
+        [Required]
         public string Descripcion { get; set; }
         [Required]
         public int Capacidad { get; set; }
         [Required]
-        public bool Disponibilidad { get; set; }
+        public byte Disponibilidad { get; set; }
     }
 }
