@@ -66,6 +66,7 @@ namespace SysRestaurante.DAL
             {
                 compra.NumeroFactura = pCompraMantDTOs.NumeroFactura;
                 compra.Iva = pCompraMantDTOs.Iva;
+                compra.Fecha = pCompraMantDTOs.Fecha;
                 compra.Total = pCompraMantDTOs.Total;
                 compra.IdProveedor = pCompraMantDTOs.IdProveedor;
 
@@ -88,6 +89,7 @@ namespace SysRestaurante.DAL
                     Id = compra.Id,
                     NumeroFactura = compra.NumeroFactura,
                     Iva = compra.Iva,
+                    Fecha = compra.Fecha,
                     Total = compra.Total,
                     IdProveedor = compra.IdProveedor
                 };
@@ -107,6 +109,7 @@ namespace SysRestaurante.DAL
                     Id = c.Id,
                     NumeroFactura = c.NumeroFactura,
                     Iva = c.Iva,
+                    Fecha = c.Fecha,
                     Total = c.Total,
                     IdProveedor = c.IdProveedor
                 }));
