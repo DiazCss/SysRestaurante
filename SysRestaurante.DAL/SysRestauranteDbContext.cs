@@ -20,7 +20,8 @@ namespace SysRestaurante.DAL
         public DbSet<Usuarios> usuario { get; set; }
 
         public DbSet<Empleado> empleado { get; set; }
-       
+
+        public DbSet<Compra> compras { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
