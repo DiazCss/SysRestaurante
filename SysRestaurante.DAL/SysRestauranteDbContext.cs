@@ -22,6 +22,7 @@ namespace SysRestaurante.DAL
         public DbSet<Empleado> empleado { get; set; }
 
         public DbSet<Compra> compras { get; set; }
+        public DbSet<Proveedor> proveedor { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
