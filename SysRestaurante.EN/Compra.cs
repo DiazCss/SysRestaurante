@@ -11,5 +11,9 @@ public class Compra
     public decimal Total {get; set;}
     public int IdProveedor {get; set;}
 
+    // public DetalleCompra DetalleCompra{get; set;}
 
+    public ICollection<DetalleCompra> DetalleCompras {get; set;}
+
+    
 }

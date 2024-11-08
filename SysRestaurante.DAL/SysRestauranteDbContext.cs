@@ -22,7 +22,9 @@ namespace SysRestaurante.DAL
         public DbSet<Empleado> empleado { get; set; }
 
         public DbSet<Compra> compras { get; set; }
+        public DbSet<DetalleCompra> detallecompra { get; set; }
         public DbSet<Proveedor> proveedor { get; set; }
+         public DbSet<Producto> producto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,24 @@ namespace SysRestaurante.DAL
                 .HasOne(f => f.DatosPersonal)
                 .WithMany(p => p.Empleados)
                 .HasForeignKey(f => f.Id);
+
+            modelBuilder.Entity<Compra>()
+            .HasMany(f => f.DetalleCompras)
+            .WithOne(p => p.Compras) // Asegúrate de que la propiedad de navegación en DetalleCompra se llame "Compra"
+             .HasForeignKey(f => f.IdCompra); // CompraId debe existir en la clase DetalleCompra
+
+
+            // modelBuilder.Entity<DetalleCompra>()
+            // .HasMany(p => p.Productos)
+            // .WithOne(p => p.detalleCompra) // Asegúrate de que la propiedad de navegación en Producto se llame "DetalleCompra"
+            // .HasForeignKey(f => f.Id); // DetalleCompraId debe existir en la clase Producto
+
+
+            // modelBuilder.Entity<Compra>()
+            //     .HasMany(f => f.DetalleCompra)  // Compra tiene muchos DetalleCompra
+            //     .WithOne(p => p.Compra)         // DetalleCompra pertenece a una sola Compra
+            //     .HasForeignKey(f => f.CompraId);  // La clave foránea está en DetalleCompra
+
         }
 
     }
