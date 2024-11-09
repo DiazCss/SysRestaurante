@@ -34,6 +34,39 @@ namespace SysRestaurante.DAL
                 .HasOne(f => f.DatosPersonal)
                 .WithMany(p => p.Empleados)
                 .HasForeignKey(f => f.Id);
+
+
+            modelBuilder.Entity<Usuarios>()
+           .HasOne(f => f.datosPersonales)
+           .WithMany(p => p.Usuarios)
+           .HasForeignKey(f => f.IdDatosPersonales);
+
+            modelBuilder.Entity<Usuarios>()
+               .HasOne(u => u.rol)
+               .WithMany()
+               .HasForeignKey(u => u.IdRol);
+
+            modelBuilder.Entity<Rol>().ToTable("roles");
+            modelBuilder.Entity<Rol>().HasKey(s => s.Id);
+
+
+            modelBuilder.Entity<Compra>()
+           .HasMany(f => f.DetalleCompras)
+           .WithOne(p => p.Compras) // Asegúrate de que la propiedad de navegación en DetalleCompra se llame "Compra"
+            .HasForeignKey(f => f.IdCompra); // CompraId debe existir en la clase DetalleCompra
+
+
+            // modelBuilder.Entity<DetalleCompra>()
+            // .HasMany(p => p.Productos)
+            // .WithOne(p => p.detalleCompra) // Asegúrate de que la propiedad de navegación en Producto se llame "DetalleCompra"
+            // .HasForeignKey(f => f.Id); // DetalleCompraId debe existir en la clase Producto
+
+
+            // modelBuilder.Entity<Compra>()
+            //     .HasMany(f => f.DetalleCompra)  // Compra tiene muchos DetalleCompra
+            //     .WithOne(p => p.Compra)         // DetalleCompra pertenece a una sola Compra
+            //     .HasForeignKey(f => f.CompraId);  // La clave foránea está en DetalleCompra
+
         }
 
     }
