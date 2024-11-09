@@ -23,6 +23,8 @@ namespace SysRestaurante.DAL
             services.AddScoped<IRolBL, RolDAL>();
             services.AddScoped<IComprasBL, CompraDAL>();
             services.AddScoped<IProveedorBL, ProveedorDAL>();
+            services.AddScoped<IUsuarioBL, UsuarioDAL>();
+
 
             return services;
         }

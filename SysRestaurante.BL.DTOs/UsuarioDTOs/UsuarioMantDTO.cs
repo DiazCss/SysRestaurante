@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SysRestaurante.BL.DTOs.RolDTOs;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -27,10 +29,23 @@ namespace SysRestaurante.BL.DTOs.UsuarioDTOs
         [StringLength(15, ErrorMessage = "El teléfono no puede exceder los 15 caracteres.")]
         public string Telefono { get; set; }
 
+
+        [Display(Name = "Rol")]
+        [DefaultValue("0")]
+        public int IdRol { get; set; }
+
         [Required]
         [MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres.")]
         [StringLength(15, ErrorMessage = "La contraseña no puede exceder los 15 caracteres.")]
-        public string Clave { get; set; }
+        public string Password { get; set; }
+
+        [Compare("Password", ErrorMessage = "Password y confirmar password deben de ser iguales")]
+        [Display(Name = "Confirmar password")]
+        public string ConfirmPassword { get; set; }
+
+        public String Token { get; set; }
+
+        public RolMantDTO? Rol { get; set; }
 
     }
 }

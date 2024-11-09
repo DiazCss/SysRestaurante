@@ -1,0 +1,115 @@
+﻿@model UsuarioMantDTO
+@{
+    ViewData["Title"] = "Form Usuario";
+    ActionsUI action = ViewBag.ActionsUI as ActionsUI;
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Usuario")</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="@action.ObtenerAccion()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="row">
+                <div class="col-md-3">
+                   
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Apellido" class="control-label"></label>
+                        <input asp-for="Apellido" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Telefono" class="control-label"></label>
+                        <input asp-for="Telefono" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="IdRol" class="control-label"></label>
+                        <select id="slRol" class="form-control" asp-for="IdRol" data-disabledui_eliminar data-disabledui_ver>
+                            <partial name="SelectRol" model="ViewBag.Roles" />
+                        </select>
+                        <span asp-validation-for="IdRol" class="text-danger"></span>
+                    </div>
+                </div>
+               
+            </div>
+
+            <div class="row">
+                @if (action.SiTraerDatos() == false)
+                {
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword" class="control-label"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+               
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                    </div>
+                    <span class="text-danger">@ViewBag.Error</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#duiUsuario").mask('00000000-0');
+        });
+        ActionsUI.init('@action.ObtenerAccionJs()');
+        $("#slRol").val('@Model.IdRol');
+        
+       
+
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @if (action.SiTraerDatos())
+    {
+        <script>
+            $(function () {
+                $("form input[name]").trigger("blur");
+            });
+        </script>
+    }
+    }

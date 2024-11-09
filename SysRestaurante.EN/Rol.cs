@@ -10,7 +10,7 @@ namespace SysRestaurante.EN
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public List<Usuarios>? Usuario { get; set; }
+        //public List<Usuarios>? Usuario { get; set; }
 
     }
 }

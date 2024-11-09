@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SysRestaurante.BL.DTOs.EmpleadoDTOs;
 using SysRestaurante.BL.DTOs.MesaDTOs;
 using SysRestaurante.BL.Interfaces;
@@ -7,6 +9,8 @@ using SysRestaurante.Models;
 
 namespace SysRestaurante.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+
     public class MesasController : Controller
     {
        readonly IMesasBL mesasbl;

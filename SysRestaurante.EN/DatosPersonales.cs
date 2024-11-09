@@ -15,5 +15,7 @@ namespace SysRestaurante.EN
         public string Telefono { get; set; } 
 
         public List<Empleado> Empleados { get; set;}
+        public List<Usuarios> Usuarios { get; set; }
+
     }
 }

@@ -10,8 +10,9 @@ namespace SysRestaurante.EN
     {
         public int Id { get; set; }
         public int IdDatosPersonales { get; set; }
-        public string Clave { get; set; }
+        public string Password { get; set; }
         public int IdRol { get; set; }
+
         public DatosPersonales datosPersonales { get; set; }
 
         public Rol? rol { get; set; }

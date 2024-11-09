@@ -1,0 +1,121 @@
+﻿@model IEnumerable<UsuarioMantDTO>
+@{
+    ViewData["Title"] = "Buscar Usuario";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Buscar Usuarios</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Index">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Nombre</label>
+                                <input type="text" class="form-control" name="Nombre_Usuario_Like" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Apellido</label>
+                                <input type="text" class="form-control" name="Apellido_Usuario_Like" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input type="text" class="form-control" name="Email_Usuario_Like" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Rol</label>
+                                <select class="form-control" name="idRol_equal">
+                                    <partial name="SelectRol" model="ViewBag.Roles" />
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Buscar" class="btn btn-primary" />
+                        @Html.ActionLink("Ir a Crear", "Mant", new { Id = 0, accion = (int)ActionsUI_Enums.NUEVO }, new { @class = "btn btn-primary" })
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Usuarios</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tbUsuarios" class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                       
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Apellido)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdRol)
+                        </th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                           
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Apellido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rol.Nombre)
+                            </td>
+                            <td class="botonestabla">
+                                @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-success" })
+                                @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-info" })
+                                @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tbUsuarios').DataTable({
+                paging: false,
+                searching: false,
+                ordering: false
+            });
+        });
+    </script>
+}
+
+
+
