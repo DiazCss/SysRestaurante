@@ -49,6 +49,21 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Fecha)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdCompra)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdProducto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrecioUnitario)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cantidad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubTotal)
+                        </th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -61,6 +76,21 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdCompra)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdProducto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrecioUnitario)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SubTotal)
                             </td>
                             <td class="botonestabla">
                                 @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-success" })

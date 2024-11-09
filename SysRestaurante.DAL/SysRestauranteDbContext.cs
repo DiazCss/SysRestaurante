@@ -22,7 +22,9 @@ namespace SysRestaurante.DAL
         public DbSet<Empleado> empleado { get; set; }
 
         public DbSet<Compra> compras { get; set; }
+        public DbSet<DetalleCompra> detallecompra { get; set; }
         public DbSet<Proveedor> proveedor { get; set; }
+         public DbSet<Producto> producto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,20 +34,6 @@ namespace SysRestaurante.DAL
                 .HasOne(f => f.DatosPersonal)
                 .WithMany(p => p.Empleados)
                 .HasForeignKey(f => f.Id);
-
-            modelBuilder.Entity<Usuarios>()
-            .HasOne(f => f.datosPersonales)
-            .WithMany(p => p.Usuarios)
-            .HasForeignKey(f => f.IdDatosPersonales);
-
-            modelBuilder.Entity<Usuarios>()
-               .HasOne(u => u.rol) 
-               .WithMany()           
-               .HasForeignKey(u => u.IdRol);
-
-            modelBuilder.Entity<Rol>().ToTable("roles");
-            modelBuilder.Entity<Rol>().HasKey(s => s.Id);
-
         }
 
     }

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace SysRestaurante.DAL
 {
-   
     public static class DependecyContainer
     {
         public static IServiceCollection AddDALDependecies(this IServiceCollection services, IConfiguration configuration)
@@ -23,8 +22,6 @@ namespace SysRestaurante.DAL
             services.AddScoped<IRolBL, RolDAL>();
             services.AddScoped<IComprasBL, CompraDAL>();
             services.AddScoped<IProveedorBL, ProveedorDAL>();
-            services.AddScoped<IUsuarioBL, UsuarioDAL>();
-
 
             return services;
         }

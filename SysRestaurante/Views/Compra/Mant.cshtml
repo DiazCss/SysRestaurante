@@ -12,7 +12,6 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="id" value="@Model.Id" />
             <div class="row">
-            
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="NumeroFactura" class="control-label"></label>
@@ -20,6 +19,7 @@
                         <span asp-validation-for="NumeroFactura" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="Fecha" class="control-label"></label>
@@ -27,7 +27,7 @@
                         <span asp-validation-for="Fecha" class="text-danger"></span>
                     </div>
                 </div>
-            
+
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="Iva" class="control-label"></label>
@@ -35,6 +35,7 @@
                         <span asp-validation-for="Iva" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="Total" class="control-label"></label>
@@ -52,6 +53,41 @@
                 </div>
             </div>
 
+            <!-- Detalle de Compra -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="IdProducto" class="control-label"></label>
+                        <input asp-for="IdProducto" class="form-control" />
+                        <span asp-validation-for="IdProducto" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PrecioUnitario" class="control-label"></label>
+                        <input asp-for="PrecioUnitario" class="form-control" />
+                        <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Cantidad" class="control-label"></label>
+                        <input asp-for="Cantidad" class="form-control" />
+                        <span asp-validation-for="Cantidad" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="SubTotal" class="control-label"></label>
+                        <input asp-for="SubTotal" class="form-control" />
+                        <span asp-validation-for="SubTotal" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -64,6 +100,7 @@
         </form>
     </div>
 </div>
+
 @section Scripts {
     <script>
         ActionsUI.init('@action.ObtenerAccionJs()');

@@ -40,17 +40,31 @@ namespace SysRestaurante.DAL
                 IdProveedor = pCompraMantDTOs.IdProveedor
             };
             dbContext.compras.Add(compra);
+            await dbContext.SaveChangesAsync();
+
+            var detallecompra = new DetalleCompra
+            {
+                IdCompra = compra.Id,
+                IdProducto = pCompraMantDTOs.IdProducto,
+                PrecioUnitario = pCompraMantDTOs.PrecioUnitario,
+                Cantidad = pCompraMantDTOs.Cantidad,
+                SubTotal = pCompraMantDTOs.SubTotal,
+            };
+            dbContext.detallecompra.Add(detallecompra);
             return await dbContext.SaveChangesAsync();
+            
         }
 
         public async Task<int> EliminarAsync(CompraManDTOs pCompraMantDTOs)
         {
             var compra = await dbContext.compras
+            .Include(e => e.DetalleCompras)
                 .FirstOrDefaultAsync(c => c.Id == pCompraMantDTOs.Id);
 
             if (compra != null)
             {
                 dbContext.compras.Remove(compra);
+                dbContext.detallecompra.RemoveRange(compra.DetalleCompras);
                 return await dbContext.SaveChangesAsync();
             }
             else
@@ -60,6 +74,7 @@ namespace SysRestaurante.DAL
         public async Task<int> ModificarAsync(CompraManDTOs pCompraMantDTOs)
         {
             var compra = await dbContext.compras
+            .Include(e => e.DetalleCompras)
                 .FirstOrDefaultAsync(c => c.Id == pCompraMantDTOs.Id);
 
             if (compra != null)
@@ -69,38 +84,58 @@ namespace SysRestaurante.DAL
                 compra.Fecha = pCompraMantDTOs.Fecha;
                 compra.Total = pCompraMantDTOs.Total;
                 compra.IdProveedor = pCompraMantDTOs.IdProveedor;
-
+                SetDetalleCompra(compra.DetalleCompras, pCompraMantDTOs);
                 dbContext.Update(compra);
                 return await dbContext.SaveChangesAsync();
             }
             else
                 return 0;
         }
+        private void SetDetalleCompra(ICollection<DetalleCompra> detalleCompra, CompraManDTOs pCompraManDTOs)
+        {
+            if (detalleCompra != null)
+            {
+                foreach (var detalleCompras in detalleCompra)
+                {
+                    detalleCompras.IdCompra = pCompraManDTOs.IdCompra;
+                    detalleCompras.IdProducto = pCompraManDTOs.IdProducto;
+                    detalleCompras.PrecioUnitario = pCompraManDTOs.PrecioUnitario;
+                    detalleCompras.Cantidad = pCompraManDTOs.Cantidad;
+                    detalleCompras.SubTotal = pCompraManDTOs.SubTotal;
+                }
+            }
+        }
 
         public async Task<CompraManDTOs> ObtenerPorIdAsync(CompraManDTOs pCompraMantDTOs)
         {
-            var compra = await dbContext.compras
-                .FirstOrDefaultAsync(c => c.Id == pCompraMantDTOs.Id);
+            // var compra = await dbContext.compras
+            // .Include(e => e.DetalleCompras) 
+            //     .FirstOrDefaultAsync(c => c.Id == pCompraMantDTOs.Id);
 
-            if (compra != null)
-            {
-                return new CompraManDTOs
-                {
-                    Id = compra.Id,
-                    NumeroFactura = compra.NumeroFactura,
-                    Iva = compra.Iva,
-                    Fecha = compra.Fecha,
-                    Total = compra.Total,
-                    IdProveedor = compra.IdProveedor
-                };
-            }
-            else
-                return null;
+            // if (compra != null)
+            // {
+            //     return new CompraManDTOs
+            //     {
+            //         Id = compra.Id,
+            //         NumeroFactura = compra.NumeroFactura,
+            //         Iva = compra.Iva,
+            //         Fecha = compra.Fecha,
+            //         Total = compra.Total,
+            //         IdProveedor = compra.IdProveedor,
+            //         IdCompra = compra.DetalleCompras.IdCompra,
+            //         IdProducto = compra.DetalleCompras.IdProducto,
+            //         PrecioUnitario = compra.DetalleCompras.PrecioUnitario,
+            //         Cantidad = compra.DetalleCompras.Cantidad,
+            //         SubTotal = compra.DetalleCompras.SubTotal,
+            //     };
+            // }
+            // else
+                return new CompraManDTOs();
         }
 
         public async Task<List<CompraManDTOs>> ObtenerTodosAsync()
         {
-            var compras = await dbContext.compras.ToListAsync();
+            var compras = await dbContext.compras.Include(c => c.DetalleCompras).ToListAsync();
             if (compras != null && compras.Count > 0)
             {
                 var list = new List<CompraManDTOs>();
@@ -111,7 +146,14 @@ namespace SysRestaurante.DAL
                     Iva = c.Iva,
                     Fecha = c.Fecha,
                     Total = c.Total,
-                    IdProveedor = c.IdProveedor
+                    IdProveedor = c.IdProveedor,
+                    detalleComprass = c.DetalleCompras.Select(d => new DetalleCompra{
+                        IdCompra = d.IdCompra,
+                        IdProducto = d.IdProducto,
+                        PrecioUnitario = d.PrecioUnitario,
+                        Cantidad = d.Cantidad,
+                        SubTotal = d.SubTotal,
+                    }).ToList()
                 }));
                 return list;
             }
@@ -123,7 +165,8 @@ namespace SysRestaurante.DAL
         {
             var result = new PaginacionOutputDTO<List<CompraManDTOs>>();
             result.Data = new List<CompraManDTOs>();
-            var select = dbContext.compras.AsQueryable();
+            var select = dbContext.compras
+            .Include(e => e.DetalleCompras).AsQueryable();
 
             select = QuerySelect(select, pCompraBuscarDTO);
 
@@ -133,26 +176,32 @@ namespace SysRestaurante.DAL
                 if (pCompraBuscarDTO.IsCount)
                 {
                     pCompraBuscarDTO.Take = 0;
-                    var selectCount = dbContext.compras.AsQueryable();
+                    var selectCount = dbContext.compras.Include(e => e.DetalleCompras).AsQueryable();
                     result.Count = await QuerySelect(selectCount, pCompraBuscarDTO).CountAsync();
                 }
 
-                compras.ForEach(c => result.Data.Add(new CompraManDTOs
+                foreach (var c in compras)
                 {
-                    Id = c.Id,
-                    NumeroFactura = c.NumeroFactura,
-                    Fecha = c.Fecha,
-                    Iva = c.Iva,
-                    Total = c.Total,
-                    IdProveedor = c.IdProveedor
-                }));
+                    foreach (var s in c.DetalleCompras)
+                    {
+                        result.Data.Add(new CompraManDTOs{
+                            Id = c.Id,
+                            NumeroFactura = c.NumeroFactura,
+                            Fecha = c.Fecha,
+                            Iva = c.Iva,
+                            Total = c.Total,
+                            IdProveedor = c.IdProveedor,
+                            IdCompra = s.IdCompra,
+                            IdProducto = s.IdProducto,
+                            PrecioUnitario = s.PrecioUnitario,
+                            Cantidad = s.Cantidad,
+                            SubTotal = s.SubTotal,
+
+                        });
+                    }
+                }
             }
             return result;
-        }
-
-        public Task<PaginacionOutputDTO<List<CompraManDTOs>>> BuscarAsync(CompraManDTOs pCompraDTO)
-        {
-            throw new NotImplementedException();
         }
 
         // Corregido el método duplicado, eliminando el que no estaba implementado.
