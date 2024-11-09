@@ -26,6 +26,7 @@ namespace SysRestaurante.DAL
             services.AddScoped<IProductoBL, ProductoDAL>();
             services.AddScoped<ICategoriaProductoBL, CategoriaProductoDAL>();
             services.AddScoped<IInventarioBL, InventarioDAL>();
+            services.AddScoped<ICategoriaPlatilloBL, CategoriaPlatilloDAL>();
 
             return services;
         }

@@ -27,6 +27,7 @@ namespace SysRestaurante.DAL
          public DbSet<Producto> producto { get; set; }
         public DbSet<CategoriaProducto> categoriaProducto { get; set; }
         public DbSet<Inventario> inventario { get; set; }
+        public DbSet<CategoriaPlatillo> categoriaPlatillos { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
