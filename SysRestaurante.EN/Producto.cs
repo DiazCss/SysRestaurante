@@ -11,4 +11,6 @@ public class Producto
     public int IdCategoriaProducto {get; set;}
     
     public ICollection<DetalleCompra> detalleCompra {get; set;}
+    public ICollection<Inventario> Inventarios { get; set; }
+
 }

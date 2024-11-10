@@ -25,6 +25,10 @@ namespace SysRestaurante.DAL
         public DbSet<DetalleCompra> detallecompra { get; set; }
         public DbSet<Proveedor> proveedor { get; set; }
          public DbSet<Producto> producto { get; set; }
+        public DbSet<CategoriaProducto> categoriaProducto { get; set; }
+        public DbSet<Inventario> inventario { get; set; }
+        public DbSet<CategoriaPlatillo> categoriaPlatillos { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,7 +70,10 @@ namespace SysRestaurante.DAL
             //     .HasMany(f => f.DetalleCompra)  // Compra tiene muchos DetalleCompra
             //     .WithOne(p => p.Compra)         // DetalleCompra pertenece a una sola Compra
             //     .HasForeignKey(f => f.CompraId);  // La clave foránea está en DetalleCompra
-
+            modelBuilder.Entity<Inventario>()
+                .HasOne(i => i.productos)
+                .WithMany(p => p.Inventarios)
+                .HasForeignKey(i => i.IdProducto);
         }
 
     }
