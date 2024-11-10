@@ -7,6 +7,7 @@ using SysRestaurante.BL.Interfaces;
 using SysRestaurante.Models;
 using SysRestaurante.BL.DTOs.RolDTOs;
 using System.Security.Claims;
+using SysRestaurante.EN;
 
 namespace SysRestaurante.Controllers
 {
@@ -199,6 +200,49 @@ namespace SysRestaurante.Controllers
             return RedirectToAction(nameof(Mant), new { id = pUsuario.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Register(UsuarioRegisterDTO usuarioDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                   
+                    bool emailExiste = await usuarioBL.ExisteEmailAsync(usuarioDTO.Email);
+
+                    if (emailExiste)
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe un usuario con este email.");
+                        return View(usuarioDTO); 
+                    }
+
+                    
+                    usuarioDTO.IdRol = 2; 
+
+                    
+                    await usuarioBL.RegisterAsync(usuarioDTO);
+
+                    
+                    return RedirectToAction("Login", "Usuario");
+                }
+                catch (Exception ex)
+                {
+                   
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error al registrar el usuario: " + ex.Message);
+                }
+            }
+
+           
+            return View(usuarioDTO);
+        }
 
 
     }

@@ -175,7 +175,48 @@ namespace SysRestaurante.DAL
         }
 
 
+        public async Task<int> RegisterAsync(UsuarioRegisterDTO pUsuario)
+        {
+            
+            var usuarioExistente = await dbContext.usuario
+                                        .FirstOrDefaultAsync(u => u.datosPersonales.Email == pUsuario.Email);
 
+            if (usuarioExistente != null)
+            {
+                throw new Exception("Ya existe un usuario con este email.");
+            }
+
+            
+            var datosPersonales = new DatosPersonales
+            {
+                Nombre = pUsuario.Nombre,
+                Apellido = pUsuario.Apellido,
+                Email = pUsuario.Email,
+                Telefono = pUsuario.Telefono,
+               
+                
+            };
+            dbContext.datosPersonales.Add(datosPersonales);
+            await dbContext.SaveChangesAsync();
+
+            
+            var nuevoUsuario = new Usuarios
+            {
+                IdDatosPersonales = datosPersonales.Id, 
+                Password = pUsuario.Password,
+                IdRol = pUsuario.IdRol
+            };
+
+            dbContext.usuario.Add(nuevoUsuario);
+            return await dbContext.SaveChangesAsync();
+        }
+
+
+        public async Task<bool> ExisteEmailAsync(string email)
+        {
+            return await dbContext.usuario
+                .AnyAsync(u => u.datosPersonales.Email == email);
+        }
 
 
     }

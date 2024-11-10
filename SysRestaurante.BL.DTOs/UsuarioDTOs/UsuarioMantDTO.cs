@@ -31,7 +31,7 @@ namespace SysRestaurante.BL.DTOs.UsuarioDTOs
 
 
         [Display(Name = "Rol")]
-        [DefaultValue("0")]
+        [DefaultValue("2")]
         public int IdRol { get; set; }
 
         [Required]
