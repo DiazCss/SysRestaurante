@@ -1,4 +1,4 @@
-﻿@model SysRestaurante.BL.DTOs.CompraDTOs.CompraManDTOs
+﻿@model CompraManDTOs
 @{
     ViewData["Title"] = "Form Compra";
     ActionsUI action = ViewBag.ActionsUI as ActionsUI;
@@ -8,7 +8,7 @@
         <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Compra")</h6>
     </div>
     <div class="card-body">
-        <form asp-action="@action.ObtenerAccion()">
+        <form asp-action="@action.ObtenerAccion()" onsubmit=" return validForm()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="id" value="@Model.Id" />
             <div class="row">
@@ -54,40 +54,12 @@
             </div>
 
             <!-- Detalle de Compra -->
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="IdProducto" class="control-label"></label>
-                        <input asp-for="IdProducto" class="form-control" />
-                        <span asp-validation-for="IdProducto" class="text-danger"></span>
-                    </div>
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto h5">Detalle</legend>
+                <div>
+                    <partial name="_DetalleCompra" model="Model.DetalleCompras" />
                 </div>
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="PrecioUnitario" class="control-label"></label>
-                        <input asp-for="PrecioUnitario" class="form-control" />
-                        <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Cantidad" class="control-label"></label>
-                        <input asp-for="Cantidad" class="form-control" />
-                        <span asp-validation-for="Cantidad" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="SubTotal" class="control-label"></label>
-                        <input asp-for="SubTotal" class="form-control" />
-                        <span asp-validation-for="SubTotal" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
+            </fieldset>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -101,9 +73,20 @@
     </div>
 </div>
 
-@section Scripts {
+<link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+@section Scripts{
+
     <script>
         ActionsUI.init('@action.ObtenerAccionJs()');
+
+        var eventsValidForm = [];
+        function validForm() {
+            for (var i = 0; i < eventsValidForm.length; i++) {
+                eventsValidForm[i]();
+            }
+            return true;
+        }
     </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

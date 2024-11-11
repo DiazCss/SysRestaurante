@@ -137,5 +137,35 @@ namespace SysRestaurante.DAL
             return result;
         }
 
+        public async Task<List<ProductoAutoCompleteDTO>> AutoCompleteProducto(string query)
+        {
+            var producto = await dbContext.producto
+                 .Where(s => s.Nombre.Contains(query))
+                 .Take(30)
+                 .ToListAsync();
+            var list = new List<ProductoAutoCompleteDTO>();
+            producto.ForEach(s => {
+                list.Add(new ProductoAutoCompleteDTO
+                {
+                    Codigo = s.Codigo,
+                    Label = s.Nombre + " " + s.ContenidoEmpaque
+                });
+            });
+            return list;
+        }
+        public async Task<ProductoManDTOs> ObtenerPorNombreAsync(ProductoManDTOs pProductoMantDTO)
+        {
+            var producto = await dbContext.producto.FirstOrDefaultAsync(s => s.Codigo == pProductoMantDTO.Codigo);
+            if (producto != null && producto.Id != 0)
+            {
+                return new ProductoManDTOs
+                {
+                   Id = producto.Id,
+                   Nombre = producto.Nombre
+                };
+            }
+            else
+                return new ProductoManDTOs();
+        }
     }
 }

@@ -9,8 +9,9 @@ public class Producto
     public string Nombre {get; set;}
     public string ContenidoEmpaque {get; set;}
     public int IdCategoriaProducto {get; set;}
+    public string? Codigo { get; set; }
     
-    public ICollection<DetalleCompra> detalleCompra {get; set;}
+    
     public ICollection<Inventario> Inventarios { get; set; }
 
 }

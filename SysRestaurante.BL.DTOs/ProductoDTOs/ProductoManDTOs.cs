@@ -10,6 +10,7 @@ namespace SysRestaurante.BL.DTOs.ProductoDTOs
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100, ErrorMessage = "El nombre no debe exceder los 100 caracteres.")]
         public string Nombre { get; set; }
+        public string? Codigo { get; set; }
 
         [Required(ErrorMessage = "El contenido del empaque es obligatorio.")]
         [StringLength(50, ErrorMessage = "El contenido del empaque no debe exceder los 50 caracteres.")]

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SysRestaurante.BL.DTOs.CompraDTOs;
@@ -10,15 +8,15 @@ using System.Security.Claims;
 
 namespace SysRestaurante.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-
     public class CompraController : Controller
     {
         readonly IComprasBL compraBL;
+        readonly IProductoBL productoBL;
 
-        public CompraController(IComprasBL pCompraBL)
+        public CompraController(IComprasBL pCompraBL, IProductoBL pProductoBL)
         {
             compraBL = pCompraBL;
+            productoBL = pProductoBL;
         }
 
         // GET: CompraController
@@ -43,6 +41,8 @@ namespace SysRestaurante.Controllers
                 ViewBag.ActionsUI = pAccion;
                 ViewBag.Error = "";
                 CompraManDTOs compraMantDTO = new CompraManDTOs();
+                //compraMantDTO.DetalleCompras = new List<DetalleCompraDTO>();
+                //compraMantDTO.DetalleCompras.Add(new DetalleCompraDTO());
                 if (pAccion.SiTraerDatos())
                 {
                     try
@@ -89,6 +89,12 @@ namespace SysRestaurante.Controllers
         public IActionResult Detail(CompraManDTOs pCompra)
         {
             return RedirectToAction(nameof(Mant), new { id = pCompra.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
+        }
+
+           public async Task<IActionResult>AutoCompleteProducto(string query)
+        {
+            var list = await productoBL.AutoCompleteProducto(query);
+            return Json(list);
         }
     }
 }

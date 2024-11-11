@@ -1,0 +1,217 @@
+﻿@model IEnumerable<DetalleCompraDTO>
+@{
+    DetalleCompraDTO modelValid = new DetalleCompraDTO();
+}
+<div class="table-responsive">
+    <div class="col-md-12">
+        <table id="tb_DetalleCompras" class="table table-bordered" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Sub Total</th>
+                    <th style="text-align:right">
+                        @if (ViewBag.ActionsUI.Accion != 3 && ViewBag.ActionsUI.Accion != 4)
+                        {
+                            <button id="btnNuevo_DetalleCompras" title="Agregar" class="btn btn-success" type="button"><i class="fa fa-user-plus"></i></button>
+                        }
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbBody_Detalles" data-namelist="DetalleCompras">
+                <tr id="tbTrClone_Detalles" style="display:none">
+                    <td style="display:none"><input type="hidden" class="form-control" data-nameprop="Id" /></td>
+                    <td style="display:none"><input type="hidden" class="form-control" data-nameprop="IdCompra" /></td>
+                    <td style="display:none"><input type="hidden" class="form-control" data-nameprop="idProducto" /></td>
+                    <td style="display:none"><input type="hidden" class="form-control" value="1" data-nameprop="Accion_aux" /></td>
+
+                    <td>
+                        <div class="input-group">
+                            <input id="txtProductoF" asp-for="@modelValid.Producto.Codigo" class="form-control" data-nameprop="codigo">
+                            <span asp-validation-for="@modelValid.Producto.Codigo" class="text-danger"></span>
+                            <div class="input-group-append" id="button-addon4">
+                                <button class="btn btn-outline-secondary" type="button" data-searchproducto> <i class="fa fa-search"></i></button>
+                                <a target="_blank" class="btn btn-outline-secondary" style="display:none" href="#" data-verproducto><i class="fa fa-box"></i></a>
+                                <a target="_blank" class="btn btn-outline-secondary" href="@Url.Action("Mant","Producto", new {id = 0,  accion=(int)ActionsUI_Enums.NUEVO })"><i class="fa fa-plus"></i></a>
+
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <input asp-for="@modelValid.Producto.Nombre" class="form-control" data-nameprop="nombre" disabled>
+                        <span asp-validation-for="@modelValid.Producto.Nombre" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="@modelValid.PrecioUnitario" class="form-control" data-nameprop="precioUnitario" >
+                        <span asp-validation-for="@modelValid.PrecioUnitario" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="@modelValid.Cantidad" class="form-control" data-nameprop="cantidad">
+                        <span asp-validation-for="@modelValid.Cantidad" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="@modelValid.SubTotal" class="form-control" data-nameprop="subtotal">
+                        <span asp-validation-for="@modelValid.SubTotal" class="text-danger"></span>
+                    </td>
+                    <td style="text-align:right"><button data-eliminartbitem class="btn btn-danger" type="button" title="Quitar"><i class="fa fa-trash"></i></button></td>
+                </tr>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+
+                        <tr data-list="disabled" data-listkey="@item.Id">
+                            <td style="display:none"><input type="hidden" class="form-control" data-nameprop="Id" value="@item.Id" /></td>
+                            <td style="display:none"><input type="hidden" class="form-control" data-nameprop="idProducto" value="@item.IdProducto" /></td>
+                            <td style="display:none"><input type="hidden" class="form-control" value="0" data-nameprop="Accion_aux" /></td>
+                            <td style="display:none"><input type="hidden" class="form-control" disabled data-nameprop="IdCompra" value="@item.IdCompra" /></td>
+                            <td>
+                                <input asp-for="@item.Producto.Codigo" class="form-control" disabled data-nameprop="codigo" value="@item.Producto.Codigo" data-tbvalue="@item.Producto.Codigo">
+                            </td>
+                            <td>
+                                <input asp-for="@item.Producto.Nombre" class="form-control" disabled data-nameprop="nombre" value="@item.Producto.Nombre" data-tbvalue="@item.Producto.Nombre">
+                                <span asp-validation-for="@item.Producto.Nombre" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="@item.Cantidad" class="form-control" disabled data-nameprop="cantidad" value="@item.Cantidad" data-tbvalue="@item.Cantidad">
+                                <span asp-validation-for="@item.Cantidad" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="@item.PrecioUnitario" class="form-control" disabled data-nameprop="precioUnitario" value="@item.PrecioUnitario" data-tbvalue="@item.PrecioUnitario">
+                                <span asp-validation-for="@item.PrecioUnitario" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="@item.SubTotal" class="form-control" disabled data-nameprop="subTotal" value="@item.SubTotal" data-tbvalue="@item.SubTotal">
+                                <span asp-validation-for="@item.SubTotal" class="text-danger"></span>
+                            </td>
+                            <td style="text-align:right">
+                                <table class="botontabladet">
+                                    <tbody>
+                                        <tr>
+                                            @if (ViewBag.ActionsUI.Accion != 3 && ViewBag.ActionsUI.Accion != 4)
+                                            {
+                                                <td>
+                                                    <button data-btnkey="@item.Id" onclick="modificarFila_DetallesCompra(this)" class="btn btn-info" type="button" title="Editar"><i class="fa fa-user-edit"></i></button>
+                                                </td>
+
+                                                @if (ViewBag.ActionsUI.Accion == 1)
+                                                {
+                                                    <td>
+                                                        <button data-btnkey="@item.Id" onclick="eliminarFila_DetallesCompra(this)" class="btn btn-danger" type="button" title="Quitar"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                }
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+    $(function () {
+        $("#btnNuevo_DetalleCompras").click(function () {
+            let tr = document.createElement("tr");
+            tr.setAttribute("data-list", "active");
+            document.querySelector("#tbBody_Detalles").appendChild(tr);
+            tr.innerHTML = document.querySelector("#tbTrClone_Detalles").outerHTML;
+
+            $(tr).find("button[data-eliminartbitem]").click(function () {
+                $(tr).remove();
+            });
+            $(tr).find("button[data-searchproducto]").click(function () {
+                var producto = $(tr).find("*[data-nameprop='codigo']").val();
+                var urlverproducto = '@Url.Action("Mant", "Producto", new { accion = (int)ActionsUI_Enums.VER })'
+                $.ajax({
+                    url: '@Url.Action("ObtenerProducto", "Producto")',
+                    data: { Codigo: producto },
+                    type: 'POST',
+                    async: true,
+                    dataType: 'json',
+                    success: function (data) {
+                        $(tr).find("*[data-nameprop='nombre']").val(data.nombre);
+                        $(tr).find("*[data-nameprop='idProducto']").val(data.id);
+
+                        var url = urlverproducto + "&id=" + data.id;
+                        $(tr).find("*[data-verproducto]").attr("href", url);
+                        $(tr).find("*[data-verproducto]").show();
+
+                    },
+                });
+            });
+            $(tr).find("#txtProductoF").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteProducto")',
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            query: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.label,
+                                    value: item.codigo
+                                }
+                            }));
+                        }
+                    });
+                }
+            });
+        });
+
+        eventsValidForm.push(() => {
+            var nameList = $("#tbBody_Detalles").attr("data-namelist");
+            var index = -1;
+            $("#tbBody_Detalles tr[data-list='active']").each(function () {
+                index++;
+                $(this).find("*[data-nameprop]").each(function () {
+                    var nameProp = $(this).attr("data-nameprop");
+                    var name = nameList + "[" + index + "]." + nameProp;
+                    $(this).attr("name", name); 
+                });
+            });
+        });
+
+
+    });
+
+    function modificarFila_DetallesCompra(pBtn) {
+        var fila = $("tr[data-listkey='" + $(pBtn).attr("data-btnkey") + "']");
+        var status = $(fila).attr("data-list");
+        if (status == "disabled") {
+            $(fila).attr("data-list", "active");
+            $(fila).find("*[data-nameprop]").removeAttr("disabled");
+            $(fila).find("*[data-nameprop='Accion_aux']").val("2");
+        }
+        else if (status == "active") {
+            $(fila).attr("data-list", "disabled");
+            $(fila).find("*[data-nameprop]").attr("disabled", "disabled");
+            $(fila).find("*[data-nameprop='Accion_aux']").val("0");
+            $(fila).find("*[name]").attr("name", "");
+            $(fila).find("*[data-tbvalue]").each(function () {
+                $(this).val($(this).attr("data-tbvalue"));
+            });
+        }
+    }
+    function eliminarFila_DetallesCompra(pBtn) {
+        var fila = $("tr[data-listkey='" + $(pBtn).attr("data-btnkey") + "']");
+        $(fila).hide();
+        $(fila).attr("data-list", "active");
+        $(fila).find("*[data-nameprop='Accion_aux']").val("3");
+    }
+
+</script>

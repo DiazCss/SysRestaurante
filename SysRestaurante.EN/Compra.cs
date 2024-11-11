@@ -13,7 +13,7 @@ public class Compra
 
     // public DetalleCompra DetalleCompra{get; set;}
 
-    public ICollection<DetalleCompra> DetalleCompras {get; set;}
+    public List<DetalleCompra> DetalleCompras {get; set;}
 
     
 }

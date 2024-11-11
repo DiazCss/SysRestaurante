@@ -88,5 +88,13 @@ namespace SysRestaurante.Controllers
         {
             return RedirectToAction(nameof(Mant), new { id = pProducto.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
         }
+
+         [HttpPost]
+        public async Task<ActionResult> ObtenerProducto(ProductoManDTOs pProducto)
+        {
+        var producto = await productoBL.ObtenerPorNombreAsync(new ProductoManDTOs { Codigo = pProducto.Codigo });
+
+            return Json(producto);
+        }
     }
 }

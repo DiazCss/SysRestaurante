@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace SysRestaurante.EN;
 
-public class DetalleCompra
+public class DetalleCompra 
 {
     public int Id {get; set;}
     public int IdCompra {get; set;}
@@ -13,7 +13,6 @@ public class DetalleCompra
     public decimal SubTotal {get; set;}
     
     public Compra Compras {get; set;}
-    // public Producto Productos {get; set;}
-    public ICollection<Producto> Productos {get; set;}
-    // public List<Compra> Compras {get; set;}
+    public Producto Producto { get; set; }
+
 }

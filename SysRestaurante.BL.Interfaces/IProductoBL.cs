@@ -12,4 +12,8 @@ public interface IProductoBL
         Task<ProductoManDTOs> ObtenerPorIdAsync(ProductoManDTOs pProductoManDTOs);
         Task<PaginacionOutputDTO<List<ProductoManDTOs>>> BuscarAsync(ProductoBuscarDTOs pProductoManDTOs);
         Task<List<ProductoManDTOs>> ObtenerTodosAsync();
+        public Task<List<ProductoAutoCompleteDTO>> AutoCompleteProducto(string query);
+        public Task<ProductoManDTOs> ObtenerPorNombreAsync(ProductoManDTOs pProductoMantDTO);
+
+
 }
