@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using SysRestaurante.BL.DTOs;
 using SysRestaurante.BL.DTOs.InventarioDTOs;
+using SysRestaurante.BL.DTOs.ProductoDTOs;
 using SysRestaurante.BL.Interfaces;
 using SysRestaurante.EN;
 
@@ -45,6 +46,7 @@ public class InventarioDAL : IInventarioBL
     public async Task<int> EliminarAsync(InventarioMantDTO pInventarioMantDTO)
     {
         var inventario = await dbContext.inventario.Where(p => p.Id == pInventarioMantDTO.Id)
+                        .Include(p => p.productos)
                         .FirstOrDefaultAsync();
         if (inventario != null && inventario.Id != 0)
         {
@@ -56,7 +58,8 @@ public class InventarioDAL : IInventarioBL
     }
     public async Task<int> ModificarAsync(InventarioMantDTO pInventarioMantDTO)
     {
-        var inventario = await dbContext.inventario.Where(p => p.Id == pInventarioMantDTO.Id)
+        var inventario = await dbContext.inventario.Where(i => i.Id == pInventarioMantDTO.Id)
+                        .Include(p => p.productos)
                         .FirstOrDefaultAsync();
         if (inventario != null && inventario.Id != 0)
         {
@@ -73,11 +76,12 @@ public class InventarioDAL : IInventarioBL
             return 0;
     }
 
-    public async Task<InventarioMantDTO> ObtenerPorIdAsync(InventarioMantDTO proveedorMantDTO)
+    public async Task<InventarioMantDTO> ObtenerPorIdAsync(InventarioMantDTO pInventarioMantDTO)
     {
-        var inventario = await dbContext.inventario.Where(p => p.Id == proveedorMantDTO.Id)
+        var inventario = await dbContext.inventario.Where(i => i.Id == pInventarioMantDTO.Id)
+                    .Include(p => p.productos)
                     .FirstOrDefaultAsync();
-        if (inventario != null && inventario.Id != 0)
+        if (inventario != null)
         {
             return new InventarioMantDTO
             {
@@ -86,8 +90,9 @@ public class InventarioDAL : IInventarioBL
                 CantidadDisponible = inventario.CantidadDisponible,
                 CantidadMinima = inventario.CantidadMinima,
                 CostoUnitario = inventario.CostoUnitario,
-                FechaUltimaCompra = inventario.FechaCaducidadLote,
-                FechaCaducidadLote = inventario.FechaCaducidadLote
+                FechaUltimaCompra = inventario.FechaUltimaCompra,
+                FechaCaducidadLote = inventario.FechaCaducidadLote,
+                producto = new ProductoManDTOs {Id = inventario.productos.Id, Nombre = inventario.productos.Nombre}
             };
         }
         else
@@ -97,6 +102,7 @@ public class InventarioDAL : IInventarioBL
     public async Task<List<InventarioMantDTO>> ObtenerTodosAsync()
     {
         var inventarios = await dbContext.inventario
+        .Include(p => p.productos)
         .ToListAsync();
         if (inventarios != null && inventarios.Count > 0)
         {
@@ -109,7 +115,9 @@ public class InventarioDAL : IInventarioBL
                 CantidadMinima = i.CantidadMinima,
                 CostoUnitario = i.CostoUnitario,
                 FechaUltimaCompra = i.FechaCaducidadLote,
-                FechaCaducidadLote = i.FechaCaducidadLote
+                FechaCaducidadLote = i.FechaCaducidadLote,
+                producto = new ProductoManDTOs {Id = i.productos.Id, Nombre = i.productos.Nombre}
+
             }));
             return List;
         }
@@ -122,7 +130,9 @@ public class InventarioDAL : IInventarioBL
         var result = new PaginacionOutputDTO<List<InventarioMantDTO>>();
         result.Data = new List<InventarioMantDTO>();
         var select = dbContext.inventario.AsQueryable();
+
         select = QuerySelect(select, pInventarioBuscarDTO);
+        select = select.Include(p => p.productos);
         var inventarios = await select.ToListAsync();
         if (inventarios.Count > 0)
         {
@@ -140,7 +150,9 @@ public class InventarioDAL : IInventarioBL
                 CantidadMinima = i.CantidadMinima,
                 CostoUnitario = i.CostoUnitario,
                 FechaUltimaCompra = i.FechaCaducidadLote,
-                FechaCaducidadLote = i.FechaCaducidadLote
+                FechaCaducidadLote = i.FechaCaducidadLote,
+                producto = new ProductoManDTOs {Id = i.productos.Id, Nombre = i.productos.Nombre}
+
             }));
         }
         return result;

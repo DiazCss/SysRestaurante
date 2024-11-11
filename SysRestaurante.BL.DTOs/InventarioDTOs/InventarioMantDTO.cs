@@ -1,14 +1,17 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SysRestaurante.BL.DTOs.ProductoDTOs;
 
 namespace SysRestaurante.BL.DTOs.InventarioDTOs;
 
 public class InventarioMantDTO
 {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
+    [Display(Name = "Producto")]
     public int IdProducto { get; set; }
 
     [Required]
@@ -36,4 +39,6 @@ public class InventarioMantDTO
     [DataType(DataType.Date)]
     [Display(Name = "Fecha de Caducidad del Lote")]
     public DateTime FechaCaducidadLote { get; set; }
+
+    public ProductoManDTOs producto { get; set; }
 }
