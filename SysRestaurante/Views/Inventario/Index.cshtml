@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<InventarioMantDTO>
 @{
     ViewData["Title"] = "Buscar Producto";
+    ProductoManDTOs modelValid = new ProductoManDTOs();
 }
 
 <div class="card shadow mb-4">
@@ -15,8 +16,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label">Nombre del Producto</label>
-                                <input type="text" class="form-control" name="IdProducto_Inventario_Like" />
-                            </div>
+                                <select id="slProducto" class="form-control" name="IdProducto_Inventario_Like">
+                                <partial name="SelectProducto" model="ViewBag.productos" />
+                                </select>
+                            </div> 
+                            <td>
+                    </td>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Buscar" class="btn btn-primary" />
@@ -29,11 +34,11 @@
 </div>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Empleados</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Inventario</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="tbEmpleados" class="table table-bordered" width="100%" cellspacing="0">
+            <table id="tbInventario" class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>
@@ -59,7 +64,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.IdProducto)
+                                @Html.DisplayFor(modelItem => item.producto.Nombre)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CantidadDisponible)

@@ -15,10 +15,12 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="IdProducto" class="control-label"></label>
-                        <input asp-for="IdProducto" class="form-control" data-disabledui_eliminar data-disabledui_ver />
+                        <select id="slProducto" class="form-control" asp-for="IdProducto" data-disabledui_eliminar data-disabledui_ver>
+                            <partial name="SelectProducto" model="ViewBag.producto"/>
+                        </select>
                         <span asp-validation-for="IdProducto" class="text-danger"></span>
                     </div>
-                </div>
+                </div> 
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="CantidadDisponible" class="control-label"></label>
@@ -73,3 +75,10 @@
         </form>
     </div>
 </div>
+@section Scripts {
+    <script>
+        ActionsUI.init('@action.ObtenerAccionJs()');
+        $("#slProducto").val('@Model.IdProducto');
+
+    </script>
+    }

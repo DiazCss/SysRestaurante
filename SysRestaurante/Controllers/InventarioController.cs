@@ -9,10 +9,12 @@ namespace SysRestaurante.Controllers
     public class InventarioController : Controller
     {
         readonly IInventarioBL inventarioBL;
+        readonly IProductoBL productoBL;
 
-        public InventarioController(IInventarioBL pInventarioBL)
+        public InventarioController(IInventarioBL pInventarioBL, IProductoBL pProductoBL)
         {
             inventarioBL = pInventarioBL;
+            productoBL = pProductoBL;
         }
         // GET: InventarioController
         public async Task<ActionResult> Index(InventarioBuscarDTO pInventario = null)
@@ -22,6 +24,7 @@ namespace SysRestaurante.Controllers
             if (pInventario.Take == 0)
                 pInventario.Take = 10;
             var paginacion = await inventarioBL.BuscarAsync(pInventario);
+            ViewBag.productos = await productoBL.ObtenerTodosAsync();
             if (TempData.ContainsKey("ErrorMessage"))
             {
                 ViewBag.ErrorMessage = TempData["ErrorMessage"];
@@ -33,6 +36,7 @@ namespace SysRestaurante.Controllers
         {
             if (pAccion.EsValidAction())
             {
+                ViewBag.producto = await productoBL.ObtenerTodosAsync();
                 ViewBag.ActionsUI = pAccion;
                 ViewBag.Error = "";
                 InventarioMantDTO inventarioMantDTO = new InventarioMantDTO();
@@ -83,7 +87,8 @@ namespace SysRestaurante.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Detail(InventarioMantDTO pInventario)
         {
-            return RedirectToAction(nameof(Index), new { id = pInventario.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
+            return RedirectToAction(nameof(Mant), new { id = pInventario.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
         }
+
     }
 }
