@@ -1,0 +1,93 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SysRestaurante.BL.DTOs.PlatilloProductoDTOs;
+using SysRestaurante.BL.Interfaces;
+using SysRestaurante.EN;
+using SysRestaurante.Models;
+using System;
+using System.Threading.Tasks;
+
+namespace SysRestaurante.Controllers
+{
+    public class PlatilloProductoController : Controller
+    {
+        readonly IPlatilloProductoBL platilloProductoBL;
+
+        public PlatilloProductoController(IPlatilloProductoBL pPlatilloProductoBL)
+        {
+            platilloProductoBL = pPlatilloProductoBL;
+        }
+
+        // GET: PlatilloProductoController
+        public async Task<IActionResult> Index(PlatilloProductoBuscarDTO pPlatilloProducto = null)
+        {
+            if (pPlatilloProducto == null)
+                pPlatilloProducto = new PlatilloProductoBuscarDTO();
+            if (pPlatilloProducto.Take == 0)
+                pPlatilloProducto.Take = 10;
+            var paginacion = await platilloProductoBL.BuscarAsync(pPlatilloProducto);
+            if (TempData.ContainsKey("ErrorMessage"))
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            }
+            return View(paginacion.Data);
+        }
+
+        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+        {
+            if (pAccion.EsValidAction())
+            {
+                ViewBag.ActionsUI = pAccion;
+                ViewBag.Error = "";
+                PlatilloProductoMantDTO platilloProductoMantDTO = new PlatilloProductoMantDTO();
+                if (pAccion.SiTraerDatos())
+                {
+                    try
+                    {
+                        platilloProductoMantDTO = await platilloProductoBL.ObtenerPorIdAsync(new PlatilloProductoMantDTO { Id = id });
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Error = ex.Message;
+                    }
+
+                }
+                return View(platilloProductoMantDTO);
+
+            }
+            else
+                return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PlatilloProductoMantDTO pPlatilloProducto)
+        {
+            int result = await platilloProductoBL.CreateAsync(pPlatilloProducto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PlatilloProductoMantDTO pPlatilloProducto)
+        {
+            int result = await platilloProductoBL.ModificarAsync(pPlatilloProducto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(PlatilloProductoMantDTO pPlatilloProducto)
+        {
+            int result = await platilloProductoBL.EliminarAsync(pPlatilloProducto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Detail(PlatilloProductoMantDTO pPlatilloProducto)
+        {
+            return RedirectToAction(nameof(Mant), new { id = pPlatilloProducto.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
+        }
+    }
+}

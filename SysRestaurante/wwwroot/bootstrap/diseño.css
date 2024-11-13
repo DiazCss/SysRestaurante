@@ -1,0 +1,160 @@
+ /* Estilo general para las tarjetas y formularios */
+ .card {
+    background-color: #1a1814; /* Fondo negro */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid #cda45e; /* Bordes dorados */
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #1a1814;
+    border-bottom: 1px solid #cda45e;
+}
+
+.card-header h6 {
+    color: #cda45e; /* Color dorado */
+    font-weight: bold;
+}
+
+/* Estilo para el botón primario */
+.btn-primary {
+    background-color: #cda45e; /* Color dorado */
+    border-color: #cda45e;
+    color: #1a1814; /* Texto oscuro */
+}
+
+.btn-primary:hover {
+    background-color: #b3924e; /* Color dorado más oscuro */
+    border-color: #b3924e;
+}
+
+/* Estilo para la tabla */
+.table {
+    color: #b3924e;
+    background-color: #1a1814;
+}
+
+.table th, .table td {
+    border: 1px solid #cda45e; /* Bordes dorados */
+}
+
+.table th {
+    color: #cda45e; /* Texto dorado en encabezados */
+    font-weight: bold;
+    background-color: #1a1814;
+}
+
+/* Estilo para los inputs en el formulario */
+.form-control {
+    background-color: #1a1814; /* Fondo negro */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid #cda45e; /* Bordes dorados */
+}
+
+.form-control::placeholder {
+    color: #cda45e; /* Placeholder dorado */
+}
+
+/* Estilo para los botones de acción en la tabla */
+.btn-success, .btn-info, .btn-danger {
+    border-radius: 5px;
+    margin: 2px;
+}
+#hero {
+background-color: #1a1814;
+padding: 60px 0;
+}
+
+.section-title h2 {
+font-size: 36px;
+font-weight: bold;
+margin-bottom: 20px;
+}
+
+.section-title p {
+font-size: 16px;
+color: #cda45e;
+margin-bottom: 40px;
+}
+
+.form-control {
+background-color: #1a1814;
+color: #ffffff;
+border: 2px solid #cda45e;
+border-radius: 5px;
+height: 48px;
+padding-left: 15px;
+}
+
+.form-control:focus {
+border-color: #cda45e;
+box-shadow: none;
+}
+
+.btn-primary {
+background-color: #cda45e;
+border: none;
+color: #1a1814;
+}
+
+.btn-primary:hover {
+background-color: #e0b873;
+color: #1a1814;
+}
+
+.btn-warning {
+background-color: #ffffff;
+color: #cda45e;
+border: 2px solid #cda45e;
+}
+
+.btn-warning:hover {
+background-color: #cda45e;
+color: #ffffff;
+}
+.footer-top {
+padding: 60px 0;
+background-color: #1a1814;
+}
+
+.section-title h2 {
+font-size: 28px;
+font-weight: bold;
+color: #cda45e;
+margin-bottom: 10px;
+}
+
+.section-title p {
+font-size: 16px;
+color: #ffffff;
+}
+
+.table-bordered th,
+.table-bordered td {
+border-color: #cda45e;
+}
+
+.table thead th {
+background-color: #cda45e;
+color: #1a1814;
+font-weight: bold;
+}
+
+.table tbody tr {
+border-bottom: 1px solid #cda45e;
+}
+
+.table tbody tr td {
+color: #ffffff;
+}
+
+.btn-outline-success, .btn-outline-info, .btn-outline-danger {
+border-color: #cda45e;
+color: #cda45e;
+background-color: transparent;
+}
+
+.btn-outline-success:hover, .btn-outline-info:hover, .btn-outline-danger:hover {
+background-color: #cda45e;
+color: #1a1814;
+}

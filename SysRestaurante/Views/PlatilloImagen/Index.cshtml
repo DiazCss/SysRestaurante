@@ -1,0 +1,65 @@
+﻿@using SysRestaurante.BL.DTOs.PlatilloImagenDTOs
+@model IEnumerable<PlatilloImagenMantDTO>
+@{
+    ViewData["Title"] = "Lista de Platillos";
+}
+
+<link rel="stylesheet" href="~/bootstrap/diseño.css">
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center" data-aos="zoom-in" data-aos-delay="100">
+        <div class="section-title">
+            <h2 class="text-uppercase" style="color: #cda45e;">Buscar Imágenes de Platillos</h2>
+            <p style="color: #ffffff;">Encuentra rápidamente las imágenes de platillos en nuestro inventario</p>
+        </div>
+
+        <form asp-action="Index">
+            <div class="row g-2 align-items-center justify-content-center">
+                <div class="col-md-4">
+                    <input type="text" class="form-control form-control-lg" name="NombrePlatillo_Like" placeholder="Nombre del Platillo" />
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Buscar" class="btn btn-lg btn-primary w-100" />
+                </div>
+                <div class="col-md-2">
+                    @Html.ActionLink("Ir a Crear", "Mant", new { Id = 0, accion = (int)ActionsUI_Enums.NUEVO }, new { @class = "btn btn-lg btn-warning w-100" })
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="exclusive_item_part blog_item_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5">
+                <div class="section_tittle">
+                    <p>Platillos</p>
+                    <h2>Los mejores platillos</h2>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-6 col-lg-4 mb-4">
+                    <div class="single_blog_item">
+                        <div class="single_blog_img">
+                            <img src="@Url.Content($"~/{item.ImagenPlatillo}")" class="img-fluid" alt="Imagen de @item.NombrePlatillo" style="height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="single_blog_text">
+                            <h3>@item.NombrePlatillo</h3>
+                            <p>@item.DescripcionPlatillo</p>
+                            <div class="d-flex justify-content-around">
+                                @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-outline-success btn-sm mx-1" })
+                                @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-outline-info btn-sm mx-1" })
+                                @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-outline-danger btn-sm mx-1" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

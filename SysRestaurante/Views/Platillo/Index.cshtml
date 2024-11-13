@@ -1,0 +1,78 @@
+﻿@using SysRestaurante.BL.DTOs.PlatilloDTOs
+@model IEnumerable<PlatilloMantDTO>
+@{
+    ViewData["Title"] = "Buscar Platillos";
+}
+<link rel="stylesheet" href="~/bootstrap/diseño.css">
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <br/>
+                <br/>
+                <br/>
+                <div class="section-title">
+                    <h2 class="text-uppercase" style="color: #cda45e;">Buscar Platillos</h2>
+                    <p style="color: #ffffff;">Encuentra rápidamente los platillos en nuestro inventario</p>
+                </div>
+                
+                <form asp-action="Index">
+                    <div class="row g-2 align-items-center justify-content-center">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-lg" name="Nombre_Platillo_Like" placeholder="Nombre Platillo" />
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-lg" name="IngredientePrincipal_Like" placeholder="Ingrediente Principal" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Buscar" class="btn btn-lg btn-primary w-100" />
+                        </div>
+                        <div class="col-md-2">
+                            @Html.ActionLink("Ir a Crear", "Mant", new { Id = 0, accion=(int)ActionsUI_Enums.NUEVO }, new { @class = "btn btn-lg btn-warning w-100" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="footer-top py-5" style="background-color: #1a1814;">
+        <div class="container">
+            <div class="section-title text-center mb-4">
+                <h2 class="text-uppercase" style="color: #cda45e;">Platillos</h2>
+                <p style="color: #ffffff;">Lista de todos los platillos disponibles</p>
+            </div>
+            
+            <div class="table-responsive">
+                <table id="tbPlatillos" class="table table-bordered text-center" style="background-color: #1a1814; color: #ffffff; border-color: #cda45e;">
+                    <thead>
+                        <tr style="background-color: #cda45e; color: #1a1814;">
+                            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                            <th>@Html.DisplayNameFor(model => model.IngredientePrincipal)</th>
+                            <th>@Html.DisplayNameFor(model => model.Precio)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="border-bottom: 1px solid #cda45e;">
+                                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.IngredientePrincipal)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Precio)</td>
+                                <td>
+                                    @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion=(int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-outline-success btn-sm mx-1" })
+                                    @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion=(int)ActionsUI_Enums.VER }, new { @class = "btn btn-outline-info btn-sm mx-1" })
+                                    @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion=(int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-outline-danger btn-sm mx-1" })
+                                </td>                          
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</footer>

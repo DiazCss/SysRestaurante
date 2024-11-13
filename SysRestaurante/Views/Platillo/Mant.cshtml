@@ -1,0 +1,129 @@
+﻿@using SysRestaurante.BL.DTOs.PlatilloDTOs
+@model PlatilloMantDTO
+@{
+    ViewData["Title"] = "Form Platillo";
+    ActionsUI action = ViewBag.ActionsUI as ActionsUI;
+}
+
+<link rel="stylesheet" href="~/bootstrap/Mant.css">
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center" data-aos="zoom-in" data-aos-delay="100">
+        <div class="section-title">
+            <h2>Procesos Platillo</h2>
+            <p>Encuentra, crea, edita y elimina rápidamente platillos en nuestro inventario</p>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">@action.ObtenerTitulo("Platillo")</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="@action.ObtenerAccion()">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Nombre" class="control-label">Nombre</label>
+                                    <input asp-for="Nombre" class="form-control" placeholder="Nombre del platillo" />
+                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Descripcion" class="control-label">Descripción</label>
+                                    <input asp-for="Descripcion" class="form-control" placeholder="Descripción del platillo" />
+                                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Precio" class="control-label">Precio</label>
+                                    <input asp-for="Precio" class="form-control" placeholder="Precio del platillo" />
+                                    <span asp-validation-for="Precio" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="TiempoPreparacion" class="control-label">Tiempo de Preparación</label>
+                                    <input asp-for="TiempoPreparacion" class="form-control" placeholder="Tiempo de preparación en minutos" />
+                                    <span asp-validation-for="TiempoPreparacion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IngredientePrincipal" class="control-label">Ingrediente Principal</label>
+                                    <input asp-for="IngredientePrincipal" class="form-control" placeholder="Ingrediente principal" />
+                                    <span asp-validation-for="IngredientePrincipal" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="FechaActualizacion" class="control-label">Fecha de Actualización</label>
+                                    <input asp-for="FechaActualizacion" class="form-control" placeholder="Fecha de actualización" />
+                                    <span asp-validation-for="FechaActualizacion" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IdCategoria" class="control-label">Categoría</label>
+                                    <input asp-for="IdCategoria" class="form-control" placeholder="ID de la categoría" />
+                                    <span asp-validation-for="IdCategoria" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Disponibilidad" class="control-label">Disponibilidad</label>
+                                    <select id="slDisponibilidad" class="form-control" asp-for="Disponibilidad">
+                                        <option value="0">Disponible</option>
+                                        <option value="1">No Disponible</option>
+                                    </select>
+                                    <span asp-validation-for="Disponibilidad" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary mr-2" />
+                                <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                                <span class="text-danger d-block mt-3">@ViewBag.Error</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <script>
+        ActionsUI.init('@action.ObtenerAccionJs()');
+        $("#slDisponibilidad").val('@Model.Disponibilidad');
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @if (action.SiTraerDatos())
+    {
+        <script>
+            $(function () {
+                $("form input[name]").trigger("blur");
+            });
+        </script>
+    }
+}

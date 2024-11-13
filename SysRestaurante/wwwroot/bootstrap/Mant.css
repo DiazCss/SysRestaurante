@@ -1,0 +1,102 @@
+    /* Estilos de la tarjeta */
+    .card {
+        background-color: #1a1814;
+        color: #ffffff;
+        border: 1px solid #cda45e;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+
+    .card-header {
+        background-color: #1a1814;
+        border-bottom: 1px solid #cda45e;
+        padding-bottom: 15px;
+    }
+
+    .card-header h6 {
+        color: #cda45e;
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+
+    /* Estilos para el formulario */
+    .form-group label {
+        color: #cda45e;
+        font-weight: bold;
+    }
+
+    .form-control {
+        background-color: #1a1814;
+        color: #ffffff;
+        border: 1px solid #cda45e;
+        border-radius: 5px;
+        height: 45px;
+        padding-left: 15px;
+    }
+
+    .form-control::placeholder {
+        color: #cda45e;
+        opacity: 0.8;
+    }
+
+    .btn-primary {
+        background-color: #cda45e;
+        border-color: #cda45e;
+        color: #1a1814;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+
+    .btn-primary:hover {
+        background-color: #b3924e;
+        border-color: #b3924e;
+    }
+
+    .btn-dark {
+        background-color: #333333;
+        border-color: #333333;
+        color: #ffffff;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+
+    .btn-dark:hover {
+        background-color: #4d4d4d;
+    }
+
+    /* Texto de validación */
+    .text-danger {
+        color: #e74c3c;
+    }
+
+    /* Estilos de sección y título */
+    #hero {
+        background-color: #1a1814;
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    #hero .section-title h2 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #cda45e;
+        margin-bottom: 15px;
+    }
+
+    #hero .section-title p {
+        font-size: 16px;
+        color: #ffffff;
+        margin-bottom: 30px;
+    }
+
+    /* Footer y tabla */
+    #footer {
+        background-color: #1a1814;
+        padding-top: 40px;
+        padding-bottom: 60px;
+    }
+
+    .footer-top .card {
+        margin-top: 20px;
+    }

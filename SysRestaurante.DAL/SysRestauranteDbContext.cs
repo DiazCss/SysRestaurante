@@ -28,6 +28,9 @@ namespace SysRestaurante.DAL
         public DbSet<CategoriaProducto> categoriaProducto { get; set; }
         public DbSet<Inventario> inventario { get; set; }
         public DbSet<CategoriaPlatillo> categoriaPlatillos { get; set; }
+         public DbSet<Platillo> platillo {get; set;}
+       public DbSet<PlatilloProducto> platilloProducto {get; set;}
+       public DbSet<PlatilloImagen> platilloImagen {get; set;}
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -76,6 +79,28 @@ namespace SysRestaurante.DAL
                 .HasOne(i => i.productos)
                 .WithMany(p => p.Inventarios)
                 .HasForeignKey(i => i.IdProducto);
+                  base.OnModelCreating(modelBuilder);
+
+    modelBuilder.Entity<Platillo>()
+        .HasOne(p => p.CategoriaPlatillos)
+        .WithMany() 
+        .HasForeignKey(p => p.IdCategoria) ;
+        
+          modelBuilder.Entity<PlatilloProducto>()
+        .HasOne(pp => pp.Platillo)
+        .WithMany()
+        .HasForeignKey(pp => pp.IdPlatillo);
+
+    modelBuilder.Entity<PlatilloProducto>()
+        .HasOne(pp => pp.Producto)
+        .WithMany()
+        .HasForeignKey(pp => pp.IdProducto);
+        
+    modelBuilder.Entity<PlatilloImagen>()
+        .HasOne(pp => pp.Platillo)
+        .WithMany()
+        .HasForeignKey(pp => pp.IdPlatillo);
+      
         }
 
     }
