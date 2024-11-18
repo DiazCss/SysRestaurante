@@ -1,10 +1,8 @@
 ﻿@using SysRestaurante.BL.DTOs.PlatilloImagenDTOs
-@model IEnumerable<PlatilloImagenMantDTO>
-@{
-    ViewData["Title"] = "Lista de Platillos";
-}
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<PlatilloImagenMantDTO>
 
-<link rel="stylesheet" href="~/bootstrap/diseño.css">
 <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative text-center" data-aos="zoom-in" data-aos-delay="100">
         <div class="section-title">
@@ -38,12 +36,11 @@
                 </div>
             </div>
         </div>
-        
-        
+
         <div class="row">
             @foreach (var item in Model)
             {
-                <div class="col-sm-6 col-lg-4 mb-4">
+                <div class="col-sm-6 col-lg-4">
                     <div class="single_blog_item">
                         <div class="single_blog_img">
                             <img src="@Url.Content($"~/{item.ImagenPlatillo}")" class="img-fluid" alt="Imagen de @item.NombrePlatillo" style="height: 200px; object-fit: cover;">
@@ -60,6 +57,15 @@
                     </div>
                 </div>
             }
+        </div>
+
+      
+        <div class="d-flex justify-content-center">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                PageClasses = new[] { "page-link" }
+            })
         </div>
     </div>
 </section>

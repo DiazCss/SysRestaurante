@@ -6,6 +6,8 @@ using SysRestaurante.Models;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace SysRestaurante.Controllers
 {
@@ -24,16 +26,24 @@ namespace SysRestaurante.Controllers
         }
 
         // GET: PlatilloImagenController
-        public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen = null)
-        {
-            if (pPlatilloImagen == null)
-                pPlatilloImagen = new PlatilloImagenBuscarDTO();
-            if (pPlatilloImagen.Take == 0)
-                pPlatilloImagen.Take = 10;
+    
 
-            var paginacion = await platilloImagenBL.BuscarAsync(pPlatilloImagen);
-            return View(paginacion.Data);
-        }
+public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen = null, int? page = 1)
+{
+    int pageSize = 3; // Número de registros por página
+    int pageNumber = page ?? 1;
+
+    if (pPlatilloImagen == null)
+        pPlatilloImagen = new PlatilloImagenBuscarDTO();
+
+    var query = platilloImagenBL.ObtenerTodosAsync(); 
+
+    // Aplicar paginación
+    var paginacion = (await query).ToPagedList(pageNumber, pageSize);
+
+    return View(paginacion);
+}
+
 
         public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
         {

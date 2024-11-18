@@ -1,97 +1,72 @@
 ﻿@model UsuarioLoginDTO
-
 @{
+    Layout = null;
     ViewData["Title"] = "Login";
 }
 
-<body class="bg-primary">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Iniciar Sesión</h3>
-                                </div>
-
-                                <div class="card-body">
-                                    <form asp-action="Login" method="post">
-
-                                        <input type="hidden" name="pReturnUrl" value="@ViewBag.Url" />
-                                        <div class="mb-3">
-                                            <label asp-for="Email" class="small mb-1" style="font-weight: bold;"></label>
-                                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="form-floating mb-3">
-                                            <label asp-for="Password" class="small mb-1" style="font-weight: bold;"></label>
-                                            <div class="input-group">
-                                                <input asp-for="Password" type="Password" class="form-control" placeholder="Ingresar password" />
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-outline-secondary" onmousedown="showPassword()" onmouseup="hidePassword()" onmouseout="hidePassword()">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                        </div>
-
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <input type="submit" value="Login" class="btn btn-primary btn-block" />
-                                        </div>
-                                        <span class="text-danger">@ViewBag.Error</span>
-                                    </form>
-                                </div>
-
-                                <div class="card-footer text-center py-3">
-                                    <div class="small">
-                                        <a href="@Url.Action("Register", "Usuario")">¿No tienes cuenta? Regístrate aquí</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-
-        <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted"></div>
-                    </div>
-                </div>
-            </footer>
-        </div>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/bootstrap/Login.css">
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-bg">
+        <video autoplay loop muted>
+            <source src="~/bootstrap/images/205006-926015709.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
+<div class="container">
+    <input type="checkbox" id="flip">
+    <div class="cover">
+      <div class="front">
+        <img src="~/bootstrap/images/fried-chicken-breast-with-vegetables.jpg" alt="">
+        <div class="text">
+          <span class="text-1">Accede a tu cuenta <br> y continúa gestionando con excelencia.</span>
+          <span class="text-2">Inicia Sesión</span>
+        </div>
+      </div>
+    </div>
+  
+   
+        <div class="forms">
+            <div class="form-content">
+                <div class="login-form">
+                    <div class="title">Iniciar Sesión</div>
+                    <form asp-action="Login" method="post">
+                        <input type="hidden" name="pReturnUrl" value="@ViewBag.Url" />
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input asp-for="Email" placeholder="name@example.com" required />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input asp-for="Password" type="password" placeholder="Ingresar contraseña" required />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <span class="text-danger">@ViewBag.Error</span>
+                        <div class="button input-box">
+                            <input type="submit" value="Iniciar Sesión">
+                        </div>
+                        <div class="text">
+                            <a href="@Url.Action("Register", "Usuario")">¿No tienes cuenta? Regístrate aquí</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+  
+  
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial");
+    }
 </body>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial");
-    <script>
-        var passwordInput = document.getElementById("Password");
-        var buttonIcon = document.querySelector(".input-group-append i");
-        var isMouseDown = false;
-
-        function showPassword() {
-            passwordInput.type = "text";
-            buttonIcon.classList.remove("fa-eye");
-            buttonIcon.classList.add("fa-eye-slash");
-            isMouseDown = true;
-        }
-
-        function hidePassword() {
-            if (!isMouseDown) {
-                return;
-            }
-            passwordInput.type = "password";
-            buttonIcon.classList.remove("fa-eye-slash");
-            buttonIcon.classList.add("fa-eye");
-            isMouseDown = false;
-        }
-    </script>
-}
+</html>

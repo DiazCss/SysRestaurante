@@ -1,44 +1,87 @@
 ﻿@model SysRestaurante.BL.DTOs.UsuarioDTOs.UsuarioRegisterDTO
-
-<form asp-action="Register" method="post">
-    <div class="form-group">
-        <label asp-for="Nombre"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
+@{
+    Layout = null;
+    ViewData["Title"] = "Signup";
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="~/bootstrap/Login.css">
+    <!-- Fontawesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-bg">
+        <video autoplay loop muted>
+            <source src="~/bootstrap/images/205006-926015709.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Apellido"></label>
-        <input asp-for="Apellido" class="form-control" />
-        <span asp-validation-for="Apellido" class="text-danger"></span>
+    <div class="container">
+        <div class="cover">
+            <div class="front">
+                <img src="~/bootstrap/images/chicken-larb-plate-with-dried-chilies-tomatoes-spring-onions-lettuce.jpg" alt="">
+                <div class="text">
+                    <span class="text-1">Cada registro es <br> un nuevo inicio</span>
+                    <span class="text-2">Únete a nuestra comunidad</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="forms">
+            <div class="form-content">
+                <div class="signup-form">
+                    <div class="title">Registro</div>
+                    <form asp-action="Register" method="post">
+                        <div class="input-box">
+                            <i class="fas fa-user"></i>
+                            <input asp-for="Nombre" placeholder="Nombre" required />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-user"></i>
+                            <input asp-for="Apellido" placeholder="Apellido" required />
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-envelope"></i>
+                            <input asp-for="Email" placeholder="Correo electrónico" required />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-phone"></i>
+                            <input asp-for="Telefono" placeholder="Teléfono" required />
+                            <span asp-validation-for="Telefono" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input asp-for="Password" type="password" placeholder="Contraseña" required />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="input-box">
+                            <i class="fas fa-lock"></i>
+                            <input asp-for="ConfirmPassword" type="password" placeholder="Confirmar Contraseña" required />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="button input-box">
+                            <input type="submit" value="Registrar">
+                        </div>
+                        <div class="text sign-up-text">
+                            ¿Ya tienes cuenta? <a href="@Url.Action("Login", "Usuario")">Inicia sesión aquí</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Telefono"></label>
-        <input asp-for="Telefono" class="form-control" />
-        <span asp-validation-for="Telefono" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" type="password" class="form-control" />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
-
-    
-
-   
-
-    <button type="submit" class="btn btn-primary">Registrar</button>
-</form>
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial");
+    }
+</body>
+</html>
