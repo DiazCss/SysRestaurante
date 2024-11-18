@@ -1,5 +1,6 @@
 ﻿using SysRestaurante.BL.DTOs;
 using SysRestaurante.BL.DTOs.PlatilloDTOs;
+using SysRestaurante.BL.DTOs.PlatilloDTOs.SysRestaurante.BL.DTOs.PlatilloDTOs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,5 +15,7 @@ namespace SysRestaurante.BL.Interfaces
       public Task<PlatilloMantDTO> ObtenerPorIdAsync(PlatilloMantDTO pPlatilloMantDTO);
        public Task<PaginacionOutputDTO<List<PlatilloMantDTO>>> BuscarAsync(PlatilloBuscarDTO pPlatilloMantDTO);
        public Task<List<PlatilloMantDTO>> ObtenerTodosAsync();
-   }
+        public Task<List<PlatilloIndexDTO>> ObtenerPlatillosIndexAsync();
+
+    }
 }

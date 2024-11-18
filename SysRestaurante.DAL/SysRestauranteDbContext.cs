@@ -31,6 +31,8 @@ namespace SysRestaurante.DAL
          public DbSet<Platillo> platillo {get; set;}
        public DbSet<PlatilloProducto> platilloProducto {get; set;}
        public DbSet<PlatilloImagen> platilloImagen {get; set;}
+        public DbSet<Factura> factura { get; set; }
+        public DbSet<DetalleFactura> detalleFactura { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

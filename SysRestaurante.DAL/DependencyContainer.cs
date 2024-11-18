@@ -30,6 +30,8 @@ namespace SysRestaurante.DAL
             services.AddScoped<IPlatilloBL, PlatilloDAL>();
             services.AddScoped<IPlatilloProductoBL, PlatilloProductoDAL>();
             services.AddScoped<IPlatilloImagenBL,PlatilloImagenDAL>();
+            services.AddScoped<IFacturaBL, FacturaDAL>();
+
             return services;
         }
     }

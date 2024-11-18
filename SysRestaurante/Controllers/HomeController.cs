@@ -1,27 +1,33 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SysRestaurante.BL.Interfaces;
 using SysRestaurante.Models;
 using System.Diagnostics;
 
 namespace SysRestaurante.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        readonly IPlatilloBL platilloBL;
+        readonly ICategoriaPlatilloBL categoriaPlatilloBL;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPlatilloBL pPlatilloBL, ICategoriaPlatilloBL pCategoriaPlatilloBL)
         {
-            _logger = logger;
+            _logger = logger; 
+            platilloBL = pPlatilloBL;
+            categoriaPlatilloBL = pCategoriaPlatilloBL;
         }
+        [AllowAnonymous]
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var platillos = await platilloBL.ObtenerPlatillosIndexAsync();
+            return View(platillos);
         }
-
         public IActionResult Privacy()
         {
             return View();

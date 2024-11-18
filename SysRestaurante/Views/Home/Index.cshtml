@@ -16,5 +16,71 @@
                 </div>
 
             </div>
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Menú de Platillos</h1>
+
+
+            <div class="row">
+                @foreach (var platillo in Model)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">@platillo.Nombre</h5>
+                                <p class="card-text text-muted">@platillo.Categoria</p>
+                                <p class="card-text">@platillo.Descripcion</p>
+                                <p class="card-text"><strong>Precio:</strong> $@platillo.Precio</p>
+                                <p class="card-text">
+                                    <strong>Disponibilidad:</strong>
+                                    <span class="badge @(platillo.Disponibilidad == "Disponible" ? "bg-success" : "bg-danger")">
+                                        @platillo.Disponibilidad
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                @if (platillo.Disponibilidad == "Disponible")
+                                {
+                                    <button class="btn btn-primary btn-sm" onclick="agregarCarrito(@platillo.Id)">Agregar al Carrito</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary btn-sm" disabled>No Disponible</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="@Url.Action("VerPedido", "Pedido")" class="btn btn-success">Ver Carrito</a>
+            </div>
+        </div>
         </div>
     </section><!-- End Hero -->
+
+<script>
+    function agregarCarrito(platilloId) {
+        const url = `@Url.Action("AgregarAlCarrito", "Pedido")?id=${platilloId}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Platillo agregado al carrito.');
+            } else {
+                throw new Error('Error al agregar el platillo al carrito.');
+            }
+        })
+        .catch(error => {
+            console.error('Hubo un error:', error);
+            alert('Error al agregar el platillo al carrito.');
+        });
+    }
+
+</script>
+

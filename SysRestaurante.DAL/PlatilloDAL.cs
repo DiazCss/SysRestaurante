@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SysRestaurante.BL.DTOs;
 using SysRestaurante.BL.DTOs.PlatilloDTOs;
+using SysRestaurante.BL.DTOs.PlatilloDTOs.SysRestaurante.BL.DTOs.PlatilloDTOs;
 using SysRestaurante.BL.Interfaces;
 using SysRestaurante.EN;
 using System.Collections.Generic;
@@ -166,9 +167,23 @@ namespace SysRestaurante.DAL
             return result;
         }
 
-        public Task<PlatilloMantDTO> ObtenerPorIdAsync(int id)
+       
+        public async Task<List<PlatilloIndexDTO>> ObtenerPlatillosIndexAsync()
         {
-            throw new NotImplementedException();
+            var platillos = await dbContext.platillo
+                .Include(p => p.CategoriaPlatillos)
+                .ToListAsync();
+
+            return platillos.Select(p => new PlatilloIndexDTO
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                Descripcion = p.Descripcion,
+                Precio = p.Precio,
+                Disponibilidad = p.Disponibilidad == 0 ? "Disponible" : "No Disponible",
+                Categoria = p.CategoriaPlatillos?.Nombre ?? "Sin categoría" // Evita consultas adicionales
+            }).ToList();
         }
+
     }
 }

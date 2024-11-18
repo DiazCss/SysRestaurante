@@ -1,0 +1,34 @@
+﻿@using SysRestaurante.BL.DTOs.PlatilloDTOs.SysRestaurante.BL.DTOs.PlatilloDTOs
+@model List<PlatilloIndexDTO>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Carrito de Compras</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var platillo in Model)
+            {
+                <tr>
+                    <td>@platillo.Nombre</td>
+                    <td>$@platillo.Precio</td>
+                    <td>1</td>
+                    <td>$@platillo.Precio</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <form method="post" action="@Url.Action("ConfirmarPedido", "Pedido")">
+            <button type="submit" class="btn btn-primary">Confirmar Pedido</button>
+        </form>
+    </div>
+</div>
