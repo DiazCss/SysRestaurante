@@ -33,5 +33,10 @@ namespace SysRestaurante.BL.DTOs.PlatilloDTOs
 
         [Required]
         public int IdCategoria { get; set; }
+
+        public string PlatilloImagen {get; set;}
+       
+        
+        
     }
 }

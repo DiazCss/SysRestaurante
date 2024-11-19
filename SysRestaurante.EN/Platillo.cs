@@ -15,6 +15,8 @@ namespace SysRestaurante.EN
         public int IdCategoria { get; set; }     
 
         public CategoriaPlatillo CategoriaPlatillos { get; set; }
+         public ICollection<PlatilloImagen> PlatilloImagenes { get; set; } 
+
     }
 
     public enum Disponibilidad_Platillo

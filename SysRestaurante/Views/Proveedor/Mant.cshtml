@@ -3,52 +3,81 @@
     ViewData["Title"] = "Form Proveedor";
     ActionsUI action = ViewBag.ActionsUI as ActionsUI;
 }
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Proveedor")</h6>
+
+<link rel="stylesheet" href="~/bootstrap/Mant.css">
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center" data-aos="zoom-in" data-aos-delay="100">
+        <div class="section-title">
+            <h2>Procesos Proveedor</h2>
+            <p>Encuentra, crea, edita y elimina rápidamente proveedores en nuestro sistema</p>
+        </div>
     </div>
-    <div class="card-body">
-        <form asp-action="@action.ObtenerAccion()">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="id" value="@Model.Id" />
-            <div class="row">
+</section>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Nombre" class="control-label"></label>
-                        <input asp-for="Nombre" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
-                    </div>
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">@action.ObtenerTitulo("Proveedor")</h6>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Contacto" class="control-label"></label>
-                        <input asp-for="Contacto" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Contacto" class="text-danger"></span>
-                    </div>
-                </div>
+                <div class="card-body">
+                    <form asp-action="@action.ObtenerAccion()">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Nombre" class="control-label">Nombre</label>
+                                    <input asp-for="Nombre" class="form-control" placeholder="Nombre del proveedor" />
+                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Contacto" class="control-label">Contacto</label>
+                                    <input asp-for="Contacto" class="form-control" placeholder="Contacto del proveedor" />
+                                    <span asp-validation-for="Contacto" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Direccion" class="control-label">Dirección</label>
+                                    <input asp-for="Direccion" class="form-control" placeholder="Dirección del proveedor" />
+                                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Direccion" class="control-label"></label>
-                        <input asp-for="Direccion" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Direccion" class="text-danger"></span>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary mr-2" />
+                                <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                                <span class="text-danger d-block mt-3">@ViewBag.Error</span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="row">
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-dark">Cancelar</a>
-                    </div>
-                    <span class="text-danger">@ViewBag.Error</span>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</footer>
+
+@section Scripts {
+    <script>
+        ActionsUI.init('@action.ObtenerAccionJs()');
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @if (action.SiTraerDatos())
+    {
+        <script>
+            $(function () {
+                $("form input[name]").trigger("blur");
+            });
+        </script>
+    }
+}

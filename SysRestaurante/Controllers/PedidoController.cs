@@ -81,7 +81,8 @@ namespace SysRestaurante.Controllers
                 Descripcion = platilloMantDTO.Descripcion,
                 Precio = platilloMantDTO.Precio,
                 Disponibilidad = platilloMantDTO.Disponibilidad == 0 ? "Disponible" : "No Disponible",
-                Categoria = platilloMantDTO.IdCategoria.ToString() 
+                Categoria = platilloMantDTO.IdCategoria.ToString() ,
+                ImagenPlatillo = platilloMantDTO.PlatilloImagen
             };
         }
 

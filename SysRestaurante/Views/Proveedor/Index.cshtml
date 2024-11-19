@@ -2,79 +2,76 @@
 @{
     ViewData["Title"] = "Buscar Proveedores";
 }
+<link rel="stylesheet" href="~/bootstrap/diseño.css">
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Buscar Empleados</h6>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <br/>
+                <br/>
+                <br/>
+                <div class="section-title">
+                    <h2 class="text-uppercase" style="color: #cda45e;">Buscar Proveedores</h2>
+                    <p style="color: #ffffff;">Encuentra rápidamente los proveedores en nuestro sistema</p>
+                </div>
+                
                 <form asp-action="Index">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label">Nombre</label>
-                                <input type="text" class="form-control" name="Nombre_Proveedor_Like" />
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Contacto</label>
-                                <input type="text" class="form-control" name="Contacto_Proveedor_Like" />
-                            </div>
+                    <div class="row g-2 align-items-center justify-content-center">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-lg" name="Nombre_Proveedor_Like" placeholder="Nombre del Proveedor" />
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Buscar" class="btn btn-primary" />
-                        @Html.ActionLink("Ir a Crear", "Mant", new { Id = 0, accion = (int)ActionsUI_Enums.NUEVO }, new { @class = "btn btn-primary" })
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-lg" name="Contacto_Proveedor_Like" placeholder="Contacto del Proveedor" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" value="Buscar" class="btn btn-lg btn-primary w-100" />
+                        </div>
+                        <div class="col-md-2">
+                            @Html.ActionLink("Ir a Crear", "Mant", new { Id = 0, accion = (int)ActionsUI_Enums.NUEVO }, new { @class = "btn btn-lg btn-warning w-100" })
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Proveedores</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table id="tbProveedor" class="table table-bordered" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nombre)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contacto)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Direccion)
-                        </th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Contacto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Direccion)
-                            </td>
-                            <td class="botonestabla">
-                                @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-success" })
-                                @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-info" })
-                                @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-danger" })
-                            </td>
+</section>
+
+<footer id="footer">
+    <div class="footer-top py-5" style="background-color: #1a1814;">
+        <div class="container">
+            <div class="section-title text-center mb-4">
+                <h2 class="text-uppercase" style="color: #cda45e;">Proveedores</h2>
+                <p style="color: #ffffff;">Lista de todos los proveedores registrados</p>
+            </div>
+            
+            <div class="table-responsive">
+                <table id="tbProveedor" class="table table-bordered text-center" style="background-color: #1a1814; color: #ffffff; border-color: #cda45e;">
+                    <thead>
+                        <tr style="background-color: #cda45e; color: #1a1814;">
+                            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                            <th>@Html.DisplayNameFor(model => model.Contacto)</th>
+                            <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+                            <th>Acciones</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="border-bottom: 1px solid #cda45e;">
+                                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Contacto)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
+                                <td>
+                                    @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-outline-success btn-sm mx-1" })
+                                    @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-outline-info btn-sm mx-1" })
+                                    @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-outline-danger btn-sm mx-1" })
+                                </td>                          
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+</footer>

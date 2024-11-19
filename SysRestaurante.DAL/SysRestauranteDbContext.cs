@@ -102,8 +102,17 @@ namespace SysRestaurante.DAL
         .HasOne(pp => pp.Platillo)
         .WithMany()
         .HasForeignKey(pp => pp.IdPlatillo);
+
+        modelBuilder.Entity<Platillo>()
+    .HasMany(p => p.PlatilloImagenes) // Un Platillo tiene muchas imágenes
+    .WithOne(pi => pi.Platillo)      // Una imagen pertenece a un Platillo
+    .HasForeignKey(pi => pi.IdPlatillo);
+ 
+       
+        
       
         }
+        
 
     }
 }

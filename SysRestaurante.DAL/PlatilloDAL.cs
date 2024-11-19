@@ -168,22 +168,25 @@ namespace SysRestaurante.DAL
         }
 
        
-        public async Task<List<PlatilloIndexDTO>> ObtenerPlatillosIndexAsync()
-        {
-            var platillos = await dbContext.platillo
-                .Include(p => p.CategoriaPlatillos)
-                .ToListAsync();
+       public async Task<List<PlatilloIndexDTO>> ObtenerPlatillosIndexAsync()
+{
+    var platillos = await dbContext.platillo
+        .Include(p => p.CategoriaPlatillos) 
+        .Include(p => p.PlatilloImagenes)  
+        .ToListAsync();
 
-            return platillos.Select(p => new PlatilloIndexDTO
-            {
-                Id = p.Id,
-                Nombre = p.Nombre,
-                Descripcion = p.Descripcion,
-                Precio = p.Precio,
-                Disponibilidad = p.Disponibilidad == 0 ? "Disponible" : "No Disponible",
-                Categoria = p.CategoriaPlatillos?.Nombre ?? "Sin categorÌa" // Evita consultas adicionales
-            }).ToList();
-        }
+    return platillos.Select(p => new PlatilloIndexDTO
+    {
+        Id = p.Id,
+        Nombre = p.Nombre,
+        Descripcion = p.Descripcion,
+        Precio = p.Precio,
+        Disponibilidad = p.Disponibilidad == 0 ? "Disponible" : "No Disponible",
+        Categoria = p.CategoriaPlatillos?.Nombre ?? "Sin categor√≠a",
+        ImagenPlatillo = p.PlatilloImagenes.FirstOrDefault()?.ImagenPlatillo 
+    }).ToList();
+}
+
 
     }
 }

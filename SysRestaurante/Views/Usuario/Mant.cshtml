@@ -3,93 +3,106 @@
     ViewData["Title"] = "Form Usuario";
     ActionsUI action = ViewBag.ActionsUI as ActionsUI;
 }
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Usuario")</h6>
-    </div>
-    <div class="card-body">
-        <form asp-action="@action.ObtenerAccion()">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="id" value="@Model.Id" />
-            <div class="row">
-                <div class="col-md-3">
-                   
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Nombre" class="control-label"></label>
-                        <input asp-for="Nombre" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Apellido" class="control-label"></label>
-                        <input asp-for="Apellido" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Apellido" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="Telefono" class="control-label"></label>
-                        <input asp-for="Telefono" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="Telefono" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="IdRol" class="control-label"></label>
-                        <select id="slRol" class="form-control" asp-for="IdRol" data-disabledui_eliminar data-disabledui_ver>
-                            <partial name="SelectRol" model="ViewBag.Roles" />
-                        </select>
-                        <span asp-validation-for="IdRol" class="text-danger"></span>
-                    </div>
-                </div>
-               
-            </div>
+<link rel="stylesheet" href="~/bootstrap/Mant.css">
 
-            <div class="row">
-                @if (action.SiTraerDatos() == false)
-                {
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="Password" class="control-label"></label>
-                            <input asp-for="Password" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="ConfirmPassword" class="control-label"></label>
-                            <input asp-for="ConfirmPassword" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-                    </div>
-                }
-               
-            </div>
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center" data-aos="zoom-in" data-aos-delay="100">
+        <div class="section-title">
+            <h2>Procesos Usuario</h2>
+            <p>Gestiona, crea, edita y elimina usuarios fácilmente</p>
+        </div>
+    </div>
+</section>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-dark">Cancelar</a>
-                    </div>
-                    <span class="text-danger">@ViewBag.Error</span>
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">@action.ObtenerTitulo("Usuario")</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="@action.ObtenerAccion()">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Nombre" class="control-label">Nombre</label>
+                                    <input asp-for="Nombre" class="form-control" placeholder="Nombre del usuario" />
+                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Apellido" class="control-label">Apellido</label>
+                                    <input asp-for="Apellido" class="form-control" placeholder="Apellido del usuario" />
+                                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label">Email</label>
+                                    <input asp-for="Email" class="form-control" placeholder="Email del usuario" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Telefono" class="control-label">Teléfono</label>
+                                    <input asp-for="Telefono" class="form-control" placeholder="Teléfono del usuario" />
+                                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IdRol" class="control-label">Rol</label>
+                                    <select id="slRol" class="form-control" asp-for="IdRol">
+                                        <partial name="SelectRol" model="ViewBag.Roles" />
+                                    </select>
+                                    <span asp-validation-for="IdRol" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (!action.SiTraerDatos())
+                        {
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Password" class="control-label">Contraseña</label>
+                                        <input asp-for="Password" class="form-control" placeholder="Contraseña" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="ConfirmPassword" class="control-label">Confirmar Contraseña</label>
+                                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirmar Contraseña" />
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary mr-2" />
+                                <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                                <span class="text-danger d-block mt-3">@ViewBag.Error</span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</footer>
+
 @section Scripts {
     <script>
         $(document).ready(function () {

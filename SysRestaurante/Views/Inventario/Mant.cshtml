@@ -1,80 +1,96 @@
-﻿@model InventarioMantDTO
+﻿@using SysRestaurante.BL.DTOs.InventarioDTOs
+@model InventarioMantDTO
 @{
     ViewData["Title"] = "Form Inventario";
     ActionsUI action = ViewBag.ActionsUI as ActionsUI;
 }
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Inventario")</h6>
-    </div>
-    <div class="card-body">
-        <form asp-action="@action.ObtenerAccion()">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="id" value="@Model.Id" />
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="IdProducto" class="control-label"></label>
-                        <select id="slProducto" class="form-control" asp-for="IdProducto" data-disabledui_eliminar data-disabledui_ver>
-                            <partial name="SelectProducto" model="ViewBag.producto"/>
-                        </select>
-                        <span asp-validation-for="IdProducto" class="text-danger"></span>
-                    </div>
-                </div> 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="CantidadDisponible" class="control-label"></label>
-                        <input asp-for="CantidadDisponible" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="CantidadDisponible" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="CantidadMinima" class="control-label"></label>
-                        <input asp-for="CantidadMinima" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="CantidadMinima" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="CostoUnitario" class="control-label"></label>
-                        <input asp-for="CostoUnitario" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="CostoUnitario" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="FechaUltimaCompra" class="control-label"></label>
-                        <input asp-for="FechaUltimaCompra" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="FechaUltimaCompra" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="FechaCaducidadLote" class="control-label"></label>
-                        <input asp-for="FechaCaducidadLote" class="form-control" data-disabledui_eliminar data-disabledui_ver />
-                        <span asp-validation-for="FechaCaducidadLote" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                
-                
-            </div>
+<link rel="stylesheet" href="~/bootstrap/Mant.css">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-dark">Cancelar</a>
-                    </div>
-                    <span class="text-danger">@ViewBag.Error</span>
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center" data-aos="zoom-in" data-aos-delay="100">
+        <div class="section-title">
+            <h2>Procesos Inventario</h2>
+            <p>Administra el inventario de productos de forma rápida y eficiente</p>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">@action.ObtenerTitulo("Inventario")</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="@action.ObtenerAccion()">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="IdProducto" class="control-label">Producto</label>
+                                    <select id="slProducto" class="form-control" asp-for="IdProducto">
+                                        <partial name="SelectProducto" model="ViewBag.producto" />
+                                    </select>
+                                    <span asp-validation-for="IdProducto" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CantidadDisponible" class="control-label">Cantidad Disponible</label>
+                                    <input asp-for="CantidadDisponible" class="form-control" placeholder="Cantidad disponible" />
+                                    <span asp-validation-for="CantidadDisponible" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CantidadMinima" class="control-label">Cantidad Mínima</label>
+                                    <input asp-for="CantidadMinima" class="form-control" placeholder="Cantidad mínima" />
+                                    <span asp-validation-for="CantidadMinima" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CostoUnitario" class="control-label">Costo Unitario</label>
+                                    <input asp-for="CostoUnitario" class="form-control" placeholder="Costo por unidad" />
+                                    <span asp-validation-for="CostoUnitario" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="FechaUltimaCompra" class="control-label">Fecha Última Compra</label>
+                                    <input asp-for="FechaUltimaCompra" class="form-control" placeholder="Fecha de última compra" />
+                                    <span asp-validation-for="FechaUltimaCompra" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="FechaCaducidadLote" class="control-label">Fecha de Caducidad</label>
+                                    <input asp-for="FechaCaducidadLote" class="form-control" placeholder="Fecha de caducidad" />
+                                    <span asp-validation-for="FechaCaducidadLote" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="submit" value="@action.ObtenerNombreBoton()" class="btn btn-primary mr-2" />
+                                <a asp-action="Index" class="btn btn-dark">Cancelar</a>
+                                <span class="text-danger d-block mt-3">@ViewBag.Error</span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</footer>
 @section Scripts {
     <script>
         ActionsUI.init('@action.ObtenerAccionJs()');

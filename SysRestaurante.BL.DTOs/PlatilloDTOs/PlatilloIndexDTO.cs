@@ -22,6 +22,8 @@ namespace SysRestaurante.BL.DTOs.PlatilloDTOs
             public decimal Precio { get; set; }
             public string Disponibilidad { get; set; }
             public string Categoria { get; set; }
+            public string ImagenPlatillo {get; set;}
+        
         }
 
     }

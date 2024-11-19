@@ -1,43 +1,63 @@
-﻿ <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex align-items-center">
-        <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
-            <div class="row">
-                <div class="col-lg-8">
-                    <h1>BIENVENIDO <span>SysRestaurante</span></h1>
-                    <h2></h2>
+﻿<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
 
-                    <div class="btns">
-                        <a href="#menu" class="btn-menu animated fadeInUp scrollto">El menu</a>
-                        <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Orden</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in" data-aos-delay="200">
-                    <a href="https://www.youtube.com/watch?v=GlrxcuEDyF8" class="glightbox play-btn"></a>
-                </div>
-
+        <!-- Welcome Message -->
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>BIENVENIDO <span>SysRestaurante</span></h1>
+              
             </div>
-        <div class="container mt-5">
-            <h1 class="text-center mb-4">Menú de Platillos</h1>
 
+            <!-- Video Section -->
+            <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in" data-aos-delay="200">
+                <a href="https://www.youtube.com/watch?v=GlrxcuEDyF8" class="glightbox play-btn"></a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ======= End Hero Section ======= -->
 
-            <div class="row">
-                @foreach (var platillo in Model)
-                {
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">@platillo.Nombre</h5>
-                                <p class="card-text text-muted">@platillo.Categoria</p>
-                                <p class="card-text">@platillo.Descripcion</p>
-                                <p class="card-text"><strong>Precio:</strong> $@platillo.Precio</p>
-                                <p class="card-text">
-                                    <strong>Disponibilidad:</strong>
-                                    <span class="badge @(platillo.Disponibilidad == "Disponible" ? "bg-success" : "bg-danger")">
-                                        @platillo.Disponibilidad
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="card-footer text-center">
+<!-- ======= Menu Section ======= -->
+<section id="menu" class="exclusive_item_part blog_item_section">
+    <div class="container">
+        <!-- Section Title -->
+        <div class="row">
+            <div class="col-xl-5">
+                <div class="section_tittle">
+                    <p>Platillos Destacados</p>
+                    <h2>Descubre Nuestros Mejores Platillos</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platillos Grid -->
+        <div class="row">
+            @foreach (var platillo in Model)
+            {
+                <div class="col-sm-6 col-lg-4 mb-4">
+                      <div class="single_blog_item">
+                        <div class="single_blog_img">
+                          <img src="@(!string.IsNullOrEmpty(platillo.ImagenPlatillo) ? Url.Content($"~/{platillo.ImagenPlatillo}") : "~/images/default.jpg")" 
+     class="img-fluid" 
+     alt="Imagen de @platillo.Nombre" 
+     style="height: 200px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+
+                        </div>
+
+                        <!-- Platillo Details -->
+                        <div class="single_blog_text">
+                            <h3>@platillo.Nombre</h3>
+                            <p>@platillo.Descripcion</p>
+                            <p><strong>Precio:</strong> $@platillo.Precio</p>
+                            <p>
+                                <strong></strong>
+                                <span class="badge @(platillo.Disponibilidad == "Disponible" ? "bg-success" : "bg-danger")">
+                                    @platillo.Disponibilidad
+                                </span>
+                            </p>
+                            <!-- Add to Cart Button -->
+                            <div class="d-flex justify-content-around mt-3">
                                 @if (platillo.Disponibilidad == "Disponible")
                                 {
                                     <button class="btn btn-primary btn-sm" onclick="agregarCarrito(@platillo.Id)">Agregar al Carrito</button>
@@ -49,16 +69,19 @@
                             </div>
                         </div>
                     </div>
-                }
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="@Url.Action("VerPedido", "Pedido")" class="btn btn-success">Ver Carrito</a>
-            </div>
+                </div>
+            }
         </div>
-        </div>
-    </section><!-- End Hero -->
 
+        <!-- View Cart Button -->
+        <div class="text-center mt-4">
+            <a href="@Url.Action("VerPedido", "Pedido")" class="btn btn-success">Ver Carrito</a>
+        </div>
+    </div>
+</section>
+<!-- ======= End Menu Section ======= -->
+
+<!-- ======= JavaScript Functions ======= -->
 <script>
     function agregarCarrito(platilloId) {
         const url = `@Url.Action("AgregarAlCarrito", "Pedido")?id=${platilloId}`;
@@ -81,6 +104,4 @@
             alert('Error al agregar el platillo al carrito.');
         });
     }
-
 </script>
-
