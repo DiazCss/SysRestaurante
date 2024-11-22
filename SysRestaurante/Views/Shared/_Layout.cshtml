@@ -24,6 +24,8 @@
     <link href="~/bootstrapp/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="~/bootstrapp/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="~/bootstrapp/assets/css/stylo.css" rel="stylesheet">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css">
@@ -53,13 +55,15 @@
                     <li><a class="nav-link scrollto" href="/Platillo">Platillos</a></li>
                     <li><a href="@Url.Action("VerPedido", "Pedido")" ">Ver Carrito</a></li>
                         
-                   
                     @if (User.IsInRole("administrador"))
-                    {
+                        {
                         <li><a class="nav-link scrollto" href="/Empleado">Empleados</a></li>
                         <li><a class="nav-link scrollto" href="/Proveedor">Proveedores</a></li>
                         <li><a class="nav-link scrollto" href="/Inventario">Inventario</a></li>
+                        }
 
+                       @if (User.IsInRole("administrador"))
+                        {
                         <li class="dropdown">
                             <a href="#"><span>Gestión</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
@@ -71,15 +75,22 @@
                                 <li><a href="/Mesas">Mesas</a></li>
                             </ul>
                         </li>
+                        }
 
+               
                         <li class="dropdown">
+                             @if (User.IsInRole("administrador"))
+  {
                             <a href="#"><span>Administración</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="/Usuario">Usuarios</a></li>
-                            <li><a href="/Rol">Roles</a></li>
-                        </ul>
-                    </li>
-                }
+  }
+                            <ul>
+                                <li><a href="/Usuario">Usuarios</a></li>
+                                <li><a href="/Rol">Roles</a></li>
+                            </ul>
+                        </li>
+                     
+
+                       
                     <li>
                         <a class="nav-link scrollto active" href='@Url.Action("Login","Usuario")' onclick="cerrarSesion()">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar sesión
@@ -120,6 +131,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
