@@ -1,34 +1,59 @@
 ﻿@using SysRestaurante.BL.DTOs.PlatilloDTOs.SysRestaurante.BL.DTOs.PlatilloDTOs
 @model List<PlatilloIndexDTO>
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Carrito de Compras</h1>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var platillo in Model)
-            {
-                <tr>
-                    <td>@platillo.Nombre</td>
-                    <td>$@platillo.Precio</td>
-                    <td>1</td>
-                    <td>$@platillo.Precio</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div class="text-center">
-        <form method="post" action="@Url.Action("ConfirmarPedido", "Pedido")">
-            <button type="submit" class="btn btn-primary">Confirmar Pedido</button>
-        </form>
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <br />
+                <br />
+                <br />
+                <div class="section-title">
+                    <h2 class="text-uppercase" style="color: #cda45e;">Carrito de Compras</h2>
+                    <p style="color: #ffffff;">Revisa los platillos seleccionados</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<footer id="footer">
+    <div class="footer-top py-5" style="background-color: #1a1814;">
+        <div class="container">
+            <div class="section-title text-center mb-4">
+                <h2 class="text-uppercase" style="color: #cda45e;">Detalles del Carrito</h2>
+                <p style="color: #ffffff;">Lista de platillos en tu pedido</p>
+            </div>
+
+            <div class="table-responsive">
+                <table id="tbCarrito" class="table table-bordered text-center" style="background-color: #1a1814; color: #ffffff; border-color: #cda45e;">
+                    <thead>
+                        <tr style="background-color: #cda45e; color: #1a1814;">
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var platillo in Model)
+                        {
+                            <tr style="border-bottom: 1px solid #cda45e;">
+                                <td>@platillo.Nombre</td>
+                                <td>$@platillo.Precio</td>
+                                <td>1</td>
+                                <td>$@platillo.Precio</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-4">
+                <form method="post" action="@Url.Action("ConfirmarPedido", "Pedido")">
+                    <button type="submit" class="btn btn-success">Confirmar Pedido</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
