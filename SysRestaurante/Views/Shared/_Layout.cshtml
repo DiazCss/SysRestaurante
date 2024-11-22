@@ -51,30 +51,35 @@
                 <ul>
                     <li><a class="nav-link scrollto active" href="/">Inicio</a></li>
                     <li><a class="nav-link scrollto" href="/Platillo">Platillos</a></li>
-                    <li><a class="nav-link scrollto" href="/Empleado">Empleados</a></li>
-                    <li><a class="nav-link scrollto" href="/Proveedor">Proveedores</a></li>
-                    <li><a class="nav-link scrollto" href="/Inventario">Inventario</a></li>
+                    <li><a href="@Url.Action("VerPedido", "Pedido")" ">Ver Carrito</a></li>
+                        
+                   
+                    @if (User.IsInRole("administrador"))
+                    {
+                        <li><a class="nav-link scrollto" href="/Empleado">Empleados</a></li>
+                        <li><a class="nav-link scrollto" href="/Proveedor">Proveedores</a></li>
+                        <li><a class="nav-link scrollto" href="/Inventario">Inventario</a></li>
 
-                    <li class="dropdown">
-                        <a href="#"><span>Gestión</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="/PlatilloProducto">Platillo Producto</a></li>
-                            <li><a href="/PlatilloImagen">Platillo Imagen</a></li>
-                            <li><a href="/CategoriaPlatillo">Categoría de Platillos</a></li>
-                            <li><a href="/CategoriaProducto">Categoría de Productos</a></li>
-                            <li><a href="/Compra">Compras</a></li>
-                            <li><a href="/Mesas">Mesas</a></li>
-                        </ul>
-                    </li>
+                        <li class="dropdown">
+                            <a href="#"><span>Gestión</span> <i class="bi bi-chevron-down"></i></a>
+                            <ul>
+                                <li><a href="/PlatilloProducto">Platillo Producto</a></li>
+                                <li><a href="/PlatilloImagen">Platillo Imagen</a></li>
+                                <li><a href="/CategoriaPlatillo">Categoría de Platillos</a></li>
+                                <li><a href="/CategoriaProducto">Categoría de Productos</a></li>
+                                <li><a href="/Compra">Compras</a></li>
+                                <li><a href="/Mesas">Mesas</a></li>
+                            </ul>
+                        </li>
 
-                    <li class="dropdown">
-                        <a href="#"><span>Administración</span> <i class="bi bi-chevron-down"></i></a>
+                        <li class="dropdown">
+                            <a href="#"><span>Administración</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="/Usuario">Usuarios</a></li>
                             <li><a href="/Rol">Roles</a></li>
                         </ul>
                     </li>
-
+                }
                     <li>
                         <a class="nav-link scrollto active" href='@Url.Action("Login","Usuario")' onclick="cerrarSesion()">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar sesión
