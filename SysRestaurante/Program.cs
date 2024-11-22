@@ -3,6 +3,7 @@ using SysRestaurante.DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SysRestaurante.IoC;
 using SysRestaurante.Models;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession(options =>
@@ -17,7 +18,8 @@ builder.Services.AddScoped<Credencial>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+
 });
 builder.Services.AddIoCDependecies(builder.Configuration);
 // Configuración para la conexion a la bd 
