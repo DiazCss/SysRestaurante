@@ -45,11 +45,11 @@
                         <span asp-validation-for="@modelValid.Producto.Nombre" class="text-danger"></span>
                     </td>
                     <td>
-                        <input asp-for="@modelValid.PrecioUnitario" class="form-control" data-nameprop="precioUnitario" >
+                        <input asp-for="@modelValid.PrecioUnitario" onchange="calcularTotales()" class="form-control" data-nameprop="precioUnitario">
                         <span asp-validation-for="@modelValid.PrecioUnitario" class="text-danger"></span>
                     </td>
                     <td>
-                        <input asp-for="@modelValid.Cantidad" class="form-control" data-nameprop="cantidad">
+                        <input asp-for="@modelValid.Cantidad" onchange="calcularTotales() class="form-control" data-nameprop="cantidad">
                         <span asp-validation-for="@modelValid.Cantidad" class="text-danger"></span>
                     </td>
                     <td>
@@ -120,6 +120,27 @@
 </div>
 
 <script>
+    function calcularTotales() {
+        let totalGeneral = 0;
+        let totalIVA = 0;
+        const tasaIVA = 0.13; 
+
+        $("#tbBody_Detalles tr[data-list]").each(function () {
+            const cantidad = parseFloat($(this).find("*[data-nameprop='cantidad']").val()) || 0;
+            const precioUnitario = parseFloat($(this).find("*[data-nameprop='precioUnitario']").val()) || 0;
+            const subtotal = cantidad * precioUnitario;
+
+            $(this).find("*[data-nameprop='subtotal']").val(subtotal.toFixed(2));
+            totalGeneral += subtotal;
+        });
+
+        totalIVA = totalGeneral * tasaIVA;
+
+        $("*[data-nameprop='IVA']").val(totalIVA.toFixed(2));
+        $("*[data-nameprop='Total']").val((totalGeneral + totalIVA).toFixed(2));
+    }
+
+
 
     $(function () {
         $("#btnNuevo_DetalleCompras").click(function () {
@@ -127,8 +148,11 @@
             tr.setAttribute("data-list", "active");
             document.querySelector("#tbBody_Detalles").appendChild(tr);
             tr.innerHTML = document.querySelector("#tbTrClone_Detalles").outerHTML;
-
+            $(tr).find("input[data-nameprop='cantidad'], input[data-nameprop='precioUnitario']").on("input", function () {
+                calcularTotales();
+            });
             $(tr).find("button[data-eliminartbitem]").click(function () {
+                calcularTotales();
                 $(tr).remove();
             });
             $(tr).find("button[data-searchproducto]").click(function () {
@@ -171,6 +195,11 @@
                     });
                 }
             });
+            $("#tbBody_Detalles").on("input", "input[data-nameprop='cantidad'], input[data-nameprop='precioUnitario']", function () {
+                calcularTotales();
+            });
+
+            calcularTotales();
         });
 
         eventsValidForm.push(() => {
