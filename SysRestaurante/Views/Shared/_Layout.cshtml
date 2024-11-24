@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="~/bootstrap/css/nice-select.css">
     <link rel="stylesheet" href="~/bootstrap/css/all.css">
     <link rel="stylesheet" href="~/bootstrap/css/style.css">
+    
 </head>
 
 <body>
@@ -71,6 +72,7 @@
                                 <li><a href="/PlatilloImagen">Platillo Imagen</a></li>
                                 <li><a href="/CategoriaPlatillo">Categoría de Platillos</a></li>
                                 <li><a href="/CategoriaProducto">Categoría de Productos</a></li>
+                                 <li><a href="/Producto">Productos</a></li>
                                 <li><a href="/Compra">Compras</a></li>
                                 <li><a href="/Mesas">Mesas</a></li>
                             </ul>
@@ -131,6 +133,8 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script th:src="~/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 

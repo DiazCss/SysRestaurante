@@ -60,36 +60,67 @@ namespace SysRestaurante.Controllers
                 return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MesasMantDTO pMesa)
-        {
-            int result = await mesasbl.CreateAsync(pMesa);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(MesasMantDTO pMesa)
+{
+    try
+    {
+        int result = await mesasbl.CreateAsync(pMesa);
+        TempData["Mensaje"] = "Mesa creada exitosamente.";
+        TempData["TipoMensaje"] = "success"; // Tipo de alerta
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear la mesa: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(MesasMantDTO pMesa)
-        {
-            int result = await mesasbl.ModificarAsync(pMesa);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(MesasMantDTO pMesa)
+{
+    try
+    {
+        int result = await mesasbl.ModificarAsync(pMesa);
+        TempData["Mensaje"] = "Mesa editada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar la mesa: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(MesasMantDTO pMesa)
-        {
-            int result = await mesasbl.EliminarAsync(pMesa);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(MesasMantDTO pMesa)
+{
+    try
+    {
+        int result = await mesasbl.EliminarAsync(pMesa);
+        TempData["Mensaje"] = "Mesa eliminada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar la mesa: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Detail(MesasMantDTO pMesa)
-        {
-            return RedirectToAction(nameof(Mant), new { id = pMesa.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult Detail(MesasMantDTO pMesa)
+{
+    return RedirectToAction(nameof(Mant), new { id = pMesa.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
+}
+
 
     }
 }

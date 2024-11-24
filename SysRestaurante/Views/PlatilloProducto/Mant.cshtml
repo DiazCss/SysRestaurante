@@ -31,14 +31,18 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="IdPlatillo" class="control-label">Platillo</label>
-                                    <input asp-for="IdPlatillo" class="form-control" placeholder="Selecciona el platillo" />
+                                   <select id="slPlatillo" class="form-control" asp-for="IdPlatillo">
+                                 <partial name="_SelectPlatillo" model="ViewBag.Platillos" />
+                                     </select>
                                     <span asp-validation-for="IdPlatillo" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="IdProducto" class="control-label">Producto</label>
-                                    <input asp-for="IdProducto" class="form-control" placeholder="Selecciona el producto" />
+                                   <select id="slProducto" class="form-control" asp-for="IdProducto">
+                                 <partial name="_SelectProducto" model="ViewBag.Productos" />
+                                     </select>
                                     <span asp-validation-for="IdProducto" class="text-danger"></span>
                                 </div>
                             </div>
@@ -80,4 +84,16 @@
             });
         </script>
     }
+     <script>
+        $(document).ready(function () {
+           ActionsUI.init('@action.ObtenerAccionJs()');
+            $("#slPlatillo").val('@Model.IdPlatillo');
+        });
+    </script>
+     <script>
+        $(document).ready(function () {
+           ActionsUI.init('@action.ObtenerAccionJs()');
+            $("#slProducto").val('@Model.IdProducto');
+        });
+    </script>
 }

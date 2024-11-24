@@ -13,5 +13,6 @@ public class Producto
     
     
     public ICollection<Inventario> Inventarios { get; set; }
+      public CategoriaProducto CategoriaProducto { get; set; } 
 
 }

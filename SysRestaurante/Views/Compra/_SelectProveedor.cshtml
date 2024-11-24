@@ -1,0 +1,6 @@
+﻿@model IEnumerable<ProveedorMantDTO>
+
+@foreach (var proveedor in Model)
+{
+    <option value="@proveedor.Id">@proveedor.Nombre</option>
+}

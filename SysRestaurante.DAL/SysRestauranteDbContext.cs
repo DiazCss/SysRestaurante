@@ -3,6 +3,7 @@ using SysRestaurante.EN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -107,9 +108,12 @@ namespace SysRestaurante.DAL
     .HasMany(p => p.PlatilloImagenes) // Un Platillo tiene muchas imágenes
     .WithOne(pi => pi.Platillo)      // Una imagen pertenece a un Platillo
     .HasForeignKey(pi => pi.IdPlatillo);
- 
        
-        
+        modelBuilder.Entity<Producto>()
+    .HasOne(p => p.CategoriaProducto)
+    .WithMany()
+    .HasForeignKey(p => p.IdCategoriaProducto);
+
       
         }
         

@@ -11,10 +11,11 @@ namespace SysRestaurante.Controllers
     public class PlatilloController : Controller
     {
         readonly IPlatilloBL platilloBL;
-
-        public PlatilloController(IPlatilloBL pPlatilloBL)
+        readonly ICategoriaPlatilloBL categoriaPlatilloBL;
+        public PlatilloController(IPlatilloBL pPlatilloBL, ICategoriaPlatilloBL pcategoriaPlatilloBL)
         {
             platilloBL = pPlatilloBL;
+            categoriaPlatilloBL = pcategoriaPlatilloBL;
         }
 
         // GET: PlatilloController
@@ -33,29 +34,39 @@ namespace SysRestaurante.Controllers
             return View(paginacion.Data);
         }
 
-        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+      public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+{
+    if (pAccion.EsValidAction())
+    {
+        ViewBag.ActionsUI = pAccion;
+        ViewBag.Error = "";
+
+   
+        PlatilloMantDTO platilloMantDTO = new PlatilloMantDTO();
+
+        try
         {
-            if (pAccion.EsValidAction())
+            var categorias = await categoriaPlatilloBL.ObtenerTodosAsync(); 
+            ViewBag.Categorias = categorias;
+
+           
+            if (pAccion.SiTraerDatos())
             {
-                ViewBag.ActionsUI = pAccion;
-                ViewBag.Error = "";
-                PlatilloMantDTO platilloMantDTO = new PlatilloMantDTO();
-                if (pAccion.SiTraerDatos())
-                {
-                    try
-                    {
-                        platilloMantDTO = await platilloBL.ObtenerPorIdAsync(new PlatilloMantDTO { Id = id });
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.Error = ex.Message;
-                    }
-                }
-                return View(platilloMantDTO);
+                platilloMantDTO = await platilloBL.ObtenerPorIdAsync(new PlatilloMantDTO { Id = id });
             }
-            else
-                return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+        }
+
+        return View(platilloMantDTO);
+    }
+    else
+    {
+        return RedirectToAction(nameof(Index));
+    }
+}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

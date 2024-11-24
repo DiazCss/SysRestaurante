@@ -72,21 +72,27 @@ namespace SysRestaurante.DAL
             return 0;
         }
 
-        public async Task<ProductoManDTOs> ObtenerPorIdAsync(ProductoManDTOs pProductoManDTOs)
+      public async Task<ProductoManDTOs> ObtenerPorIdAsync(ProductoManDTOs pProductoManDTOs)
+{
+    var producto = await dbContext.producto
+        .Include(p => p.CategoriaProducto) 
+        .FirstOrDefaultAsync(p => p.Id == pProductoManDTOs.Id);
+
+    if (producto != null)
+    {
+        return new ProductoManDTOs
         {
-            var producto = await dbContext.producto.FirstOrDefaultAsync(p => p.Id == pProductoManDTOs.Id);
-            if (producto != null)
-            {
-                return new ProductoManDTOs
-                {
-                    Id = producto.Id,
-                    Nombre = producto.Nombre,
-                    ContenidoEmpaque = producto.ContenidoEmpaque,
-                    IdCategoriaProducto = producto.IdCategoriaProducto
-                };
-            }
-            return new ProductoManDTOs();
-        }
+            Id = producto.Id,
+            Nombre = producto.Nombre,
+            ContenidoEmpaque = producto.ContenidoEmpaque,
+            IdCategoriaProducto = producto.IdCategoriaProducto,
+            NombreCategoriaProducto = producto.CategoriaProducto?.Nombre 
+        };
+    }
+
+    return new ProductoManDTOs();
+}
+
 
         public async Task<List<ProductoManDTOs>> ObtenerTodosAsync()
         {
@@ -106,36 +112,42 @@ namespace SysRestaurante.DAL
             return new List<ProductoManDTOs>();
         }
 
-        public async Task<PaginacionOutputDTO<List<ProductoManDTOs>>> BuscarAsync(ProductoBuscarDTOs pProductoBuscarDTO)
+      public async Task<PaginacionOutputDTO<List<ProductoManDTOs>>> BuscarAsync(ProductoBuscarDTOs pProductoBuscarDTO)
+{
+    var result = new PaginacionOutputDTO<List<ProductoManDTOs>>
+    {
+        Data = new List<ProductoManDTOs>()
+    };
+
+    var select = dbContext.producto
+        .Include(p => p.CategoriaProducto) 
+        .AsQueryable();
+
+    select = QuerySelect(select, pProductoBuscarDTO);
+
+    var productos = await select.ToListAsync();
+    if (productos.Count > 0)
+    {
+        if (pProductoBuscarDTO.IsCount)
         {
-            var result = new PaginacionOutputDTO<List<ProductoManDTOs>>
-            {
-                Data = new List<ProductoManDTOs>()
-            };
-            var select = dbContext.producto.AsQueryable();
-
-            select = QuerySelect(select, pProductoBuscarDTO);
-
-            var productos = await select.ToListAsync();
-            if (productos.Count > 0)
-            {
-                if (pProductoBuscarDTO.IsCount)
-                {
-                    pProductoBuscarDTO.Take = 0;
-                    var selectCount = dbContext.producto.AsQueryable();
-                    result.Count = await QuerySelect(selectCount, pProductoBuscarDTO).CountAsync();
-                }
-
-                productos.ForEach(p => result.Data.Add(new ProductoManDTOs
-                {
-                    Id = p.Id,
-                    Nombre = p.Nombre,
-                    ContenidoEmpaque = p.ContenidoEmpaque,
-                    IdCategoriaProducto = p.IdCategoriaProducto
-                }));
-            }
-            return result;
+            pProductoBuscarDTO.Take = 0;
+            var selectCount = dbContext.producto.AsQueryable();
+            result.Count = await QuerySelect(selectCount, pProductoBuscarDTO).CountAsync();
         }
+
+        productos.ForEach(p => result.Data.Add(new ProductoManDTOs
+        {
+            Id = p.Id,
+            Nombre = p.Nombre,
+            ContenidoEmpaque = p.ContenidoEmpaque,
+            IdCategoriaProducto = p.IdCategoriaProducto,
+            NombreCategoriaProducto = p.CategoriaProducto?.Nombre 
+        }));
+    }
+
+    return result;
+}
+
 
         public async Task<List<ProductoAutoCompleteDTO>> AutoCompleteProducto(string query)
         {

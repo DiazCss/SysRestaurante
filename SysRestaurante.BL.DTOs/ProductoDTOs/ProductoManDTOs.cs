@@ -19,5 +19,6 @@ namespace SysRestaurante.BL.DTOs.ProductoDTOs
         [Required(ErrorMessage = "El ID de la categoría del producto es obligatorio.")]
         [Range(1, int.MaxValue, ErrorMessage = "El ID de la categoría debe ser un valor positivo.")]
         public int IdCategoriaProducto { get; set; }
+         public string NombreCategoriaProducto { get; set; }
     }
 }

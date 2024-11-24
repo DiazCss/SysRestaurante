@@ -32,7 +32,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="IdPlatillo" class="control-label font-weight-bold">Platillo</label>
-                                    <input asp-for="IdPlatillo" class="form-control" placeholder="Selecciona el platillo" data-disabledui_eliminar data-disabledui_ver />
+                                    <select id="slPlatillo" class="form-control" asp-for="IdPlatillo">
+                                 <partial name="_SelectPlatillo" model="ViewBag.Platillos" />
+                                     </select>
                                     <span asp-validation-for="IdPlatillo" class="text-danger"></span>
                                 </div>
                             </div>
@@ -109,4 +111,10 @@
             });
         </script>
     }
+    <script>
+        $(document).ready(function () {
+           ActionsUI.init('@action.ObtenerAccionJs()');
+            $("#slPlatillo").val('@Model.IdPlatillo');
+        });
+    </script>
 }

@@ -13,12 +13,14 @@ namespace SysRestaurante.Controllers
 {
     public class PlatilloImagenController : Controller
     {
+          readonly IPlatilloBL platilloBL;
         private readonly IPlatilloImagenBL platilloImagenBL;
         private readonly string imageFolderPath = "wwwroot/images/platillos"; 
 
-        public PlatilloImagenController(IPlatilloImagenBL pPlatilloImagenBL)
+        public PlatilloImagenController(IPlatilloImagenBL pPlatilloImagenBL, IPlatilloBL pPlatilloBL)
         {
             platilloImagenBL = pPlatilloImagenBL;
+            platilloBL = pPlatilloBL;
             if (!Directory.Exists(imageFolderPath))
             {
                 Directory.CreateDirectory(imageFolderPath); 
@@ -45,32 +47,41 @@ public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen =
 }
 
 
-        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
-        {
-            if (pAccion.EsValidAction())
-            {
-                ViewBag.ActionsUI = pAccion;
-                ViewBag.Error = "";
-                PlatilloImagenMantDTO platilloImagenMantDTO = new PlatilloImagenMantDTO();
+   public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+{
+    if (pAccion.EsValidAction())
+    {
+        ViewBag.ActionsUI = pAccion;
+        ViewBag.Error = "";
 
-                if (pAccion.SiTraerDatos())
-                {
-                    try
-                    {
-                        platilloImagenMantDTO = await platilloImagenBL.ObtenerPorIdAsync(new PlatilloImagenMantDTO { Id = id });
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.Error = ex.Message;
-                    }
-                }
-                return View(platilloImagenMantDTO);
-            }
-            else
+       
+        PlatilloImagenMantDTO platilloImagenMantDTO = new PlatilloImagenMantDTO();
+
+        try
+        {
+           
+            var platillos = await platilloBL.ObtenerTodosAsync();
+            ViewBag.Platillos = platillos;
+
+            
+            if (pAccion.SiTraerDatos())
             {
-                return RedirectToAction(nameof(Index));
+                platilloImagenMantDTO = await platilloImagenBL.ObtenerPorIdAsync(new PlatilloImagenMantDTO { Id = id });
             }
         }
+        catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+        }
+
+        return View(platilloImagenMantDTO);
+    }
+    else
+    {
+        return RedirectToAction(nameof(Index));
+    }
+}
+
 [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(PlatilloImagenMantDTO pPlatilloImagen, IFormFile imagenArchivo)

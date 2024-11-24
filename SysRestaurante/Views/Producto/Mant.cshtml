@@ -44,7 +44,9 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="IdCategoriaProducto" class="control-label">Categoría del Producto</label>
-                                    <input asp-for="IdCategoriaProducto" class="form-control" placeholder="ID de la categoría" />
+                                   <select id="slCategoriaProducto" class="form-control" asp-for="IdCategoriaProducto">
+                                 <partial name="_SelectCategoriaProducto" model="ViewBag.CategoriasProductos" />
+                                     </select>
                                     <span asp-validation-for="IdCategoriaProducto" class="text-danger"></span>
                                 </div>
                             </div>
@@ -78,5 +80,12 @@
                 $("form input[name]").trigger("blur");
             });
         </script>
+         
     }
+     <script>
+        $(document).ready(function () {
+           ActionsUI.init('@action.ObtenerAccionJs()');
+            $("#slCategoriaProducto").val('@Model.IdCategoriaProducto');
+        });
+    </script>
 }

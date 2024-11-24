@@ -45,13 +45,16 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="IdProveedor" class="control-label"></label>
-                        <input asp-for="IdProveedor" class="form-control" />
-                        <span asp-validation-for="IdProveedor" class="text-danger"></span>
-                    </div>
-                </div>
+               <div class="row mb-3">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="IdProveedor" class="control-label">Proveedor</label>
+            <select id="slProveedor" class="form-control" asp-for="IdProveedor">
+                <partial name="_SelectProveedor" model="ViewBag.Proveedores" />
+            </select>
+            <span asp-validation-for="IdProveedor" class="text-danger"></span>
+        </div>
+    </div>
             </div>
 
             <!-- Detalle de Compra -->
@@ -91,5 +94,13 @@
 
        
     </script>
+    <script>
+        $(document).ready(function () {
+           ActionsUI.init('@action.ObtenerAccionJs()');
+            $("#slProveedor").val('@Model.IdProveedor');
+        });
+    </script>
+
+
   
 }

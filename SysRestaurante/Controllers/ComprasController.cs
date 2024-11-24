@@ -12,11 +12,13 @@ namespace SysRestaurante.Controllers
     {
         readonly IComprasBL compraBL;
         readonly IProductoBL productoBL;
+        readonly IProveedorBL proveedorBL;
 
-        public CompraController(IComprasBL pCompraBL, IProductoBL pProductoBL)
+        public CompraController(IComprasBL pCompraBL, IProductoBL pProductoBL, IProveedorBL pProveedorBL)
         {
             compraBL = pCompraBL;
             productoBL = pProductoBL;
+            proveedorBL = pProveedorBL;
         }
 
         // GET: CompraController
@@ -34,31 +36,41 @@ namespace SysRestaurante.Controllers
             return View(paginacion.Data);
         }
 
-        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+     public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+{
+    if (pAccion.EsValidAction())
+    {
+        ViewBag.ActionsUI = pAccion;
+        ViewBag.Error = "";
+
+        
+        CompraManDTOs compraMantDTO = new CompraManDTOs();
+
+        try
         {
-            if (pAccion.EsValidAction())
+            
+            var proveedores = await proveedorBL.ObtenerTodosAsync(); 
+            ViewBag.Proveedores = proveedores;
+
+           
+            if (pAccion.SiTraerDatos())
             {
-                ViewBag.ActionsUI = pAccion;
-                ViewBag.Error = "";
-                CompraManDTOs compraMantDTO = new CompraManDTOs();
-                //compraMantDTO.DetalleCompras = new List<DetalleCompraDTO>();
-                //compraMantDTO.DetalleCompras.Add(new DetalleCompraDTO());
-                if (pAccion.SiTraerDatos())
-                {
-                    try
-                    {
-                        compraMantDTO = await compraBL.ObtenerPorIdAsync(new CompraManDTOs { Id = id });
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.Error = ex.Message;
-                    }
-                }
-                return View(compraMantDTO);
+                compraMantDTO = await compraBL.ObtenerPorIdAsync(new CompraManDTOs { Id = id });
             }
-            else
-                return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+        }
+
+        return View(compraMantDTO);
+    }
+    else
+    {
+        return RedirectToAction(nameof(Index));
+    }
+}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

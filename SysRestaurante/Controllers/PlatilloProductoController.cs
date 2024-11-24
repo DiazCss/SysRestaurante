@@ -12,10 +12,15 @@ namespace SysRestaurante.Controllers
     public class PlatilloProductoController : Controller
     {
         readonly IPlatilloProductoBL platilloProductoBL;
+        readonly IPlatilloBL platilloBL;
+        readonly IProductoBL productoBL;
 
-        public PlatilloProductoController(IPlatilloProductoBL pPlatilloProductoBL)
+        public PlatilloProductoController(IPlatilloProductoBL pPlatilloProductoBL, IPlatilloBL pPlatilloBL, IProductoBL pProductoBL)
         {
             platilloProductoBL = pPlatilloProductoBL;
+            platilloBL = pPlatilloBL;
+            productoBL = pProductoBL;
+
         }
 
         // GET: PlatilloProductoController
@@ -33,31 +38,45 @@ namespace SysRestaurante.Controllers
             return View(paginacion.Data);
         }
 
-        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+       public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+{
+    if (pAccion.EsValidAction())
+    {
+        ViewBag.ActionsUI = pAccion;
+        ViewBag.Error = "";
+
+       
+        PlatilloProductoMantDTO platilloProductoMantDTO = new PlatilloProductoMantDTO();
+
+        try
         {
-            if (pAccion.EsValidAction())
+           
+            var platillos = await platilloBL.ObtenerTodosAsync(); 
+            ViewBag.Platillos = platillos;
+
+            
+            var productos = await productoBL.ObtenerTodosAsync(); 
+            ViewBag.Productos = productos;
+
+         
+            if (pAccion.SiTraerDatos())
             {
-                ViewBag.ActionsUI = pAccion;
-                ViewBag.Error = "";
-                PlatilloProductoMantDTO platilloProductoMantDTO = new PlatilloProductoMantDTO();
-                if (pAccion.SiTraerDatos())
-                {
-                    try
-                    {
-                        platilloProductoMantDTO = await platilloProductoBL.ObtenerPorIdAsync(new PlatilloProductoMantDTO { Id = id });
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.Error = ex.Message;
-                    }
-
-                }
-                return View(platilloProductoMantDTO);
-
+                platilloProductoMantDTO = await platilloProductoBL.ObtenerPorIdAsync(new PlatilloProductoMantDTO { Id = id });
             }
-            else
-                return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+        }
+
+        return View(platilloProductoMantDTO);
+    }
+    else
+    {
+        return RedirectToAction(nameof(Index));
+    }
+}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

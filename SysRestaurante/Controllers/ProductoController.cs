@@ -13,10 +13,12 @@ namespace SysRestaurante.Controllers
     public class ProductoController : Controller
     {
         readonly IProductoBL productoBL;
+        readonly ICategoriaProductoBL categoriaProductoBL;
 
-        public ProductoController(IProductoBL pProductoBL)
+        public ProductoController(IProductoBL pProductoBL, ICategoriaProductoBL pCategoriaProductoBL)
         {
             productoBL = pProductoBL;
+            categoriaProductoBL = pCategoriaProductoBL;
         }
 
         // GET: ProductoController
@@ -34,29 +36,39 @@ namespace SysRestaurante.Controllers
             return View(paginacion.Data);
         }
 
-        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+       public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+{
+    if (pAccion.EsValidAction())
+    {
+        ViewBag.ActionsUI = pAccion;
+        ViewBag.Error = "";
+        ProductoManDTOs productoMantDTO = new ProductoManDTOs();
+
+        try
         {
-            if (pAccion.EsValidAction())
+          
+            var categoriasProductos = await categoriaProductoBL.ObtenerTodosAsync();
+            ViewBag.CategoriasProductos = categoriasProductos;
+
+           
+            if (pAccion.SiTraerDatos())
             {
-                ViewBag.ActionsUI = pAccion;
-                ViewBag.Error = "";
-                ProductoManDTOs productoMantDTO = new ProductoManDTOs();
-                if (pAccion.SiTraerDatos())
-                {
-                    try
-                    {
-                        productoMantDTO = await productoBL.ObtenerPorIdAsync(new ProductoManDTOs { Id = id });
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.Error = ex.Message;
-                    }
-                }
-                return View(productoMantDTO);
+                productoMantDTO = await productoBL.ObtenerPorIdAsync(new ProductoManDTOs { Id = id });
             }
-            else
-                return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            ViewBag.Error = ex.Message;
+        }
+
+        return View(productoMantDTO);
+    }
+    else
+    {
+        return RedirectToAction(nameof(Index));
+    }
+}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

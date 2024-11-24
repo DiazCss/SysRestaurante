@@ -80,7 +80,9 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="IdCategoria" class="control-label">Categoría</label>
-                                    <input asp-for="IdCategoria" class="form-control" placeholder="ID de la categoría" />
+                                     <select id="slCategoriaPlatillo" class="form-control" asp-for="IdCategoria">
+                                         <partial name="_SelectCategoriaPlatillo" model="ViewBag.Categorias" />
+                                        </select>
                                     <span asp-validation-for="IdCategoria" class="text-danger"></span>
                                 </div>
                             </div>
@@ -126,4 +128,10 @@
             });
         </script>
     }
+     <script>
+        $(document).ready(function () {
+           ActionsUI.init('@action.ObtenerAccionJs()');
+            $("#slCategoriaPlatillo").val('@Model.IdCategoria');
+        });
+    </script>
 }

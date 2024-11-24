@@ -50,7 +50,7 @@
                     <thead>
                         <tr style="background-color: #cda45e; color: #1a1814;">
                             <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-                            <th>@Html.DisplayNameFor(model => model.IdCategoriaProducto)</th>
+                            <th>@Html.DisplayNameFor(model => model.NombreCategoriaProducto)</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -59,7 +59,7 @@
                         {
                             <tr style="border-bottom: 1px solid #cda45e;">
                                 <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                                <td>@Html.DisplayFor(modelItem => item.IdCategoriaProducto)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NombreCategoriaProducto)</td>
                                 <td>
                                     @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-outline-success btn-sm mx-1" })
                                     @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-outline-info btn-sm mx-1" })

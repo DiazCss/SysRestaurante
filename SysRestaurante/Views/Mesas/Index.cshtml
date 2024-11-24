@@ -3,6 +3,26 @@
 @{
     ViewData["Title"] = "Buscar Mesas";
 }
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mensaje = '@TempData["Mensaje"]';
+            const tipo = '@TempData["TipoMensaje"]';
+
+            if (mensaje) {
+                Swal.fire({
+                    icon: tipo, 
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+
+    </script>
+}
+
 <link rel="stylesheet" href="~/bootstrap/diseño.css">
 
 <section id="hero" class="d-flex align-items-center">
@@ -58,11 +78,13 @@
                             <tr style="border-bottom: 1px solid #cda45e;">
                                 <td>@Html.DisplayFor(modelItem => item.NumeroMesa)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
-                                <td>
-                                    @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-outline-success btn-sm mx-1" })
-                                    @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-outline-info btn-sm mx-1" })
-                                    @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-outline-danger btn-sm mx-1" })
-                                </td>
+                               <td>
+    @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-outline-success btn-sm mx-1" })
+    @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-outline-info btn-sm mx-1" })
+    @Html.ActionLink("Eliminar", "Mant", new { Id = item.Id, Accion=(int)ActionsUI_Enums.ELIMINAR }, new { @class = "btn btn-outline-danger btn-sm mx-1" })
+</td>
+
+
                             </tr>
                         }
                     </tbody>
