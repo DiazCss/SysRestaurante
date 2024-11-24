@@ -68,29 +68,60 @@ namespace SysRestaurante.Controllers
     }
 }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PlatilloMantDTO pPlatillo)
-        {
-            int result = await platilloBL.CreateAsync(pPlatillo);
-            return RedirectToAction(nameof(Index));
-        }
+      [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(PlatilloMantDTO pPlatillo)
+{
+    try
+    {
+        int result = await platilloBL.CreateAsync(pPlatillo);
+        TempData["Mensaje"] = "Platillo creado exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el platillo: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PlatilloMantDTO pPlatillo)
-        {
-            int result = await platilloBL.ModificarAsync(pPlatillo);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(PlatilloMantDTO pPlatillo)
+{
+    try
+    {
+        int result = await platilloBL.ModificarAsync(pPlatillo);
+        TempData["Mensaje"] = "Platillo editado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el platillo: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(PlatilloMantDTO pPlatillo)
-        {
-            int result = await platilloBL.EliminarAsync(pPlatillo);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(PlatilloMantDTO pPlatillo)
+{
+    try
+    {
+        int result = await platilloBL.EliminarAsync(pPlatillo);
+        TempData["Mensaje"] = "Platillo eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el platillo: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

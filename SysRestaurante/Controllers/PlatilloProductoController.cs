@@ -78,29 +78,64 @@ namespace SysRestaurante.Controllers
 }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PlatilloProductoMantDTO pPlatilloProducto)
-        {
-            int result = await platilloProductoBL.CreateAsync(pPlatilloProducto);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(PlatilloProductoMantDTO pPlatilloProducto)
+{
+    try
+    {
+        int result = await platilloProductoBL.CreateAsync(pPlatilloProducto);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PlatilloProductoMantDTO pPlatilloProducto)
-        {
-            int result = await platilloProductoBL.ModificarAsync(pPlatilloProducto);
-            return RedirectToAction(nameof(Index));
-        }
+        TempData["Mensaje"] = "Platillo-Producto creado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el Platillo-Producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(PlatilloProductoMantDTO pPlatilloProducto)
-        {
-            int result = await platilloProductoBL.EliminarAsync(pPlatilloProducto);
-            return RedirectToAction(nameof(Index));
-        }
+    return RedirectToAction(nameof(Index));
+}
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(PlatilloProductoMantDTO pPlatilloProducto)
+{
+    try
+    {
+        int result = await platilloProductoBL.ModificarAsync(pPlatilloProducto);
+
+        TempData["Mensaje"] = "Platillo-Producto editado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el Platillo-Producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+
+    return RedirectToAction(nameof(Index));
+}
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(PlatilloProductoMantDTO pPlatilloProducto)
+{
+    try
+    {
+        int result = await platilloProductoBL.EliminarAsync(pPlatilloProducto);
+
+        TempData["Mensaje"] = "Platillo-Producto eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el Platillo-Producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+
+    return RedirectToAction(nameof(Index));
+}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

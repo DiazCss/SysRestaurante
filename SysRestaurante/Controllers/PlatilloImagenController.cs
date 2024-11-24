@@ -86,69 +86,102 @@ public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen =
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(PlatilloImagenMantDTO pPlatilloImagen, IFormFile imagenArchivo)
 {
-    if (imagenArchivo != null && imagenArchivo.Length > 0)
+    try
     {
-       
-        var imageName = $"{pPlatilloImagen.IdPlatillo}_{Path.GetRandomFileName()}{Path.GetExtension(imagenArchivo.FileName)}";
-
-        
-        var imagePath = Path.Combine("wwwroot/images/platillos", imageName);
-
-        
-        using (var stream = new FileStream(imagePath, FileMode.Create))
+        if (imagenArchivo != null && imagenArchivo.Length > 0)
         {
-            await imagenArchivo.CopyToAsync(stream);
+            var imageName = $"{pPlatilloImagen.IdPlatillo}_{Path.GetRandomFileName()}{Path.GetExtension(imagenArchivo.FileName)}";
+            var imagePath = Path.Combine("wwwroot/images/platillos", imageName);
+
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imagenArchivo.CopyToAsync(stream);
+            }
+
+            pPlatilloImagen.ImagenPlatillo = Path.Combine("images/platillos", imageName).Replace("\\", "/");
         }
 
-        
-        pPlatilloImagen.ImagenPlatillo = Path.Combine("images/platillos", imageName).Replace("\\", "/");
+        int result = await platilloImagenBL.CreateAsync(pPlatilloImagen, pPlatilloImagen.ImagenPlatillo);
+
+        TempData["Mensaje"] = "Imagen del platillo creada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear la imagen del platillo: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
     }
 
-   
-    int result = await platilloImagenBL.CreateAsync(pPlatilloImagen, pPlatilloImagen.ImagenPlatillo);
+    return RedirectToAction(nameof(Index));
+}
+
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(PlatilloImagenMantDTO pPlatilloImagen, IFormFile imagenArchivo)
+{
+    try
+    {
+        if (imagenArchivo != null && imagenArchivo.Length > 0)
+        {
+            var imageName = $"{pPlatilloImagen.IdPlatillo}_{Path.GetRandomFileName()}{Path.GetExtension(imagenArchivo.FileName)}";
+            var imagePath = Path.Combine("wwwroot/images/platillos", imageName);
+
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imagenArchivo.CopyToAsync(stream);
+            }
+
+            pPlatilloImagen.ImagenPlatillo = Path.Combine("images/platillos", imageName).Replace("\\", "/");
+        }
+
+        int result = await platilloImagenBL.ModificarAsync(pPlatilloImagen);
+
+        TempData["Mensaje"] = "Imagen del platillo editada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar la imagen del platillo: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+
     return RedirectToAction(nameof(Index));
 }
 
 
       [HttpPost]
 [ValidateAntiForgeryToken]
-public async Task<IActionResult> Edit(PlatilloImagenMantDTO pPlatilloImagen, IFormFile imagenArchivo)
+public async Task<IActionResult> Delete(PlatilloImagenMantDTO pPlatilloImagen)
 {
-    if (imagenArchivo != null && imagenArchivo.Length > 0)
+    try
     {
-        
-        var imageName = $"{pPlatilloImagen.IdPlatillo}_{Path.GetRandomFileName()}{Path.GetExtension(imagenArchivo.FileName)}";
-        var imagePath = Path.Combine("wwwroot/images/platillos", imageName);
+        var platilloImagenDTO = await platilloImagenBL.ObtenerPorIdAsync(pPlatilloImagen);
 
-        using (var stream = new FileStream(imagePath, FileMode.Create))
+        if (platilloImagenDTO != null && !string.IsNullOrEmpty(platilloImagenDTO.ImagenPlatillo))
         {
-            await imagenArchivo.CopyToAsync(stream);
+            var imagePath = Path.Combine("wwwroot", platilloImagenDTO.ImagenPlatillo);
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
         }
 
-        
-        pPlatilloImagen.ImagenPlatillo = Path.Combine("images/platillos", imageName).Replace("\\", "/");
+        int result = await platilloImagenBL.EliminarAsync(pPlatilloImagen);
+
+        TempData["Mensaje"] = "Imagen del platillo eliminada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar la imagen del platillo: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
     }
 
-    int result = await platilloImagenBL.ModificarAsync(pPlatilloImagen);
     return RedirectToAction(nameof(Index));
 }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(PlatilloImagenMantDTO pPlatilloImagen)
-        {
-            var platilloImagenDTO = await platilloImagenBL.ObtenerPorIdAsync(pPlatilloImagen);
-
-            if (platilloImagenDTO != null && !string.IsNullOrEmpty(platilloImagenDTO.ImagenPlatillo) && System.IO.File.Exists(platilloImagenDTO.ImagenPlatillo))
-            {
-               
-                System.IO.File.Delete(platilloImagenDTO.ImagenPlatillo);
-            }
-
-            int result = await platilloImagenBL.EliminarAsync(pPlatilloImagen);
-            return RedirectToAction(nameof(Index));
-        }
 
         public IActionResult Detail(PlatilloImagenMantDTO pPlatilloImagen)
         {

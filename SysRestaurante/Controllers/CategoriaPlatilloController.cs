@@ -66,31 +66,60 @@ namespace SysRestaurante.Controllers
                 return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
-        {
-            int result = await categoriaPlatilloBL.CreateAsync(pCategoriaPlatillo);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
+{
+    try
+    {
+        int result = await categoriaPlatilloBL.CreateAsync(pCategoriaPlatillo);
+        TempData["Mensaje"] = "Categoría creada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear la categoría: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
-        {
-            int result = await categoriaPlatilloBL.ModificarAsync(pCategoriaPlatillo);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
+{
+    try
+    {
+        int result = await categoriaPlatilloBL.ModificarAsync(pCategoriaPlatillo);
+        TempData["Mensaje"] = "Categoría editada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar la categoría: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
-        {
-            int result = await categoriaPlatilloBL.EliminarAsync(pCategoriaPlatillo);
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
+{
+    try
+    {
+        int result = await categoriaPlatilloBL.EliminarAsync(pCategoriaPlatillo);
+        TempData["Mensaje"] = "Categoría eliminada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar la categoría: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+ [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Detail(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
         {

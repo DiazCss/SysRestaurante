@@ -168,31 +168,63 @@ namespace SysRestaurante.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UsuarioMantDTO pUsuario)
-        {
-            credencial.Refrescar(User);
-            int result = await usuarioBL.CrearAsync(pUsuario);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(UsuarioMantDTO pUsuario)
+{
+    try
+    {
+        credencial.Refrescar(User);
+        int result = await usuarioBL.CrearAsync(pUsuario);
+        TempData["Mensaje"] = "Usuario creado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el usuario: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(UsuarioMantDTO pUsuario)
-        {
-            credencial.Refrescar(User);
-            int result = await usuarioBL.ModificarAsync(pUsuario);
-            return RedirectToAction(nameof(Index));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(UsuarioMantDTO pUsuario)
-        {
-            credencial.Refrescar(User);
-            int result = await usuarioBL.EliminarAsync(pUsuario);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(UsuarioMantDTO pUsuario)
+{
+    try
+    {
+        credencial.Refrescar(User);
+        int result = await usuarioBL.ModificarAsync(pUsuario);
+        TempData["Mensaje"] = "Usuario editado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el usuario: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(UsuarioMantDTO pUsuario)
+{
+    try
+    {
+        credencial.Refrescar(User);
+        int result = await usuarioBL.EliminarAsync(pUsuario);
+        TempData["Mensaje"] = "Usuario eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el usuario: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Detail(UsuarioMantDTO pUsuario)

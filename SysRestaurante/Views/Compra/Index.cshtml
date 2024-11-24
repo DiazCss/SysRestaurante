@@ -2,6 +2,25 @@
 @{
     ViewData["Title"] = "Buscar Compras";
 }
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mensaje = '@TempData["Mensaje"]';
+            const tipo = '@TempData["TipoMensaje"]';
+
+            if (mensaje) {
+                Swal.fire({
+                    icon: tipo,
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+    </script>
+}
+
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">

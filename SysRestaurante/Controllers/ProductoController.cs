@@ -70,29 +70,62 @@ namespace SysRestaurante.Controllers
 }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProductoManDTOs pProducto)
-        {
-            int result = await productoBL.CreateAsync(pProducto);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(ProductoManDTOs pProducto)
+{
+    try
+    {
+        int result = await productoBL.CreateAsync(pProducto);
+        TempData["Mensaje"] = "Producto creado exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProductoManDTOs pProducto)
-        {
-            int result = await productoBL.ModificarAsync(pProducto);
-            return RedirectToAction(nameof(Index));
-        }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(ProductoManDTOs pProducto)
-        {
-            int result = await productoBL.EliminarAsync(pProducto);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(ProductoManDTOs pProducto)
+{
+    try
+    {
+        int result = await productoBL.ModificarAsync(pProducto);
+        TempData["Mensaje"] = "Producto editado exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+
+    return RedirectToAction(nameof(Index));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(ProductoManDTOs pProducto)
+{
+    try
+    {
+        int result = await productoBL.EliminarAsync(pProducto);
+        TempData["Mensaje"] = "Producto eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+
+    return RedirectToAction(nameof(Index));
+}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

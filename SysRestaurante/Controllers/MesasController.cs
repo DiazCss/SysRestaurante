@@ -68,7 +68,7 @@ public async Task<IActionResult> Create(MesasMantDTO pMesa)
     {
         int result = await mesasbl.CreateAsync(pMesa);
         TempData["Mensaje"] = "Mesa creada exitosamente.";
-        TempData["TipoMensaje"] = "success"; // Tipo de alerta
+        TempData["TipoMensaje"] = "success"; 
     }
     catch (Exception ex)
     {

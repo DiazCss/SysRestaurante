@@ -59,27 +59,60 @@ namespace SysRestaurante.Controllers
         }
 
         // POST: RolController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RolMantDTO pRol)
-        {
-            int result = await rolBL.CreateAsync(pRol);
-            return RedirectToAction(nameof(Index));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(RolMantDTO pRol)
-        {
-            int result = await rolBL.ModificarAsync(pRol);
-            return RedirectToAction(nameof(Index));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(RolMantDTO pRol)
-        {
-            int result = await rolBL.EliminarAsync(pRol);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(RolMantDTO pRol)
+{
+    try
+    {
+        int result = await rolBL.CreateAsync(pRol);
+        TempData["Mensaje"] = "Rol creado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el rol: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(RolMantDTO pRol)
+{
+    try
+    {
+        int result = await rolBL.ModificarAsync(pRol);
+        TempData["Mensaje"] = "Rol editado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el rol: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(RolMantDTO pRol)
+{
+    try
+    {
+        int result = await rolBL.EliminarAsync(pRol);
+        TempData["Mensaje"] = "Rol eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el rol: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Detail(RolMantDTO pRol)

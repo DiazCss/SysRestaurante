@@ -55,35 +55,66 @@ namespace SysRestaurante.Controllers
                 return RedirectToAction(nameof(Index));
         }
         
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
-        {
-            int result = await categoriaProductoBL.CreateAsync(pCategoriaProductoMantDTO);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Create(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
+{
+    try
+    {
+        int result = await categoriaProductoBL.CreateAsync(pCategoriaProductoMantDTO);
+        TempData["Mensaje"] = "Categoría de producto creada exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear la categoría de producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
-        {
-            int result = await categoriaProductoBL.ModificarAsync(pCategoriaProductoMantDTO);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Edit(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
+{
+    try
+    {
+        int result = await categoriaProductoBL.ModificarAsync(pCategoriaProductoMantDTO);
+        TempData["Mensaje"] = "Categoría de producto editada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar la categoría de producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
-        {
-            int result = await categoriaProductoBL.EliminarAsync(pCategoriaProductoMantDTO);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Delete(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
+{
+    try
+    {
+        int result = await categoriaProductoBL.EliminarAsync(pCategoriaProductoMantDTO);
+        TempData["Mensaje"] = "Categoría de producto eliminada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar la categoría de producto: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Detail(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
-        {
-            return RedirectToAction(nameof(Index), new { id = pCategoriaProductoMantDTO.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Detail(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
+{
+    return RedirectToAction(nameof(Mant), new { id = pCategoriaProductoMantDTO.Id, Accion = (int)ActionsUI_Enums.MODIFICAR });
+}
+
     }
 }

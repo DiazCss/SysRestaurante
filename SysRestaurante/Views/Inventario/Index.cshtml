@@ -2,7 +2,7 @@
 @model IEnumerable<InventarioMantDTO>
 @{
     ViewData["Title"] = "Buscar Productos";
-}
+} 
 
 <link rel="stylesheet" href="~/bootstrap/diseño.css">
 
@@ -102,5 +102,25 @@
             dropdownCssClass: 'SelectProducto',
         });
     });
+    
     </script>
+    {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mensaje = '@TempData["Mensaje"]';
+            const tipo = '@TempData["TipoMensaje"]';
+
+            if (mensaje) {
+                Swal.fire({
+                    icon: tipo, // 'success', 'error', 'warning', 'info'
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+    </script>
+}
+
 }

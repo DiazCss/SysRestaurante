@@ -61,29 +61,60 @@ namespace SysRestaurante.Controllers
                 return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(EmpleadoMantDTO pEmpleado)
-        {
-            int result = await empleadoBL.CreateAsync(pEmpleado);
-            return RedirectToAction(nameof(Index));
-        }
+       [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(EmpleadoMantDTO pEmpleado)
+{
+    try
+    {
+        int result = await empleadoBL.CreateAsync(pEmpleado);
+        TempData["Mensaje"] = "Empleado creado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el empleado: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+    return RedirectToAction(nameof(Index));
+}
 
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(EmpleadoMantDTO pEmpleado)
+{
+    try
+    {
+        int result = await empleadoBL.ModificarAsync(pEmpleado);
+        TempData["Mensaje"] = "Empleado editado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el empleado: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EmpleadoMantDTO pEmpleado)
-        {
-            int result = await empleadoBL.ModificarAsync(pEmpleado);
-            return RedirectToAction(nameof(Index));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(EmpleadoMantDTO pEmpleado)
-        {
-            int result = await empleadoBL.EliminarAsync(pEmpleado);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(EmpleadoMantDTO pEmpleado)
+{
+    try
+    {
+        int result = await empleadoBL.EliminarAsync(pEmpleado);
+        TempData["Mensaje"] = "Empleado eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el empleado: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Detail(EmpleadoMantDTO pEmpleado)

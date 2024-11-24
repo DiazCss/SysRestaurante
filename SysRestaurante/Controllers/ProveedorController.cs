@@ -61,28 +61,61 @@ namespace SysRestaurante.Controllers
                 return RedirectToAction(nameof(Index));
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ProveedorMantDTO pProveedor)
-        {
-            int result = await proveedorBL.CreateAsync(pProveedor);
-            return RedirectToAction(nameof(Index));
-        }
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Create(ProveedorMantDTO pProveedor)
+{
+    try
+    {
+        int result = await proveedorBL.CreateAsync(pProveedor);
+        TempData["Mensaje"] = "Proveedor creado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el proveedor: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ProveedorMantDTO pProveedor)
-        {
-            int result = await proveedorBL.ModificarAsync(pProveedor);
-            return RedirectToAction(nameof(Index));
-        }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(ProveedorMantDTO pProveedor)
-        {
-            int result = await proveedorBL.EliminarAsync(pProveedor);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Edit(ProveedorMantDTO pProveedor)
+{
+    try
+    {
+        int result = await proveedorBL.ModificarAsync(pProveedor);
+        TempData["Mensaje"] = "Proveedor editado exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el proveedor: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+
+    return RedirectToAction(nameof(Index));
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Delete(ProveedorMantDTO pProveedor)
+{
+    try
+    {
+        int result = await proveedorBL.EliminarAsync(pProveedor);
+        TempData["Mensaje"] = "Proveedor eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el proveedor: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+
+    return RedirectToAction(nameof(Index));
+}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

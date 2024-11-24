@@ -60,28 +60,59 @@ namespace SysRestaurante.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(InventarioMantDTO pInventario)
-        {
-            int result = await inventarioBL.CreateAsync(pInventario);
-            return RedirectToAction(nameof(Index));
-        }
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Create(InventarioMantDTO pInventario)
+{
+    try
+    {
+        int result = await inventarioBL.CreateAsync(pInventario);
+        TempData["Mensaje"] = "Inventario creado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear el inventario: {ex.Message}";
+        TempData["TipoMensaje"] = "error"; 
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(InventarioMantDTO pInventario)
-        {
-            int result = await inventarioBL.ModificarAsync(pInventario);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Edit(InventarioMantDTO pInventario)
+{
+    try
+    {
+        int result = await inventarioBL.ModificarAsync(pInventario);
+        TempData["Mensaje"] = "Inventario editado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar el inventario: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(InventarioMantDTO pInventario)
-        {
-            int result = await inventarioBL.EliminarAsync(pInventario);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> Delete(InventarioMantDTO pInventario)
+{
+    try
+    {
+        int result = await inventarioBL.EliminarAsync(pInventario);
+        TempData["Mensaje"] = "Inventario eliminado exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar el inventario: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

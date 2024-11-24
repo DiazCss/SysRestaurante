@@ -2,6 +2,25 @@
 @{
     ViewData["Title"] = "Buscar Proveedores";
 }
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mensaje = '@TempData["Mensaje"]';
+            const tipo = '@TempData["TipoMensaje"]';
+
+            if (mensaje) {
+                Swal.fire({
+                    icon: tipo, 
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+    </script>
+}
+
 <link rel="stylesheet" href="~/bootstrap/diseño.css">
 
 <section id="hero" class="d-flex align-items-center">

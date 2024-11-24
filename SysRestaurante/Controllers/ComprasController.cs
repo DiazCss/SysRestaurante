@@ -72,29 +72,59 @@ namespace SysRestaurante.Controllers
 }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CompraManDTOs pCompra)
-        {
-            int result = await compraBL.CreateAsync(pCompra);
-            return RedirectToAction(nameof(Index));
-        }
+      [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(CompraManDTOs pCompra)
+{
+    try
+    {
+        int result = await compraBL.CreateAsync(pCompra);
+        TempData["Mensaje"] = "Compra creada exitosamente.";
+        TempData["TipoMensaje"] = "success"; 
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al crear la compra: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CompraManDTOs pCompra)
-        {
-            int result = await compraBL.ModificarAsync(pCompra);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(CompraManDTOs pCompra)
+{
+    try
+    {
+        int result = await compraBL.ModificarAsync(pCompra);
+        TempData["Mensaje"] = "Compra editada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al editar la compra: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(CompraManDTOs pCompra)
-        {
-            int result = await compraBL.EliminarAsync(pCompra);
-            return RedirectToAction(nameof(Index));
-        }
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Delete(CompraManDTOs pCompra)
+{
+    try
+    {
+        int result = await compraBL.EliminarAsync(pCompra);
+        TempData["Mensaje"] = "Compra eliminada exitosamente.";
+        TempData["TipoMensaje"] = "success";
+    }
+    catch (Exception ex)
+    {
+        TempData["Mensaje"] = $"Error al eliminar la compra: {ex.Message}";
+        TempData["TipoMensaje"] = "error";
+    }
+    return RedirectToAction(nameof(Index));
+}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
