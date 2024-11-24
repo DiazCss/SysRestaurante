@@ -21,12 +21,9 @@
                 <form asp-action="Index">
                     <div class="row g-2 align-items-center justify-content-center">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label" style="color: #ffffff;">Producto</label>
-                                <select id="slProducto" class="form-control form-control-lg" name="IdProducto_Inventario_Like">
-                                    <partial name="SelectProducto" model="ViewBag.productos" />
-                                </select>
-                            </div>
+                            <select id="slProducto" class="form-control form-control-lg" name="IdProducto_Inventario_Like">
+                                <partial name="SelectProducto" model="ViewBag.productos" />
+                            </select>
                         </div>
                         <div class="col-md-2">
                             <input type="submit" value="Buscar" class="btn btn-lg btn-primary w-100" />
@@ -83,3 +80,27 @@
         </div>
     </div>
 </footer>
+@section scripts {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        $('#slProducto').select2({
+            placeholder: 'Seleccione un producto...',
+            allowClear: true,
+            width: '100%',
+            language:  {
+                noResults: function () {
+                    return "No se encontraron resultados";
+                }
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            selectionCssClass: 'form-control form-control-lg',
+            dropdownCssClass: 'SelectProducto',
+        });
+    });
+    </script>
+}
