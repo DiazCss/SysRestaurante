@@ -32,36 +32,74 @@ namespace SysRestaurante.DAL
 
         public async Task<int> CreateAsync(CompraManDTOs pCompraMantDTOs)
         {
-            var compra = new Compra
-            {
-                NumeroFactura = pCompraMantDTOs.NumeroFactura,
-                Fecha = DateTime.Now,
-                Iva = pCompraMantDTOs.Iva,
-                Total = pCompraMantDTOs.Total,
-                IdProveedor = pCompraMantDTOs.IdProveedor
-            };
-            dbContext.compras.Add(compra);
-            await dbContext.SaveChangesAsync();
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-
-            foreach (var detalle in pCompraMantDTOs.DetalleCompras)
+            try
             {
-                var detalleCompra = new DetalleCompra
+                var compra = new Compra
                 {
-                    IdCompra = compra.Id, 
-                    IdProducto = detalle.IdProducto,
-                    PrecioUnitario = detalle.PrecioUnitario,
-                    Cantidad = detalle.Cantidad,
-                    SubTotal = detalle.PrecioUnitario * detalle.Cantidad
+                    NumeroFactura = pCompraMantDTOs.NumeroFactura,
+                    Fecha = DateTime.Now,
+                    Iva = pCompraMantDTOs.Iva,
+                    Total = pCompraMantDTOs.Total,
+                    IdProveedor = pCompraMantDTOs.IdProveedor
                 };
 
-                dbContext.detallecompra.Add(detalleCompra);
+                dbContext.compras.Add(compra);
+                await dbContext.SaveChangesAsync();
+
+                foreach (var detalle in pCompraMantDTOs.DetalleCompras)
+                {
+                    var detalleCompra = new DetalleCompra
+                    {
+                        IdCompra = compra.Id, 
+                        IdProducto = detalle.IdProducto,
+                        PrecioUnitario = detalle.PrecioUnitario,
+                        Cantidad = detalle.Cantidad,
+                        SubTotal = detalle.PrecioUnitario * detalle.Cantidad
+                    };
+
+                    dbContext.detallecompra.Add(detalleCompra);
+
+                    var inventario = await dbContext.inventario
+                        .FirstOrDefaultAsync(i => i.IdProducto == detalle.IdProducto);
+
+                    if (inventario != null)
+                    {
+                        inventario.CantidadDisponible += detalle.Cantidad;
+                        inventario.FechaUltimaCompra = DateTime.Now;
+                        inventario.CostoUnitario = detalle.PrecioUnitario;
+                        inventario.FechaCaducidadLote = DateTime.Now.AddMonths(6);
+
+                        dbContext.inventario.Update(inventario);
+                    }
+                    else
+                    {
+                        var nuevoInventario = new Inventario
+                        {
+                            IdProducto = detalle.IdProducto,
+                            CantidadDisponible = detalle.Cantidad,
+                            CantidadMinima = 1,
+                            CostoUnitario = detalle.PrecioUnitario,
+                            FechaUltimaCompra = DateTime.Now,
+                            FechaCaducidadLote = DateTime.Now.AddMonths(6)
+                        };
+
+                        dbContext.inventario.Add(nuevoInventario);
+                    }
+                }
+
+                await dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return compra.Id;
             }
-
-            return await dbContext.SaveChangesAsync();
-
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw new Exception("Ocurrió un error al crear la compra.", ex);
+            }
         }
-
         public async Task<int> EliminarAsync(CompraManDTOs pCompraMantDTOs)
         {
             var compra = await dbContext.compras
