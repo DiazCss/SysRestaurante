@@ -33,7 +33,6 @@
     </div>
 </div>
 
-
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Compras</h6>
@@ -43,55 +42,36 @@
             <table id="tbCompras" class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IdProveedor)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Fecha)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IdCompra)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IdProducto)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PrecioUnitario)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cantidad)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.SubTotal)
-                        </th>
+                        <th>@Html.DisplayNameFor(model => model.IdProveedor)</th>
+                        <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+                        <th>@Html.DisplayNameFor(model => model.IdCompra)</th>
+                        <th>@Html.DisplayNameFor(model => model.IdProducto)</th>
+                        <th>@Html.DisplayNameFor(model => model.PrecioUnitario)</th>
+                        <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+                        <th>@Html.DisplayNameFor(model => model.SubTotal)</th>
+                        <th>Total con IVA</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        @* Definir el porcentaje de IVA (13%) *@
+                        var iva = 0.13m;  @* IVA como decimal *@
+                        var precioUnitario = item.PrecioUnitario;
+                        var cantidad = item.Cantidad;
+                        var subtotal = precioUnitario * cantidad;
+                        var totalConIVA = subtotal * (1 + iva); // Calcular total con IVA
+
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdProveedor)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Fecha)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdCompra)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdProducto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PrecioUnitario)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cantidad)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SubTotal)
-                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.IdProveedor)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdCompra)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdProducto)</td>
+                            <td class="precio-unitario">@Html.DisplayFor(modelItem => item.PrecioUnitario)</td>
+                            <td class="cantidad">@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                            <td class="subtotal">@Html.DisplayFor(modelItem => item.SubTotal)</td>
+                            <td class="total-iva">@Html.Raw(totalConIVA.ToString("F2"))</td>  <!-- Mostrar el total con IVA para esta fila -->
                             <td class="botonestabla">
                                 @Html.ActionLink("Modificar", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.MODIFICAR }, new { @class = "btn btn-success" })
                                 @Html.ActionLink("Ver", "Mant", new { Id = item.Id, Accion = (int)ActionsUI_Enums.VER }, new { @class = "btn btn-info" })
