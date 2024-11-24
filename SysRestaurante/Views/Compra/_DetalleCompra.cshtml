@@ -4,7 +4,7 @@
 }
 <div class="table-responsive">
     <div class="col-md-12">
-        <table id="tb_DetalleCompras" class="table table-bordered" width="100%" cellspacing="0">
+        <table id="tb_DetalleCompras" class="table table-bordered table-sm" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>Codigo</th>
@@ -15,7 +15,7 @@
                     <th style="text-align:right">
                         @if (ViewBag.ActionsUI.Accion != 3 && ViewBag.ActionsUI.Accion != 4)
                         {
-                            <button id="btnNuevo_DetalleCompras" title="Agregar" class="btn btn-success" type="button"><i class="fa fa-user-plus"></i></button>
+                            <button id="btnNuevo_DetalleCompras" title="Agregar" class="btn btn-success btn-sm" type="button"><i class="fa fa-user-plus"></i></button>
                         }
                     </th>
                 </tr>
@@ -29,62 +29,61 @@
 
                     <td>
                         <div class="input-group">
-                            <input id="txtProductoF" asp-for="@modelValid.Producto.Codigo" class="form-control" data-nameprop="codigo">
+                            <input id="txtProductoF" asp-for="@modelValid.Producto.Codigo" class="form-control form-control-sm" data-nameprop="codigo">
                             <span asp-validation-for="@modelValid.Producto.Codigo" class="text-danger"></span>
                             <div class="input-group-append" id="button-addon4">
-                                <button class="btn btn-outline-secondary" type="button" data-searchproducto> <i class="fa fa-search"></i></button>
-                                <a target="_blank" class="btn btn-outline-secondary" style="display:none" href="#" data-verproducto><i class="fa fa-box"></i></a>
-                                <a target="_blank" class="btn btn-outline-secondary" href="@Url.Action("Mant","Producto", new {id = 0,  accion=(int)ActionsUI_Enums.NUEVO })"><i class="fa fa-plus"></i></a>
-
+                                <button class="btn btn-outline-secondary btn-sm" type="button" data-searchproducto> <i class="fa fa-search"></i></button>
+                                <a target="_blank" class="btn btn-outline-secondary btn-sm" style="display:none" href="#" data-verproducto><i class="fa fa-box"></i></a>
+                                <a target="_blank" class="btn btn-outline-secondary btn-sm" href="@Url.Action("Mant","Producto", new {id = 0,  accion=(int)ActionsUI_Enums.NUEVO })"><i class="fa fa-plus"></i></a>
                             </div>
                         </div>
                     </td>
 
                     <td>
-                        <input asp-for="@modelValid.Producto.Nombre" class="form-control" data-nameprop="nombre" disabled>
+                        <input asp-for="@modelValid.Producto.Nombre" class="form-control form-control-sm" data-nameprop="nombre" disabled>
                         <span asp-validation-for="@modelValid.Producto.Nombre" class="text-danger"></span>
                     </td>
                     <td>
-                        <input asp-for="@modelValid.PrecioUnitario" onchange="calcularTotales()" class="form-control" data-nameprop="precioUnitario">
+                        <input asp-for="@modelValid.PrecioUnitario" class="form-control form-control-sm" data-nameprop="precioUnitario" onchange="calcularTotales()">
                         <span asp-validation-for="@modelValid.PrecioUnitario" class="text-danger"></span>
                     </td>
                     <td>
-                        <input asp-for="@modelValid.Cantidad" onchange="calcularTotales() class="form-control" data-nameprop="cantidad">
+                        <input asp-for="@modelValid.Cantidad" class="form-control form-control-sm" data-nameprop="cantidad" onchange="calcularTotales()">
                         <span asp-validation-for="@modelValid.Cantidad" class="text-danger"></span>
                     </td>
                     <td>
-                        <input asp-for="@modelValid.SubTotal" class="form-control" data-nameprop="subtotal">
+                        <input asp-for="@modelValid.SubTotal" class="form-control form-control-sm" data-nameprop="subtotal" readonly>
                         <span asp-validation-for="@modelValid.SubTotal" class="text-danger"></span>
                     </td>
-                    <td style="text-align:right"><button data-eliminartbitem class="btn btn-danger" type="button" title="Quitar"><i class="fa fa-trash"></i></button></td>
+                    <td style="text-align:right"><button data-eliminartbitem class="btn btn-danger btn-sm" type="button" title="Quitar"><i class="fa fa-trash"></i></button></td>
                 </tr>
+
                 @if (Model != null)
                 {
                     @foreach (var item in Model)
                     {
-
                         <tr data-list="disabled" data-listkey="@item.Id">
                             <td style="display:none"><input type="hidden" class="form-control" data-nameprop="Id" value="@item.Id" /></td>
                             <td style="display:none"><input type="hidden" class="form-control" data-nameprop="idProducto" value="@item.IdProducto" /></td>
                             <td style="display:none"><input type="hidden" class="form-control" value="0" data-nameprop="Accion_aux" /></td>
                             <td style="display:none"><input type="hidden" class="form-control" disabled data-nameprop="IdCompra" value="@item.IdCompra" /></td>
                             <td>
-                                <input asp-for="@item.Producto.Codigo" class="form-control" disabled data-nameprop="codigo" value="@item.Producto.Codigo" data-tbvalue="@item.Producto.Codigo">
+                                <input asp-for="@item.Producto.Codigo" class="form-control form-control-sm" disabled data-nameprop="codigo" value="@item.Producto.Codigo" data-tbvalue="@item.Producto.Codigo">
                             </td>
                             <td>
-                                <input asp-for="@item.Producto.Nombre" class="form-control" disabled data-nameprop="nombre" value="@item.Producto.Nombre" data-tbvalue="@item.Producto.Nombre">
+                                <input asp-for="@item.Producto.Nombre" class="form-control form-control-sm" disabled data-nameprop="nombre" value="@item.Producto.Nombre" data-tbvalue="@item.Producto.Nombre">
                                 <span asp-validation-for="@item.Producto.Nombre" class="text-danger"></span>
                             </td>
                             <td>
-                                <input asp-for="@item.Cantidad" class="form-control" disabled data-nameprop="cantidad" value="@item.Cantidad" data-tbvalue="@item.Cantidad">
+                                <input asp-for="@item.Cantidad" class="form-control form-control-sm" disabled data-nameprop="cantidad" value="@item.Cantidad" data-tbvalue="@item.Cantidad">
                                 <span asp-validation-for="@item.Cantidad" class="text-danger"></span>
                             </td>
                             <td>
-                                <input asp-for="@item.PrecioUnitario" class="form-control" disabled data-nameprop="precioUnitario" value="@item.PrecioUnitario" data-tbvalue="@item.PrecioUnitario">
+                                <input asp-for="@item.PrecioUnitario" class="form-control form-control-sm" disabled data-nameprop="precioUnitario" value="@item.PrecioUnitario" data-tbvalue="@item.PrecioUnitario">
                                 <span asp-validation-for="@item.PrecioUnitario" class="text-danger"></span>
                             </td>
                             <td>
-                                <input asp-for="@item.SubTotal" class="form-control" disabled data-nameprop="subTotal" value="@item.SubTotal" data-tbvalue="@item.SubTotal">
+                                <input asp-for="@item.SubTotal" class="form-control form-control-sm" disabled data-nameprop="subTotal" value="@item.SubTotal" data-tbvalue="@item.SubTotal">
                                 <span asp-validation-for="@item.SubTotal" class="text-danger"></span>
                             </td>
                             <td style="text-align:right">
@@ -94,13 +93,13 @@
                                             @if (ViewBag.ActionsUI.Accion != 3 && ViewBag.ActionsUI.Accion != 4)
                                             {
                                                 <td>
-                                                    <button data-btnkey="@item.Id" onclick="modificarFila_DetallesCompra(this)" class="btn btn-info" type="button" title="Editar"><i class="fa fa-user-edit"></i></button>
+                                                    <button data-btnkey="@item.Id" onclick="modificarFila_DetallesCompra(this)" class="btn btn-info btn-sm" type="button" title="Editar"><i class="fa fa-user-edit"></i></button>
                                                 </td>
 
                                                 @if (ViewBag.ActionsUI.Accion == 1)
                                                 {
                                                     <td>
-                                                        <button data-btnkey="@item.Id" onclick="eliminarFila_DetallesCompra(this)" class="btn btn-danger" type="button" title="Quitar"><i class="fa fa-trash"></i></button>
+                                                        <button data-btnkey="@item.Id" onclick="eliminarFila_DetallesCompra(this)" class="btn btn-danger btn-sm" type="button" title="Quitar"><i class="fa fa-trash"></i></button>
                                                     </td>
                                                 }
                                             }
@@ -109,7 +108,6 @@
                                 </table>
                             </td>
                         </tr>
-
                     }
                 }
 
@@ -123,24 +121,27 @@
     function calcularTotales() {
         let totalGeneral = 0;
         let totalIVA = 0;
-        const tasaIVA = 0.13; 
+        const tasaIVA = 0.13;
 
-        $("#tbBody_Detalles tr[data-list]").each(function () {
+        const filas = $("#tbBody_Detalles tr[data-list='active']:visible");
+
+        if (filas.length === 0) {
+            $("*[data-nameprop='IVA']").val("0.00");
+            $("*[data-nameprop='Total']").val("0.00");
+            return;
+        }
+        filas.each(function () {
             const cantidad = parseFloat($(this).find("*[data-nameprop='cantidad']").val()) || 0;
             const precioUnitario = parseFloat($(this).find("*[data-nameprop='precioUnitario']").val()) || 0;
             const subtotal = cantidad * precioUnitario;
-
             $(this).find("*[data-nameprop='subtotal']").val(subtotal.toFixed(2));
             totalGeneral += subtotal;
         });
 
         totalIVA = totalGeneral * tasaIVA;
-
         $("*[data-nameprop='IVA']").val(totalIVA.toFixed(2));
         $("*[data-nameprop='Total']").val((totalGeneral + totalIVA).toFixed(2));
     }
-
-
 
     $(function () {
         $("#btnNuevo_DetalleCompras").click(function () {
@@ -152,6 +153,7 @@
                 calcularTotales();
             });
             $(tr).find("button[data-eliminartbitem]").click(function () {
+                console.log("Evento detectado");
                 calcularTotales();
                 $(tr).remove();
             });
@@ -210,7 +212,7 @@
                 $(this).find("*[data-nameprop]").each(function () {
                     var nameProp = $(this).attr("data-nameprop");
                     var name = nameList + "[" + index + "]." + nameProp;
-                    $(this).attr("name", name); 
+                    $(this).attr("name", name);
                 });
             });
         });
@@ -239,8 +241,9 @@
     function eliminarFila_DetallesCompra(pBtn) {
         var fila = $("tr[data-listkey='" + $(pBtn).attr("data-btnkey") + "']");
         $(fila).hide();
-        $(fila).attr("data-list", "active");
+        $(fila).attr("data-list", "inactive");
         $(fila).find("*[data-nameprop='Accion_aux']").val("3");
+        calcularTotales();
     }
 
 </script>

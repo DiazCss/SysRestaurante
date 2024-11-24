@@ -3,6 +3,7 @@
     ViewData["Title"] = "Form Compra";
     ActionsUI action = ViewBag.ActionsUI as ActionsUI;
 }
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">@action.ObtenerTitulo("Compra")</h6>
@@ -31,7 +32,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="Iva" class="control-label"></label>
-                        <input asp-for="Iva" class="form-control" readonly />
+                        <input asp-for="Iva" class="form-control" readonly data-nameprop="IVA" />
                         <span asp-validation-for="Iva" class="text-danger"></span>
                     </div>
                 </div>
@@ -39,7 +40,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="Total" class="control-label"></label>
-                        <input asp-for="Total" class="form-control" readonly />
+                        <input asp-for="Total" class="form-control" readonly  data-nameprop="Total"/>
                         <span asp-validation-for="Total" class="text-danger"></span>
                     </div>
                 </div>
@@ -88,45 +89,7 @@
             return true;
         }
 
-        // Función para calcular el total y el IVA
-        function calcularTotales() {
-            var totalCompra = 0;
-            var ivaTotal = 0;
-            var ivaPorcentaje = 0.13;  // IVA fijo del 13%
-
-            // Recorrer cada detalle de compra
-            $(".detalle-compra").each(function () {
-                var precioUnitario = parseFloat($(this).find(".precio-unitario").val()) || 0;
-                var cantidad = parseInt($(this).find(".cantidad").val()) || 0;
-                var subtotal = precioUnitario * cantidad;
-
-                // Calcular subtotal y asignar
-                $(this).find(".subtotal").val(subtotal.toFixed(2));
-
-                // Acumular total
-                totalCompra += subtotal;
-            });
-
-            // Calcular el IVA
-            ivaTotal = totalCompra * ivaPorcentaje;
-
-            // Calcular el total final
-            var totalFinal = totalCompra + ivaTotal;
-
-            // Asignar valores calculados a los campos ocultos
-            $('input[name="Total"]').val(totalFinal.toFixed(2));
-            $('input[name="Iva"]').val(ivaTotal.toFixed(2));
-        }
-
-        // Llamar a la función de calcular totales cuando cambie cantidad o precio unitario
-        $(document).on('input', '.cantidad, .precio-unitario', function () {
-            calcularTotales();
-        });
-
-        // Llamar a la función de calcular totales al cargar la página
-        $(document).ready(function () {
-            calcularTotales();
-        });
+       
     </script>
   
 }
