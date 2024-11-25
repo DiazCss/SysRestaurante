@@ -7,7 +7,7 @@ using SysRestaurante.Models;
 
 namespace SysRestaurante.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
     public class RolController : Controller
     {
@@ -17,6 +17,8 @@ namespace SysRestaurante.Controllers
         {
             rolBL = pRolBL;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
         public async Task<IActionResult> Index(RolBuscarDTO pRol = null)
         {
             if (pRol == null)
@@ -57,9 +59,10 @@ namespace SysRestaurante.Controllers
             var roles = await rolBL.ObtenerTodosAsync();
             return PartialView(roles);
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         // POST: RolController/Create
-       [HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(RolMantDTO pRol)
 {
@@ -76,8 +79,9 @@ public async Task<IActionResult> Create(RolMantDTO pRol)
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Edit(RolMantDTO pRol)
 {
@@ -94,8 +98,9 @@ public async Task<IActionResult> Edit(RolMantDTO pRol)
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Delete(RolMantDTO pRol)
 {
@@ -112,6 +117,7 @@ public async Task<IActionResult> Delete(RolMantDTO pRol)
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         [HttpPost]
         [ValidateAntiForgeryToken]

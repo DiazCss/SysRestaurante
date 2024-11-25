@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SysRestaurante.BL.DTOs.CategoriaProductoDTOs;
 using SysRestaurante.BL.Interfaces;
@@ -6,14 +8,19 @@ using SysRestaurante.Models;
 
 namespace SysRestaurante.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
     public class CategoriaProductoController : Controller
     {
+
         readonly ICategoriaProductoBL categoriaProductoBL;
 
         public CategoriaProductoController(ICategoriaProductoBL pCategoriaProductoBL)
         {
             categoriaProductoBL = pCategoriaProductoBL;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
         // GET: CategoriaProductoController
         public async Task<ActionResult> Index(CategoriaProductoBuscarDTO pCategoriaProducto = null)
         {
@@ -28,6 +35,7 @@ namespace SysRestaurante.Controllers
             }
             return View(paginacion.Data);
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
         {
@@ -54,8 +62,9 @@ namespace SysRestaurante.Controllers
             else
                 return RedirectToAction(nameof(Index));
         }
-        
-       [HttpPost]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<ActionResult> Create(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
 {
@@ -72,8 +81,9 @@ public async Task<ActionResult> Create(CategoriaProductoMantDTO pCategoriaProduc
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<ActionResult> Edit(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
 {
@@ -90,8 +100,9 @@ public async Task<ActionResult> Edit(CategoriaProductoMantDTO pCategoriaProducto
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<ActionResult> Delete(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
 {
@@ -108,8 +119,9 @@ public async Task<ActionResult> Delete(CategoriaProductoMantDTO pCategoriaProduc
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<ActionResult> Detail(CategoriaProductoMantDTO pCategoriaProductoMantDTO)
 {

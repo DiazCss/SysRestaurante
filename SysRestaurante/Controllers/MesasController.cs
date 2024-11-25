@@ -9,7 +9,7 @@ using SysRestaurante.Models;
 
 namespace SysRestaurante.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
     public class MesasController : Controller
     {
@@ -18,6 +18,7 @@ namespace SysRestaurante.Controllers
         {
             mesasbl = pMesaBL;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public async Task<IActionResult> Index(MesasBuscarDTO pMesa = null)
         {
@@ -33,6 +34,7 @@ namespace SysRestaurante.Controllers
             return View(paginacion.Data);
         }
 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
         {
@@ -59,8 +61,9 @@ namespace SysRestaurante.Controllers
             else
                 return RedirectToAction(nameof(Index));
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-       [HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(MesasMantDTO pMesa)
 {
@@ -77,8 +80,9 @@ public async Task<IActionResult> Create(MesasMantDTO pMesa)
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Edit(MesasMantDTO pMesa)
 {
@@ -95,8 +99,9 @@ public async Task<IActionResult> Edit(MesasMantDTO pMesa)
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Delete(MesasMantDTO pMesa)
 {
@@ -113,8 +118,9 @@ public async Task<IActionResult> Delete(MesasMantDTO pMesa)
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public IActionResult Detail(MesasMantDTO pMesa)
 {

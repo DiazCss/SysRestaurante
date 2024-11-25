@@ -11,7 +11,7 @@ using SysRestaurante.EN;
 
 namespace SysRestaurante.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
     public class UsuarioController : Controller
     {
@@ -24,6 +24,7 @@ namespace SysRestaurante.Controllers
             usuarioBL = pUsuarioBL;
             rolBL = pRolBL;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public async Task<IActionResult> Index(UsuarioBuscarDTO pUsuario = null)
         {
@@ -36,6 +37,7 @@ namespace SysRestaurante.Controllers
             ViewBag.Roles = await rolBL.ObtenerTodosAsync();
             return View(paginacion.Data);
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
         {

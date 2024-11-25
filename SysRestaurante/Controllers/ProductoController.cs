@@ -7,9 +7,13 @@ using SysRestaurante.Models;
 using System.Security.Claims;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SysRestaurante.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
     public class ProductoController : Controller
     {
         readonly IProductoBL productoBL;
@@ -20,6 +24,7 @@ namespace SysRestaurante.Controllers
             productoBL = pProductoBL;
             categoriaProductoBL = pCategoriaProductoBL;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         // GET: ProductoController
         public async Task<IActionResult> Index(ProductoBuscarDTOs pProducto = null)
@@ -35,8 +40,9 @@ namespace SysRestaurante.Controllers
             }
             return View(paginacion.Data);
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-       public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
 {
     if (pAccion.EsValidAction())
     {
@@ -68,9 +74,10 @@ namespace SysRestaurante.Controllers
         return RedirectToAction(nameof(Index));
     }
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
 
-       [HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(ProductoManDTOs pProducto)
 {
@@ -88,8 +95,9 @@ public async Task<IActionResult> Create(ProductoManDTOs pProducto)
 
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Edit(ProductoManDTOs pProducto)
 {
@@ -107,8 +115,9 @@ public async Task<IActionResult> Edit(ProductoManDTOs pProducto)
 
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Delete(ProductoManDTOs pProducto)
 {
@@ -126,6 +135,7 @@ public async Task<IActionResult> Delete(ProductoManDTOs pProducto)
 
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         [HttpPost]
         [ValidateAntiForgeryToken]

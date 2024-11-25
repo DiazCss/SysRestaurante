@@ -12,7 +12,7 @@ using System;
 
 namespace SysRestaurante.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
     public class CategoriaPlatilloController : Controller
     {
         readonly ICategoriaPlatilloBL categoriaPlatilloBL;
@@ -21,6 +21,7 @@ namespace SysRestaurante.Controllers
         {
             categoriaPlatilloBL = pCategoriaPlatilloBL;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         // GET: CategoriaPlatilloController
         public async Task<IActionResult> Index(CategoriaPlatilloBuscarDTOs pCategoriaPlatillo = null)
@@ -39,6 +40,7 @@ namespace SysRestaurante.Controllers
 
             return View(paginacion.Data);
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
         {
@@ -65,8 +67,9 @@ namespace SysRestaurante.Controllers
             else
                 return RedirectToAction(nameof(Index));
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-       [HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
 {
@@ -83,8 +86,9 @@ public async Task<IActionResult> Create(CategoriaPlatilloMantDTOs pCategoriaPlat
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Edit(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
 {
@@ -101,8 +105,9 @@ public async Task<IActionResult> Edit(CategoriaPlatilloMantDTOs pCategoriaPlatil
     }
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Delete(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
 {
@@ -119,7 +124,9 @@ public async Task<IActionResult> Delete(CategoriaPlatilloMantDTOs pCategoriaPlat
     }
     return RedirectToAction(nameof(Index));
 }
- [HttpPost]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Detail(CategoriaPlatilloMantDTOs pCategoriaPlatillo)
         {

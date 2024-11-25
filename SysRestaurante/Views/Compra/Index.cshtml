@@ -46,6 +46,9 @@
                         <input type="submit" value="Buscar" class="btn btn-primary" />
                         @Html.ActionLink("Ir a Crear", "Mant", new { Id = 0, accion = (int)ActionsUI_Enums.NUEVO }, new { @class = "btn btn-primary" })
                     </div>
+                    <a asp-action="ExportarReporteCompras" class="btn btn-primary">
+                        Exportar Reporte en Excel
+                    </a>
                 </form>
             </div>
         </div>

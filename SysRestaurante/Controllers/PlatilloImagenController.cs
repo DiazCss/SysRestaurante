@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SysRestaurante.BL.DTOs.PlatilloImagenDTOs;
@@ -11,6 +13,8 @@ using X.PagedList.Extensions;
 
 namespace SysRestaurante.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
     public class PlatilloImagenController : Controller
     {
           readonly IPlatilloBL platilloBL;
@@ -28,9 +32,10 @@ namespace SysRestaurante.Controllers
         }
 
         // GET: PlatilloImagenController
-    
 
-public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen = null, int? page = 1)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
+        public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen = null, int? page = 1)
 {
     int pageSize = 3; // Número de registros por página
     int pageNumber = page ?? 1;
@@ -46,8 +51,9 @@ public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen =
     return View(paginacion);
 }
 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-   public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
 {
     if (pAccion.EsValidAction())
     {
@@ -81,8 +87,9 @@ public async Task<IActionResult> Index(PlatilloImagenBuscarDTO pPlatilloImagen =
         return RedirectToAction(nameof(Index));
     }
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(PlatilloImagenMantDTO pPlatilloImagen, IFormFile imagenArchivo)
 {
@@ -115,8 +122,9 @@ public async Task<IActionResult> Create(PlatilloImagenMantDTO pPlatilloImagen, I
     return RedirectToAction(nameof(Index));
 }
 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-[HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Edit(PlatilloImagenMantDTO pPlatilloImagen, IFormFile imagenArchivo)
 {
@@ -148,9 +156,10 @@ public async Task<IActionResult> Edit(PlatilloImagenMantDTO pPlatilloImagen, IFo
 
     return RedirectToAction(nameof(Index));
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
 
-      [HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Delete(PlatilloImagenMantDTO pPlatilloImagen)
 {
@@ -182,6 +191,7 @@ public async Task<IActionResult> Delete(PlatilloImagenMantDTO pPlatilloImagen)
     return RedirectToAction(nameof(Index));
 }
 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         public IActionResult Detail(PlatilloImagenMantDTO pPlatilloImagen)
         {

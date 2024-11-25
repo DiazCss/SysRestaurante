@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SysRestaurante.BL.DTOs.PlatilloProductoDTOs;
@@ -9,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace SysRestaurante.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
     public class PlatilloProductoController : Controller
     {
         readonly IPlatilloProductoBL platilloProductoBL;
@@ -22,6 +26,7 @@ namespace SysRestaurante.Controllers
             productoBL = pProductoBL;
 
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         // GET: PlatilloProductoController
         public async Task<IActionResult> Index(PlatilloProductoBuscarDTO pPlatilloProducto = null)
@@ -37,8 +42,9 @@ namespace SysRestaurante.Controllers
             }
             return View(paginacion.Data);
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
-       public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
+        public async Task<IActionResult> Mant(int id, ActionsUI pAccion)
 {
     if (pAccion.EsValidAction())
     {
@@ -76,9 +82,10 @@ namespace SysRestaurante.Controllers
         return RedirectToAction(nameof(Index));
     }
 }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
 
-       [HttpPost]
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Create(PlatilloProductoMantDTO pPlatilloProducto)
 {
@@ -97,7 +104,9 @@ public async Task<IActionResult> Create(PlatilloProductoMantDTO pPlatilloProduct
 
     return RedirectToAction(nameof(Index));
 }
-[HttpPost]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Edit(PlatilloProductoMantDTO pPlatilloProducto)
 {
@@ -116,7 +125,9 @@ public async Task<IActionResult> Edit(PlatilloProductoMantDTO pPlatilloProducto)
 
     return RedirectToAction(nameof(Index));
 }
-[HttpPost]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
+
+        [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> Delete(PlatilloProductoMantDTO pPlatilloProducto)
 {
@@ -136,6 +147,7 @@ public async Task<IActionResult> Delete(PlatilloProductoMantDTO pPlatilloProduct
     return RedirectToAction(nameof(Index));
 }
 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "administrador")]
 
         [HttpPost]
         [ValidateAntiForgeryToken]
