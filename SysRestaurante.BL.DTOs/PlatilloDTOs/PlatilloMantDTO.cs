@@ -17,6 +17,7 @@ namespace SysRestaurante.BL.DTOs.PlatilloDTOs
 
         [Required]
         [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor que cero.")]
+        
         public decimal Precio { get; set; }
 
         [Required]

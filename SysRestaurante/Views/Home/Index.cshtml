@@ -49,7 +49,7 @@
                         <div class="single_blog_text">
                             <h3>@platillo.Nombre</h3>
                             <p>@platillo.Descripcion</p>
-                            <p><strong>Precio:</strong> $@platillo.Precio</p>
+                           <p><strong>Precio:</strong> $@platillo.Precio.ToString("F2")</p>
                             <p>
                                 <strong></strong>
                                 <span class="badge @(platillo.Disponibilidad == "Disponible" ? "bg-success" : "bg-danger")">
