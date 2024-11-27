@@ -1,0 +1,8 @@
+﻿<h2>Confirmación del Pago</h2>
+<p>@ViewBag.Mensaje</p>
+
+@if (ViewBag.Detalles != null)
+{
+    <h3>Detalles de la Transacción:</h3>
+    <pre>@Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Detalles, Newtonsoft.Json.Formatting.Indented)</pre>
+}

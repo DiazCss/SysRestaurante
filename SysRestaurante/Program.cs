@@ -22,14 +22,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 });
 builder.Services.AddIoCDependecies(builder.Configuration);
-// Configuración para la conexion a la bd 
+// ConfiguraciÃ³n para la conexion a la bd 
 var conString = builder.Configuration.GetConnectionString("Conn");
 builder.Services.AddDbContext<SysRestauranteDbContext>(
     options => options.UseMySql(conString, ServerVersion.AutoDetect(conString))
 );
 
 
-// Configuración de la autenticación de cookies
+// ConfiguraciÃ³n de la autenticaciÃ³n de cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie((o) =>
 {
     o.LoginPath = new PathString("/Usuario/login");

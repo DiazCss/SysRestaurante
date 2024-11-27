@@ -15,8 +15,15 @@ namespace SysRestaurante.DAL
     {
         public static IServiceCollection AddDALDependecies(this IServiceCollection services, IConfiguration configuration)
         {
+            // Registra IHttpClientFactory para su uso en otros servicios
+            services.AddHttpClient();
+
+            // Configura el DbContext para la base de datos
             services.AddDbContext<SysRestauranteDbContext>(options =>
-            options.UseMySql(configuration.GetConnectionString("Conn"), ServerVersion.AutoDetect(configuration.GetConnectionString("Conn"))));
+                options.UseMySql(configuration.GetConnectionString("Conn"),
+                    ServerVersion.AutoDetect(configuration.GetConnectionString("Conn"))));
+
+            // Registra las dependencias de la capa DAL (Data Access Layer)
             services.AddScoped<IEmpleadoBL, EmpleadoDAL>();
             services.AddScoped<IMesasBL, MesasDAL>();
             services.AddScoped<IRolBL, RolDAL>();
@@ -29,8 +36,11 @@ namespace SysRestaurante.DAL
             services.AddScoped<ICategoriaPlatilloBL, CategoriaPlatilloDAL>();
             services.AddScoped<IPlatilloBL, PlatilloDAL>();
             services.AddScoped<IPlatilloProductoBL, PlatilloProductoDAL>();
-            services.AddScoped<IPlatilloImagenBL,PlatilloImagenDAL>();
+            services.AddScoped<IPlatilloImagenBL, PlatilloImagenDAL>();
             services.AddScoped<IFacturaBL, FacturaDAL>();
+
+            // Registra el servicio de PayPal
+            services.AddScoped<PayPalService>();
 
             return services;
         }

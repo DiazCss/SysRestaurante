@@ -1,6 +1,5 @@
 ﻿@using SysRestaurante.BL.DTOs.PlatilloDTOs.SysRestaurante.BL.DTOs.PlatilloDTOs
 @model List<PlatilloIndexDTO>
-
 <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
         <div class="row justify-content-center">
@@ -40,9 +39,9 @@
                         {
                             <tr style="border-bottom: 1px solid #cda45e;">
                                 <td>@platillo.Nombre</td>
-                                <td>$@platillo.Precio.ToString("F2")</td>
+                                <td>$@platillo.Precio</td>
                                 <td>1</td>
-                                <td>$@platillo.Precio.ToString("F2")</td>
+                                <td>$@platillo.Precio</td>
                             </tr>
                         }
                     </tbody>
@@ -50,8 +49,9 @@
             </div>
 
             <div class="text-center mt-4">
-                <form method="post" action="@Url.Action("ConfirmarPedido", "Pedido")">
-                    <button type="submit" class="btn btn-success">Confirmar Pedido</button>
+                <form method="post" asp-action="Pagar" asp-controller="Pagos">
+                    <input type="hidden" name="total" value="@Model.Sum(p => p.Precio)" />
+                    <button type="submit" class="btn btn-primary">Pagar con PayPal</button>
                 </form>
             </div>
         </div>
